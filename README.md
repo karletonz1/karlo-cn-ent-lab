@@ -15,9 +15,6 @@ This is a lab designed to demonstrate skills in infrastructure deployment, secur
 - Simulate attack scenarios using Kali Linux  
 - Demonstrate backup and disaster recovery with Veeam
 
-## Lab topology
-Logical Diagram Overview
-
 ## Lab Devices & Applications
 
 **Network & Edge**
