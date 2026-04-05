@@ -1,8 +1,8 @@
-## IP Addressing and VLAN
+## IP Addressing and VLANs
 
 This document defines the logical architecture, IP addressing scheme for the Karlo-CN Infrastructure. All devices within the lab will adhere to these specifications.
 
-### 1. IP Address Management (IPAM)
+### 1. IP Address Management
 
 **Subnets**
 
