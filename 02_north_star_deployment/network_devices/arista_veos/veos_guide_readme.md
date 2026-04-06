@@ -4,19 +4,19 @@ This section documents the deployment and automation of the switch environment u
 
 The last section includes screenshots for verification of successful deployment of the switches via Ansible.
 
-### 1. Prerequisites & Node Specification
+## 1. Prerequisites & Node Specification
 
 Image: Arista vEOS 4.35.3F
 
 Resources (Per Node):
-- RAM: 2048 MB 
-- vCPUs: 1 
+
+- RAM: 2048 MB
+- vCPUs: 1
 - Qemu Binary: x86_64 (v8.0.4)
 
+## 2. Physical Topology
 
-### 2. Physical Topology
-
-<img width="737" height="392" alt="image" src="https://github.com/user-attachments/assets/222186d3-90eb-49b5-a267-c75b36faaacd" />
+Assets/Images/Physical Topology.png
 
 ### Interface Mapping
 
