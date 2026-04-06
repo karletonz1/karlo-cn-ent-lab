@@ -82,14 +82,14 @@ Resources (Per Node):
 ## 4. High Availability & Routing Logic
 
   Design:
-  This lab uses MLAG at layer 2 and VRRP at layer 3 in order to eliminate single points of failure. By using MLAG at Layer 2 and VRRP at Layer 3, the design achieves an active-active network state. This provides a resilient Virtual IP gateway for all end-host subnets, which allows for fail-over to the redunant links seamlessly.
+  This lab uses MLAG at layer 2 and VRRP at layer 3 in order to eliminate single points of failure. By using MLAG at Layer 2 and VRRP at Layer 3, the design achieves an active-active network state. This provides a resilient Virtual IP gateway for all end-host subnets, which allows for fail-over to the redundant links seamlessly.
 
   Link Aggregation:  
   Karlo-cn-spine-01/02 use a cross topology with eth1 and eth2 connecting to rtr-01/rtr-02 eth1 and eth 2 respectively. MLAG is configured on the spines and LACP is configured on the routers.  
 
 ## 5. Automation Workflow
 
-Step 1: Manual Bootstrap: Minimum configuration required via CLI to allow Ansible to reach the devices before pushing the remaining configuration via automation.  
+Manual Bootstrap: Minimum configuration required via CLI to allow Ansible to reach the devices before pushing the remaining full configuration.  
 
 > [!TIP]  
 > For all switches, run `#zerotouch cancel` first to stop Arista ZTP and enter manual configuration mode. This will trigger an immediate switch reload.  
@@ -263,20 +263,22 @@ An authentication order will be configured via Pluggable Authentication Modules:
 
 ## Ansible 'Deploy North Star' Playbook for Phase 2  
 
-<img width="870" height="867" alt="image" src="https://github.com/user-attachments/assets/f0dfa6e0-71f9-4c00-9bd6-5f0fbe988b40" />
-<img width="868" height="867" alt="image" src="https://github.com/user-attachments/assets/c5b119aa-e8eb-4a4c-aec1-331836ba6b3c" />
-<img width="868" height="674" alt="image" src="https://github.com/user-attachments/assets/d06b5afe-1c10-41b0-98dc-6bbef453e7f0" />
+![phase_2_deploy_part_1](../../../Assets/Images/phase_2_deploy_part_1.png)
+![phase_2_deploy_part_2](../../../Assets/Images/phase_2_deploy_part_2.png)
+![phase_2_deploy_part_2](../../../Assets/Images/phase_2_deploy_part_3.png)
 
 ## MLAG between Spine-01 and Spine-02  
-<img width="404" height="394" alt="image" src="https://github.com/user-attachments/assets/0b0dc401-8e5b-4468-98c3-eb2cd4494b36" /> <img width="407" height="394" alt="image" src="https://github.com/user-attachments/assets/ff7576e7-dbf7-4a15-8b85-988893a65b05" />
+![mlag_spine_01](../../../Assets/Images/mlag_spine_01.png) ![malg_spine_02](../../../Assets/Images/mlag_spine_02.png)
 
 ## Leaf LACP Peer  
 
 **Leaf 1**  
-<img width="556" height="195" alt="image" src="https://github.com/user-attachments/assets/79c28f2e-4f9a-43f2-b748-9e767a8c3861" />  
+
+![lacp_leaf_01](../../../Assets/Images/lacp_leaf_01.png)
 
 **Leaf 2**  
-<img width="559" height="195" alt="image" src="https://github.com/user-attachments/assets/e0efb24c-4aa7-487a-b1c6-cb9e657b2956" />  
+
+![lacp_leaf_02](../../../Assets/Images/lacp_leaf_02.png)
 
 > [!NOTE]  
 > By subtracting 32768 from the number found in the Port# column, we can verify the correct secondary port is in use
@@ -284,13 +286,14 @@ An authentication order will be configured via Pluggable Authentication Modules:
 ## Spanning Tree  
 
 **Leaf 1**  
-<img width="511" height="272" alt="image" src="https://github.com/user-attachments/assets/56acef4d-2d67-486b-8931-aa1d12d3b63e" />  
+![mstp_leaf_01](../../../Assets/Images/mstp_leaf_01.png) 
 
 **Leaf 2**  
-<img width="513" height="271" alt="image" src="https://github.com/user-attachments/assets/c0dfc83c-1575-4cbe-866b-079cd7327e0b" />  
+![mstp_leaf_02](../../../Assets/Images/mstp_leaf_02.png) 
 
 **Spine 1**  
-<img width="507" height="255" alt="image" src="https://github.com/user-attachments/assets/38acd6d3-71cb-49de-a993-b52196c92910" />  
+![mstp_spine_01](../../../Assets/Images/mstp_spine_01.png) 
 
 **Spine 2**  
-<img width="509" height="254" alt="image" src="https://github.com/user-attachments/assets/6cadc2c4-93de-4205-aa5b-0d6647632ca2" />  
+
+![mstp_spine_02](../../../Assets/Images/mstp_spine_02.png)
