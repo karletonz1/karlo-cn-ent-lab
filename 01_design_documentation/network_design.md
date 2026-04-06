@@ -32,3 +32,9 @@ Standard MTU (1500):
 - Applied to Servers connections.  
 
 >[!NOTE] In a production environment, there would be specific instances where an MTU higher than 1500 would be needed to accomodate jumbo frames. Specific storage devices have not been applied to this lab.
+
+### 5. Security Considerations
+
+- Unused network ports on the Arista switches will be placed in the Black Hole VLAN and shutdown. ***Arista enables all ports by default***
+
+- 
