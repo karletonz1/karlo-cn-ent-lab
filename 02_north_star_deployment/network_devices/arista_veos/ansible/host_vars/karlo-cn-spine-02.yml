@@ -3,8 +3,6 @@ spanning_tree_mode: mst
 spanning_tree_priority: "4096"
 
 spine_interfaces:
-#  - { name: "Ethernet1", peer: "karlo-cn-leaf-01", channel: "10" }
-#  - { name: "Ethernet2", peer: "karlo-cn-leaf-02", channel: "20" }
   - { name: "Ethernet3", peer: "karlo-cn-spine-01", channel: "70" }
   - { name: "Ethernet4", peer: "karlo-cn-spine-01", channel: "70" }
   - { name: "Ethernet6", peer: "karlo-cn-leaf-01", channel: "10" }
