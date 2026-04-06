@@ -226,7 +226,7 @@ exit
 copy run start
 ```
 
-### 6. Ansible Network Automation
+## 6. Ansible Network Automation
 
   :white_check_mark: Basic configuration such as system hostname and compliance banners  
   :white_check_mark: Control plane hardening and RBAC  
@@ -236,7 +236,7 @@ copy run start
   :white_check_mark: VLAN and Trunking configuration  
   :white_check_mark: MSTP configuration  
 
-### 7. Security & Compliance Hardening
+## 7. Security & Compliance Hardening
 
 **Banner/MOTD:**  
 Mandatory legal warning for unauthorized access.
@@ -259,18 +259,18 @@ An authentication order will be configured via Pluggable Authentication Modules:
 ✅ Syslog configuration  
 ✅ SNMPv3 only
 
-### 8. Verification
+## 8. Verification
 
-## Ansible 'Deploy North Star' Playbook for Phase 2  
+### Ansible 'Deploy North Star' Playbook for Phase 2  
 
 ![phase_2_deploy_part_1](../../../Assets/Images/phase_2_deploy_part_1.png)
 ![phase_2_deploy_part_2](../../../Assets/Images/phase_2_deploy_part_2.png)
 ![phase_2_deploy_part_2](../../../Assets/Images/phase_2_deploy_part_3.png)
 
-## MLAG between Spine-01 and Spine-02  
+### MLAG between Spine-01 and Spine-02  
 ![mlag_spine_01](../../../Assets/Images/mlag_spine_01.png) ![malg_spine_02](../../../Assets/Images/mlag_spine_02.png)
 
-## Leaf LACP Peer  
+### Leaf LACP Peer  
 
 **Leaf 1**  
 
@@ -283,7 +283,7 @@ An authentication order will be configured via Pluggable Authentication Modules:
 > [!NOTE]  
 > By subtracting 32768 from the number found in the Port# column, we can verify the correct secondary port is in use
 
-## Spanning Tree  
+### Spanning Tree  
 
 **Leaf 1**  
 ![mstp_leaf_01](../../../Assets/Images/mstp_leaf_01.png) 
