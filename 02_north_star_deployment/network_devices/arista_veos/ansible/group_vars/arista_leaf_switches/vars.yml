@@ -5,11 +5,6 @@ ansible_become: true
 ansible_become_method: enable
 ansible_become_password: "{{ vault_leaf_enable_pass }}"
 
-#DNS & NTP
-#name_servers:
-#ntp_servers:
-
-
 # VLAN Database
 north_star_vlans:
   - { id: 10, name: "INFRA-MGMT", description: "Infrastructure VLAN" }
