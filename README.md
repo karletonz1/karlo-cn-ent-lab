@@ -95,23 +95,15 @@ Automation
 
    It also includes the master [IP addressing table](01_design_documentation/ip_addressing_and_vlans.md) for all the IP address and VLANs used in the lab.
 
-2. Review Server & Client Configurations  
-   `02_Servers_Clients`/ This contains configuration files and notes about the various servers and clients.
+2. Review Lab Deployment Files  
+   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used to deploy within the lab.  
 
-3. Review Firewall Policies & Router Configurations  
-   `03_Firewall_Router`/ This contains screenshots of firewall policy rules as well as router configuration files.
-
-4. Inspect Security Tools  
-   `04_Security`/ This contains Splunk dashboards and Wazuh Agent deployment screenshots as well as Nessus reports.
-
-5. Check Backup Configurations  
-   `05_Backups`/ This contains screenshots of Veeam configuration and screenshots of successful backups.
-
-6. Read Lab Scenarios  
-   `06_Scenarios`/ This includes the scenarios as listed above. The scenario pages will follow a format as follows:  
-   - What was the scenario  
-   - What was done to simulate the scenario  
-   - What was the result of the scenario  
+3. Read Lab Scenarios  
+   Open [scenario_testing](03_scenario_testing) to read about the various scenarios conducted within the lab. The scenario pages will follow a format as follows:  
+   - What was the scenario?
+   - How was the scenario simulated?  
+   - What was the result of the scenario?
+   - Were any lab improvements needed as a result?
 
 ## Project Evolution | A Journey of Discovery
 
