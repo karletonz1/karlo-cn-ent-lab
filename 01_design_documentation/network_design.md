@@ -1,50 +1,65 @@
-# Network Architecture Decisions
+# North Star Lab Design Decisions
 
 ## Distribution/Access Layer
 
 This layer utilizes Arista vEOS switches in order to implement MLAG and VARP to create an active-active redundant network.
 
+The switches are fully deployed using Ansible via Arista eAPI.
+
 - ### Multi-Chassis Link Aggregation  
 
-    This lab uses MLAG and VARP in order to eliminate single points of failure. By using MLAG and VARP, the design achieves an active-active network state. This provides a resilient Virtual IP gateway for all end-host subnets, which allows for fail-over to the redundant links seamlessly.
+    This lab uses MLAG and VARP in order to eliminate single points of failure. By using MLAG and VARP, the design achieves an active-active network state. This is through the use of resilient Virtual IP gateway for all end-host subnets, which maintains network availability by allowing for seamless fail-over to redundant links.
 
 - ### Virtual ARP (VARP)  
 
-    VARP is used for First-Hop Redundancy within the lab. Unlike VRRP or HSRP which rely on an Active/Standby redundancies, VARP allows both Arista spines to route traffic simultaneously using the same Virtual MAC and Virtual IP address. This ensures that whichever spine receives a packet from a leaf switch can immediately route it.
+    VARP is used for First-Hop Redundancy within the lab. Unlike VRRP or HSRP, which rely on an Active/Standby redundancies, VARP allows both Arista spines to route traffic simultaneously using the same Virtual MAC and Virtual IP address. This ensures that whichever spine receives a packet from a leaf switch can immediately route it.
 
 - ### Multiple Spanning Tree Protocol (MSTP)  
 
-    While MLAG eliminates the need for STP to block uplinks, MSTP is deployed as a fail-safe mechanism against accidental Layer 2 loops (e.g., misconfigurations or physical loops on the Arista switches). Due to MLAG, the Spines are presenting as a shared MSTP root bridge and leaf-01 and leaf-02 have been given alternate priorities of 12288 and 16384 respectively. All VLANs are mapped to MST instance 0.
+    While MLAG eliminates the need for STP to block uplinks, MSTP is deployed as a fail-safe mechanism against accidental Layer 2 loops (such as misconfigurations or physical loops on the Arista switches). With MLAG, the spines present a shared MSTP root bridge and leaf-01 and leaf-02 have been given alternate priorities of 12288 and 16384 respectively. All VLANs are mapped to MST instance 0.
 
-## Core Layer
+- ### MTU
 
-This layer uses a pair of VyOS routers and acts as the routing backbone for the North Star lab. It uses a routed PTP /30 links to connect between the routers and the spine switches.  
+    Standard MTU (1500):
 
-The spine switches are also configured with SVIs and act as the gateways for the VLANS needed by the downstream devices. 
-
-All networks are propagated via OSPF Area 0.
-
-### Out-of-band Management
-
-In order to provision the devices using Ansible with only a bootstrap configuration, an out-of-band-management (OOBM) network was needed to replicate what would be done in a production environment with a separate OOBM network. This lab simulates this using a separate GNS3 Ethernet switch connected to the network devices via a dedicated VRF management network on vlan 10.  
-
-### MTU & Performance Policy
-
-Standard MTU (1500):
-
-- Applied to all Management (OOB) interfaces.
-
-- Applied to all WAN/Internet-facing interfaces.
-
-- Applied to the Inter-Router LACP Backbone.
-
-- Applied to Servers connections.  
+    1. Applied to all Management (OOB) interfaces.
+    2. Applied to all WAN/Internet-facing interfaces.
+    3. Applied to the Inter-Router LACP Backbone.
+    4. Applied to Servers connections.  
 
 >[!NOTE]  
 >In a production environment, there would be specific instances where an MTU higher than 1500 would be needed to accommodate jumbo frames. Accounting for specific storage devices have not been applied to this lab.
 
-### Security Considerations
+## Core Layer
+
+- This layer uses a pair of VyOS routers and acts as the routing backbone for the North Star lab. Each point-to-point (PTP) link uses a VLSM segment of the 10.0.71.0/30 network to connect between the routers and to the spines.  
+
+- The spines are configured with SVIs that act as the gateways for the North Star VLANs.
+
+- All networks are propagated via OSPF Area 0.
+
+## Out-of-band Management
+
+- In order to configure the devices using Ansible, an out-of-band-management (OOBM) network was needed to replicate what would be done in a production environment with a separate OOBM network. This lab simulates this using a separate GNS3 Ethernet switch connected to the network devices via a dedicated VRF management network on vlan 10.  
+
+A bootstrap configuration is needed to configure the required settings so that Ansible can communicate with the switches.
+
+## Network Security Considerations
 
 - Unused network ports on the Arista switches will be placed in the Black Hole VLAN and shutdown. ***Arista enables all ports by default***
 
 - All network devices have been configured with their own unique user for local authentication. This will be used as the fallback method once Radius has been configured in the lab.
+
+## Security In-Depth
+
+- Wazuh agents will be installed on clients for endpoint monitoring, and logs will be forwarded to a central Splunk dashboard.
+
+- Nessus essentials will be deployed to scan targeting endpoints due to the limit of five IP addresses that can be scanned using this version.
+
+- Kali Linux will be used to assist with simulating common attacks on the network, and to verify that monitoring and to determine the effectiveness of the security measures implemented within the lab.
+
+- A DMZ will be established that will contain a windows IIS server and a Debian Apache web server. An OPNsense firewall will be used for access control, packet inspection, policy enforcement, and NAT as the edge device for internet connectivity.
+
+## Backups
+
+- Veeam Community edition has been chosen for backups of all the North Star servers. A second VM will be configured to act as the secondary storage target for Veeam backups.
