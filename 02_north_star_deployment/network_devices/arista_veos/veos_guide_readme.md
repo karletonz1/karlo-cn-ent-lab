@@ -295,5 +295,4 @@ An authentication order will be configured via Pluggable Authentication Modules:
 ![mstp_spine_01](../../../Assets/Images/mstp_spine_01.png) 
 
 **Spine 2**  
-
 ![mstp_spine_02](../../../Assets/Images/mstp_spine_02.png)
