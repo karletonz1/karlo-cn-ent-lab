@@ -15,7 +15,6 @@ all:
                ansible_host: 10.0.10.104
              karlo-cn-spine-02:
                ansible_host: 10.0.10.105
-
     vyos_routers:
       hosts:
         karlo-cn-rtr-01:
