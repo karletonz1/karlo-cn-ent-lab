@@ -19,6 +19,16 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | 70 | Spine MLAG Peer | 10.0.70.0/30 |
 | 666 | Black Hole Sun | - |
 
+### Router Domain PTP links
+
+| Link | Subnet | Purpose |  
+| ---- | ------ | ------- |
+| Link 1 | 10.0.71.0/30 | Router-01 to Spine-01 PTP link |
+| Link 2 | 10.0.71.4/30 | Router-01 to Spine-02 PTP link |
+| Link 3 | 10.0.71.8/30 | Router-02 to Spine-02 PTP link |
+| Link 4 | 10.0.71.12/30 | Router-02 to Spine-01 PTP link |
+| Link 5 | 10.0.71.16/30 | Router-01 to Router-02 PTP Bond0 Link |
+
 > [!NOTE]
 > **VLAN 666:** Used as a "Black Hole" Native VLAN for all trunk ports**
 
@@ -62,8 +72,8 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 
 | Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
-| karlo-cn-rtr-02 | eth1 | 10.0.71.8/30 | 10.0.71.9/30 | 10.0.71.11/30 | 1500 | PTP link between Router-01 and Spine-02 | PTP |
-| karlo-cn-rtr-02 | eth2 | 10.0.71.12/30 | 10.0.71.13/30 | 10.0.71.15/30 | 1500 | PTP link between Router-01 and Spine-01 | PTP |
+| karlo-cn-rtr-02 | eth1 | 10.0.71.8/30 | 10.0.71.9/30 | 10.0.71.11/30 | 1500 | PTP link between Router-02 and Spine-02 | PTP |
+| karlo-cn-rtr-02 | eth2 | 10.0.71.12/30 | 10.0.71.13/30 | 10.0.71.15/30 | 1500 | PTP link between Router-02 and Spine-01 | PTP |
 | karlo-cn-rtr-02 | eth8/9:bond0 | 10.0.71.16/30 | 10.0.71.18/30 | 10.0.71.19/30 | 1500 | LAG Link between RTR-01/02 | PTP |
 
 ### Spine 02 PTP Address Allocation
