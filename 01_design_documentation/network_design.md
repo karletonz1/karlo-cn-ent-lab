@@ -19,7 +19,6 @@ Redundancy is managed via VRRP on top of the LACP Bond (bond0).
 
 - Hello Interval: 1 Second.
 
-
 ### 4. MTU & Performance Policy
 
 Standard MTU (1500):
