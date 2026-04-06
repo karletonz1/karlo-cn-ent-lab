@@ -16,7 +16,7 @@ Resources (Per Node):
 
 ## 2. Physical Topology
 
-![Physical Topology](Assets/Images/physical_topology.png)
+![Physical Topology](../../../Assets/Images/physical_topology.png)
 
 ### Interface Mapping
 
