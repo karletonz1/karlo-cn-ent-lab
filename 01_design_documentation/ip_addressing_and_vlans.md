@@ -77,28 +77,28 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 
 | Hostname | SVI | Network Address | IP Address | VIP (GW) | Virtual MAC | MTU | Description |
 | -------- | --- | --------------- | ---------- | -------- | ----------- | --- | ----------- |
-| karlo-cn-spine-01 | 10 | 10.0.10.0/24 | 10.0.10.1 | 10.0.10.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for Infra-MGT Subnet VARP Gateway |
-| karlo-cn-spine-01 | 11 | 10.0.11.0/24 | 10.0.11.1 | 10.0.11.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for SRV-MGT Subnet VARP Gateway |
-| karlo-cn-spine-01 | 20 | 10.0.20.0/24 | 10.0.20.1 | 10.0.20.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for WIN-CLIENTS Subnet VARP Gateway |
-| karlo-cn-spine-01 | 21 | 10.0.21.0/24 | 10.0.21.1 | 10.0.21.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for LIN-CLIENTS Subnet VARP Gateway |
-| karlo-cn-spine-01 | 30 | 10.0.30.0/24 | 10.0.30.1 | 10.0.30.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for SEC-APPS Subnet VARP Gateway |
-| karlo-cn-spine-01 | 40 | 10.0.40.0/24 | 10.0.40.1 | 10.0.40.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for DMZ Subnet VARP Gateway |
-| karlo-cn-spine-01 | 50 | 10.0.50.0/24 | 10.0.50.1 | 10.0.50.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for PRD-SRVS Subnet VARP Gateway |
-| karlo-cn-spine-01 | 60 | 10.0.60.0/24 | 10.0.60.1 | 10.0.60.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for BACKUPS Subnet VARP Gateway |
+| karlo-cn-spine-01 | 10 | 10.0.10.0/24 | 10.0.10.1 | 10.0.10.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for Infra-MGT Subnet VARP Gateway |
+| karlo-cn-spine-01 | 11 | 10.0.11.0/24 | 10.0.11.1 | 10.0.11.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for SRV-MGT Subnet VARP Gateway |
+| karlo-cn-spine-01 | 20 | 10.0.20.0/24 | 10.0.20.1 | 10.0.20.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for WIN-CLIENTS Subnet VARP Gateway |
+| karlo-cn-spine-01 | 21 | 10.0.21.0/24 | 10.0.21.1 | 10.0.21.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for LIN-CLIENTS Subnet VARP Gateway |
+| karlo-cn-spine-01 | 30 | 10.0.30.0/24 | 10.0.30.1 | 10.0.30.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for SEC-APPS Subnet VARP Gateway |
+| karlo-cn-spine-01 | 40 | 10.0.40.0/24 | 10.0.40.1 | 10.0.40.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for DMZ Subnet VARP Gateway |
+| karlo-cn-spine-01 | 50 | 10.0.50.0/24 | 10.0.50.1 | 10.0.50.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for PRD-SRVS Subnet VARP Gateway |
+| karlo-cn-spine-01 | 60 | 10.0.60.0/24 | 10.0.60.1 | 10.0.60.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for BACKUPS Subnet VARP Gateway |
 | karlo-cn-spine-01 | 70 | 10.0.70.0/30 | 10.0.70.1 | - | - | 1500 | MLAG Peer Link to Secondary |
 
 ### Spine 02 SVI Address Allocation
 
 | Hostname | SVI | Network Address | IP Address | VIP (GW) | Virtual MAC | MTU | Description |
 | -------- | --- | --------------- | ---------- | -------- | ----------- | --- | ----------- |
-| karlo-cn-spine-02 | 10 | 10.0.10.0/24 | 10.0.10.2 | 10.0.10.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for Infra-MGT Subnet VARP Gateway |
-| karlo-cn-spine-02 | 11 | 10.0.11.0/24 | 10.0.11.2 | 10.0.11.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for SRV-MGT Subnet VARP Gateway |
-| karlo-cn-spine-02 | 20 | 10.0.20.0/24 | 10.0.20.2 | 10.0.20.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for WIN-CLIENTS Subnet VARP Gateway |
-| karlo-cn-spine-02 | 21 | 10.0.21.0/24 | 10.0.21.2 | 10.0.21.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for LIN-CLIENTS Subnet VARP Gateway |
-| karlo-cn-spine-02 | 30 | 10.0.30.0/24 | 10.0.30.2 | 10.0.30.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for SEC-APPS Subnet VARP Gateway |
-| karlo-cn-spine-02 | 40 | 10.0.40.0/24 | 10.0.40.2 | 10.0.40.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for DMZ Subnet VARP Gateway |
-| karlo-cn-spine-02 | 50 | 10.0.50.0/24 | 10.0.50.2 | 10.0.50.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for PRD-SRVS Subnet VARP Gateway |
-| karlo-cn-spine-02 | 60 | 10.0.60.0/24 | 10.0.60.2 | 10.0.60.254 | 00:11:11:00:00:01 | 1500 | SVI IP address for BACKUPS Subnet VARP Gateway |
+| karlo-cn-spine-02 | 10 | 10.0.10.0/24 | 10.0.10.2 | 10.0.10.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for Infra-MGT Subnet VARP Gateway |
+| karlo-cn-spine-02 | 11 | 10.0.11.0/24 | 10.0.11.2 | 10.0.11.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for SRV-MGT Subnet VARP Gateway |
+| karlo-cn-spine-02 | 20 | 10.0.20.0/24 | 10.0.20.2 | 10.0.20.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for WIN-CLIENTS Subnet VARP Gateway |
+| karlo-cn-spine-02 | 21 | 10.0.21.0/24 | 10.0.21.2 | 10.0.21.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for LIN-CLIENTS Subnet VARP Gateway |
+| karlo-cn-spine-02 | 30 | 10.0.30.0/24 | 10.0.30.2 | 10.0.30.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for SEC-APPS Subnet VARP Gateway |
+| karlo-cn-spine-02 | 40 | 10.0.40.0/24 | 10.0.40.2 | 10.0.40.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for DMZ Subnet VARP Gateway |
+| karlo-cn-spine-02 | 50 | 10.0.50.0/24 | 10.0.50.2 | 10.0.50.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for PRD-SRVS Subnet VARP Gateway |
+| karlo-cn-spine-02 | 60 | 10.0.60.0/24 | 10.0.60.2 | 10.0.60.254 | 00:1c:73:00:00:01 | 1500 | SVI IP address for BACKUPS Subnet VARP Gateway |
 | karlo-cn-spine-02 | 70 | 10.0.70.0/30 | 10.0.70.2 | - | - | 1500 | MLAG Peer Link to Primary |
 
 ### Spine 01 Port-Channel Allocation
