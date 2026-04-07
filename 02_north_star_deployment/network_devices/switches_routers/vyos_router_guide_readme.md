@@ -20,7 +20,7 @@ For the full physical topology, see the [physical_topology](../../../01_design_d
 
 ### Interface Mapping
 
-For the all the router interface mapping tables, see the [physical_interface_mapping](../../../01_design_documentation/physical_interface_mapping.md) page.
+For all the router interface mapping tables, see the [physical_interface_mapping](../../../01_design_documentation/physical_interface_mapping.md) page.
 
 ## Logical Topology
 
@@ -39,12 +39,11 @@ For the full bootstrap configuration required, see the [vyos_routers](../bootstr
 ## Ansible Orchestration
 
 Once communication is established between Ansible and the routers, the following will be provisioned through automation:  
-  ✅ Basic configuration such as system hostnames, compliance banners  
-  ✅ Control plane hardening and RBAC (Individual admin accounts)  
-  ✅ SNMP and Syslog configuration  
-  ✅ NTP/DNS Settings for local synchronization.  
-  ✅ Routing (OSPF)  
-  ✅ High Availability via VARP and LACP configuration.  
+  :white_check_mark: Basic configuration such as system hostnames, compliance banners  
+  :white_check_mark: Control plane hardening and RBAC (Individual admin accounts)  
+  :white_check_mark: SNMP and Syslog configuration  
+  :white_check_mark: NTP/DNS Settings for local synchronization  
+  :white_check_mark: Routing (OSPF) Configuration
 
 ## Security & Compliance Hardening
 
