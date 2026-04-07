@@ -23,3 +23,47 @@ spine_interfaces:
 mlag:
   ip: "10.0.70.2/30"
   peer_ip: "10.0.70.1"
+
+# Global VARP MAC Address
+varp_mac_address: "00:1c:73:00:00:01"
+
+svi_interfaces:
+  # --- MLAG Peer Link SVI ---
+  - vlan: "70"
+    description: "SPINE MLAG PEER"
+    ip_address: "10.0.70.2/30"
+    autostate: false
+  
+  # --- VARP Gateway SVIs ---
+  - vlan: "10"
+    description: "INFRA-MGMT"
+    ip_address: "10.0.10.2/24"
+    varp_ip: "10.0.10.254"
+  - vlan: "11"
+    description: "SRV-MGMT"
+    ip_address: "10.0.11.2/24"
+    varp_ip: "10.0.11.254"
+  - vlan: "20"
+    description: "WIN-CLIENTS"
+    ip_address: "10.0.20.2/24"
+    varp_ip: "10.0.20.254"
+  - vlan: "21"
+    description: "LIN-CLIENTS"
+    ip_address: "10.0.21.2/24"
+    varp_ip: "10.0.21.254"
+  - vlan: "30"
+    description: "SEC-APPS"
+    ip_address: "10.0.30.2/24"
+    varp_ip: "10.0.30.254"
+  - vlan: "40"
+    description: "DMZ"
+    ip_address: "10.0.40.2/24"
+    varp_ip: "10.0.40.254"
+  - vlan: "50"
+    description: "PRD-SVRS"
+    ip_address: "10.0.50.2/24"
+    varp_ip: "10.0.50.254"
+  - vlan: "60"
+    description: "BACKUPS"
+    ip_address: "10.0.60.2/24"
+    varp_ip: "10.0.60.254"
