@@ -14,6 +14,8 @@ The switches are fully deployed using Ansible via Arista eAPI.
 
     VARP is used for First-Hop Redundancy within the lab. Unlike VRRP or HSRP, which rely on an Active/Standby redundancies, VARP allows both Arista spines to route traffic simultaneously using the same Virtual MAC and Virtual IP address. This ensures that whichever spine receives a packet from a leaf switch can immediately route it.
 
+    SVI interfaces are configured on the spines which act as the gateways for the North Star VLANs.
+
 - ### Multiple Spanning Tree Protocol (MSTP)  
 
     While MLAG eliminates the need for STP to block uplinks, MSTP is deployed as a fail-safe mechanism against accidental Layer 2 loops (such as misconfigurations or physical loops on the Arista switches). With MLAG, the spines present a shared MSTP root bridge and leaf-01 and leaf-02 have been given alternate priorities of 12288 and 16384 respectively. All VLANs are mapped to MST instance 0.
@@ -33,8 +35,6 @@ The switches are fully deployed using Ansible via Arista eAPI.
 ## Core Layer
 
 - This layer uses a pair of VyOS routers and acts as the routing backbone for the North Star lab. Each point-to-point (PTP) link uses a VLSM segment of the 10.0.71.0/30 network to connect between the routers and to the spines.  
-
-- The spines are configured with SVIs that act as the gateways for the North Star VLANs.
 
 - All networks are propagated via OSPF Area 0.
 
@@ -77,7 +77,7 @@ A bootstrap configuration is needed to configure the required settings so that A
     :white_check_mark: Syslog configuration  
     :white_check_mark: SNMPv3 only
 
-## Security In-Depth
+## Systems Security Considerations
 
 - Wazuh agents will be installed on clients for endpoint monitoring, and logs will be forwarded to a central Splunk dashboard.
 
