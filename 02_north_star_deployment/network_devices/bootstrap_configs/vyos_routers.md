@@ -3,10 +3,7 @@
 Manual Bootstrap: Minimum configuration required via CLI to allow Ansible to reach the devices before pushing the remaining configuration via automation.
 
 >[!NOTE]
-> The default credentials for logging into a new VyOS router is:
-
-> - username: vyos
-> - password: vyos
+> The default credentials for logging into a new VyOS router is username: vyos, password: vyos
 
 ## karlo-cn-router-01
 
