@@ -1,0 +1,75 @@
+---
+- name: "North Star | Router Playbook"
+  hosts: vyos_routers
+  gather_facts: false
+
+  tasks:
+#Configure Physical Interfaces Description and MTU
+    - name: "Configure Physical Interfaces"
+      vyos.vyos.vyos_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            description: "{{ item.description }}"
+        state: merged
+      loop: "{{ router_interfaces }}"
+
+    - name: "Create Router Bond0 Interface"
+      vyos.vyos.vyos_lag_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            mode: "{{ item.mode }}"
+            members:
+              - member: "eth8"
+              - member: "eth9"
+        state: merged
+      loop: "{{ router_lag_interfaces }}"
+
+    - name: "Configure LAG Description"
+      vyos.vyos.vyos_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            description: "{{ item.description }}"
+        state: merged
+      loop: "{{ router_lag_interfaces }}"
+
+    - name: "Assign IP addresses to Router Interfaces"
+      vyos.vyos.vyos_l3_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            ipv4:
+              - address: "{{ item.ip_address }}"
+        state: merged
+      loop: "{{ router_interfaces }}"
+
+    - name: "Assign IP address to Router LAG Interface"
+      vyos.vyos.vyos_l3_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            ipv4:
+              - address: "{{ item.ip_address }}"
+        state: merged
+      loop: "{{ router_lag_interfaces }}"
+
+    - name: "Configure OSPFv2 Global Parameters"
+      vyos.vyos.vyos_ospfv2:
+        config:
+          parameters:
+            router_id: "{{ OSPF.router_id }}"
+        state: merged
+
+    - name: "Configure OSPF Interfaces (Network Type)"
+      vyos.vyos.vyos_ospf_interfaces:
+        config:
+          - name: "eth1"
+            address_family:
+              - afi: "ipv4"
+                network: "point-to-point"
+          - name: "eth2"
+            address_family:
+              - afi: "ipv4"
+                network: "point-to-point"
+          - name: "bond0"
+            address_family:
+              - afi: "ipv4"
+                network: "point-to-point"
+        state: merged
