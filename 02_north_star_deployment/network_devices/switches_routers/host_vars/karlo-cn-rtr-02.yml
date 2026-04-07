@@ -1,0 +1,17 @@
+---
+router_interfaces:
+  - name: "eth1"
+    description: "PTP link between Router-02 and Spine-02"
+    ip_address: "10.0.71.9/30"
+    mtu: "1500"
+  - name: "eth2"
+    description: "PTP link between Router-02 and Spine-01"
+    ip_address: "10.0.71.13/30"
+    mtu: "1500"
+  - name: "bond0"
+    description: "LAG Link between RTR-01/02"
+    ip_address: "10.0.71.18/30"
+    mode: "802.3ad"
+    members:
+      - "eth8"
+      - "eth9"
