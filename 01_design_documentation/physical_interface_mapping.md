@@ -45,7 +45,7 @@
 
 | Device A Device | Device A Hostname | Device A port | Device B Device | Device B Hostname | Device B Port |
 | --------------- | ----------------- | ------------- | --------------- | ----------------- | ------------- |
-| VyOS Core router 01 | karlo-cn-rtr-01 | eth0 | Ethernet Switch | OOBM | eth5 |
+| VyOS Core router 01 | karlo-cn-rtr-01 | eth0 | Ethernet Switch | OOBM Mgmt | eth5 |
 | VyOS Core router 01 | karlo-cn-rtr-01 | eth1 | Arista Switch 01 | karlo-cn-spine-01 | eth1 |
 | VyOS Core router 01 | karlo-cn-rtr-01 | eth2 | Arista Switch 02 | karlo-cn-spine-02 | eth2 |
 | VyOS Core router 01 | karlo-cn-rtr-01 | eth8 | VyOS Core router 02 | karlo-cn-rtr-02 | eth8 |
@@ -55,7 +55,7 @@
 
 | Device A Device | Device A Hostname | Device A port | Device B Device | Device B Hostname | Device B Port |
 | --------------- | ----------------- | ------------- | --------------- | ----------------- | ------------- |
-| VyOS Core router 02 | karlo-cn-rtr-02 | eth0 | Ethernet Switch | OOBM | eth6 |
+| VyOS Core router 02 | karlo-cn-rtr-02 | eth0 | Ethernet Switch | OOBM Mgmt | eth6 |
 | VyOS Core router 02 | karlo-cn-rtr-02 | eth1 | Arista Switch 02 | karlo-cn-spine-02 | eth1 |
 | VyOS Core router 02 | karlo-cn-rtr-02 | eth2 | Arista Switch 01 | karlo-cn-spine-01 | eth2 |
 | VyOS Core router 02 | karlo-cn-rtr-02 | eth8 | VyOS Core router 01 | karlo-cn-rtr-01 | eth8 |
