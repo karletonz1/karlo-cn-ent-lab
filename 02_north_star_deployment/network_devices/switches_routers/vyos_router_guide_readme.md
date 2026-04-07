@@ -30,7 +30,7 @@ For the full logical topology, see the [logical_topology](../../../01_design_doc
 
 For all the router IP addressing tables, see the [ip_addressing_and_vlans](../../../01_design_documentation/ip_addressing_and_vlans.md) page.
 
-## Automation Workflow
+## Bootstrap Configuration
 
 Manual Bootstrap: Minimum configuration required via CLI to allow Ansible to reach the devices before pushing the remaining configuration via automation.
 
