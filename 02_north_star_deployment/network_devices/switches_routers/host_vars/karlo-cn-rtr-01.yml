@@ -3,11 +3,14 @@ router_interfaces:
 - name: "eth1"
   description: "PTP link between Router-01 and Spine-01"
   ip_address: "10.0.71.1/30"
-  mtu: "1500"
 - name: "eth2"
   description: "PTP link between Router-01 and Spine-02"
   ip_address: "10.0.71.5/30"
-  mtu: "1500"
+- name: "lo"
+  description: "OSPF Loopback Router ID"
+  ip_address: "10.10.10.10/32"
+
+router_lag_interfaces:
 - name: "bond0"
   description: "LAG Link between RTR-01/02"
   ip_address: "10.0.71.17/30"
@@ -15,3 +18,8 @@ router_interfaces:
   members:
       - "eth8"
       - "eth9"
+
+OSPF:
+  process_id: "1"
+  router_id: "10.10.10.10"
+  redistribute_connected: true
