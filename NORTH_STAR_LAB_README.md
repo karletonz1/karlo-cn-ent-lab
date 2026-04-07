@@ -166,6 +166,10 @@ Challenges and wins:
 
    The addition of the routers to the Ansible playbooks also meant a prune and reorder of the original file structure was required. I had created the same folders for both the routers and the switches as placeholders in the beginning, but as I understood more about Ansible's directory structures and where the files were being called, I was confident in co-locating files based on their functions within a common group_var and host_var directory as an example. This cut back on duplicates in the folder structure and created a cleaner repository going forward.
 
+   Due to the large number of changes that needed to be made at this crucial juncture, I pivoted from configuring the repository solely on GitHub and onto VSCode on my PC. This made editing the repository structure a breeze once I understood the various nuances between the two, such as discovering the ability to single out commits before syncing them to GitHub, or combining multiple commits into one big commit.
+
+   This transition was a learning curve, but a valuable one. It gave me a greater appreciation of the difference between working on a Linux workstation versus Windows when working with Ansible and Git.
+
 ## Contact
 
 - GitHub: <https://github.com/karletonz1>
