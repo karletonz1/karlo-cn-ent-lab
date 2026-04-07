@@ -20,7 +20,7 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | 666 | Black Hole Sun | - |
 
 > [!NOTE]
-> **VLAN 666:** Used as a "Black Hole" Native VLAN for all trunk ports**
+> VLAN 666: Used as a "Black Hole" Native VLAN for all trunk ports**
 
 ### Router Subnets
 
@@ -64,12 +64,18 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 
 ## IP Address Allocations
 
-### Firewall IP Address
+### Firewall 01 IP Address
 
-| Hostname | GNS3 Port | IP Address | Vlan ID | Subnet | Gateway | MTU | Role | Link type |
-| -------- | --------- | ---------- | ------- | ------ | ------- | --- | ---- | --------- |
-| karlo-cn-fw-01 | eth0 | 10.0.10.10 | 10 | 10.0.10.0/24 | 10.0.10.254 | 1500 | Management Port | Access |
-| karlo-cn-fw-02 | eth0 | 10.0.10.20 | 10 | 10.0.10.0/24 | 10.0.10.254 | 1500 | Management Port | Access |
+| Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
+| -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
+| karlo-cn-fw-01 | eth1 | - | - | - | 1500 | PTP link between Firewall-01 and Router-01 | PTP |
+
+### Firewall 02 IP Address
+
+| Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
+| -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
+| karlo-cn-fw-02 | eth1 | - | - | - | 1500 | PTP link between Firewall-01 and Router-01 | PTP |
+
 
 ### Router 01 PTP Address
 
@@ -120,6 +126,20 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | karlo-cn-spine-02 | eth4 | Port-channel 70 | 10,11,20,21,30,40,50,60,666,70 | MLAG peer link to primary | Trunk |
 | karlo-cn-spine-02 | eth5 | Port-channel 20 | 10,11,20,21,30,40,50,60,666 | Downlink to karlo-cn-leaf-02 | Trunk |
 | karlo-cn-spine-02 | eth6 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Downlink to karlo-cn-leaf-01 | Trunk |
+
+### Leaf 01 Port-Channel
+
+| Hostname | GNS3 Port | Logical Interface | Allowed Vlan | Role | Link type |
+| -------- | --------- | ----------------- | ------------ | ---- | --------- |
+| karlo-cn-leaf-01 | eth5 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-01 | Trunk |
+| karlo-cn-leaf-01 | eth6 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-02 | Trunk |
+
+### Leaf 02 Port-Channel
+
+| Hostname | GNS3 Port | Logical Interface | Allowed Vlan | Role | Link type |
+| -------- | --------- | ----------------- | ------------ | ---- | --------- |
+| karlo-cn-leaf-02 | eth5 | Port-channel 20 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-02 | Trunk |
+| karlo-cn-leaf-02 | eth6 | Port-channel 20 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-01 | Trunk |
 
 ## Endpoint Layer 3 IP Addressing
 
