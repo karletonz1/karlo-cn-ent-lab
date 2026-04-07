@@ -3,7 +3,7 @@
 Manual Bootstrap: Minimum configuration required via CLI to allow Ansible to reach the devices before pushing the remaining full configuration.  
 
 > [!TIP]  
-> For all switches, run `#zerotouch cancel` first to stop Arista ZTP and enter manual configuration mode. This will trigger an immediate switch reload. 
+> For all switches, run `#zerotouch cancel` first to stop Arista ZTP and enter manual configuration mode. This will trigger an immediate switch reload.
 
 ## karlo-cn-leaf-01 Bootstrap Config  
 
