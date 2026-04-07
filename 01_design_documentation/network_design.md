@@ -50,6 +50,33 @@ A bootstrap configuration is needed to configure the required settings so that A
 
 - All network devices have been configured with their own unique user for local authentication. This will be used as the fallback method once Radius has been configured in the lab.
 
+- The following will be configured on all devices:  
+
+    **Banner/MOTD:**  
+    Mandatory legal warning for unauthorized access.
+
+    **Management ACLs:**  
+    Restrict SSH and SNMP traffic so that only the Ansible node's IP can connect. The end goal is to simulate a dedicated windows machine to simulate an authorized Administrator/Engineer's workstation being the only device able to manage into the routers.
+
+    **SSH Hardening:**  
+    :white_check_mark: Disable Telnet.  
+    :white_check_mark: Disable SSH Version 1.  
+    :white_check_mark: Set a Timeout Policy: Automatically kick idle sessions after 5 or 10 minutes.  
+
+    **Administrative Security:**  
+    :white_check_mark: Individual Accounts: Every admin has their own username.  
+    :white_check_mark: Role-Based Access Control (RBAC):  Admins: Full config rights  |  Operators/Auditors: "Show" commands only.  
+
+    **External Authentication:**  
+    An authentication order will be configured:  
+    :white_check_mark: RADIUS as primary (running on the Domain Controllers)  
+    :white_check_mark: local as fallback.  
+
+    **Logging & Accountability**  
+    :white_check_mark: NTP  
+    :white_check_mark: Syslog configuration  
+    :white_check_mark: SNMPv3 only
+
 ## Security In-Depth
 
 - Wazuh agents will be installed on clients for endpoint monitoring, and logs will be forwarded to a central Splunk dashboard.
