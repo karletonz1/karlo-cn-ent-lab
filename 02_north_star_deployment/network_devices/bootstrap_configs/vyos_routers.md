@@ -12,7 +12,7 @@ Manual Bootstrap: Minimum configuration required via CLI to allow Ansible to rea
 configure
 
 # 1. Assign the Management IP
-set interfaces ethernet eth0 address '192.168.10.102/24'
+set interfaces ethernet eth0 address '10.0.10.102/24'
 
 # 2. Enable the SSH service
 set service ssh port '22'
@@ -33,7 +33,7 @@ exit
 configure
 
 # 1. Assign the Management IP
-set interfaces ethernet eth0 address '192.168.10.103/24'
+set interfaces ethernet eth0 address '10.0.10.103/24'
 
 # 2. Enable the SSH service
 set service ssh port '22'
