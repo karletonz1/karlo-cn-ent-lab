@@ -22,4 +22,4 @@ router_lag_interfaces:
 OSPF:
   process_id: "1"
   router_id: "10.10.10.10"
-  redistribute_connected: true
+  
