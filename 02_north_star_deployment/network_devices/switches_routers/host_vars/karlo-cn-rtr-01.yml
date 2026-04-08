@@ -1,14 +1,14 @@
 ---
 router_interfaces:
-- name: "eth1"
-  description: "PTP link between Router-01 and Spine-01"
-  ip_address: "10.0.71.1/30"
-- name: "eth2"
-  description: "PTP link between Router-01 and Spine-02"
-  ip_address: "10.0.71.5/30"
-- name: "lo"
-  description: "OSPF Loopback Router ID"
-  ip_address: "10.10.10.10/32"
+  - name: "eth1"
+    description: "PTP link between Router-01 and Spine-01"
+    ip_address: "10.0.71.1/30"
+  - name: "eth2"
+    description: "PTP link between Router-01 and Spine-02"
+    ip_address: "10.0.71.5/30"
+  - name: "lo"
+    description: "OSPF Loopback Router ID"
+    ip_address: "10.10.10.10/32"
 
 router_lag_interfaces:
 - name: "bond0"
