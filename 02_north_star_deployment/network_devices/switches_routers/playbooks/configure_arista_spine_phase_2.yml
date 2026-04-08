@@ -75,6 +75,14 @@
               trunk_allowed_vlans: "{{ trunk_vlans }}"
         state: merged
 
+    - name: "Configure Downlink Port-Channels to Leaves"
+      arista.eos.eos_config:
+        lines:
+          - "interface Port-Channel 10"
+          - "mlag 10"
+          - "interface Port-Channel 20"
+          - "mlag 20"
+
 ### MLAG Peer Interface and Port-Channel Configuration ###
     - name: "Disable STP on MLAG Peer VLAN"
       arista.eos.eos_config:
@@ -107,14 +115,6 @@
           - "ip address {{ mlag_ip }}"
           - "no autostate"
         parents: "interface Vlan 70"
-
-    - name: "Configure Downlink Port-Channels to Leaves"
-      arista.eos.eos_config:
-        lines:
-          - "interface Port-Channel 10"
-          - "mlag 10"
-          - "interface Port-Channel 20"
-          - "mlag 20"
 
 ### MLAG Peer Domain Configuration ###
     - name: "Configure MLAG Process"
