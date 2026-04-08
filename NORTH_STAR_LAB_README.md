@@ -169,6 +169,7 @@ Challenges and wins:
    Due to the large number of changes that needed to be made at this crucial juncture, I pivoted from configuring the repository solely on GitHub and onto VSCode on my PC. This made editing the repository structure a breeze once I understood the various nuances between the two, such as discovering the ability to single out commits before syncing them to GitHub, or combining multiple commits into one big commit.
 
    This transition was a learning curve, but a valuable one. It gave me a greater appreciation of the difference between working on a Linux workstation versus Windows when working with Ansible and Git.
+3. Understanding how to operate VyOS routers was fairly simple for configuring basic router settings such as IP addresses and OSPF. As a right of passage, I came across the requirement to install the VyOS image onto the HDD of the appliance to allow for persistence and make `commit` and `save` commands work after reboot. This was essential in testing playbooks and deploying the routers from scratch as well as building on configuration beyond phase 3.
 
 ## Contact
 
