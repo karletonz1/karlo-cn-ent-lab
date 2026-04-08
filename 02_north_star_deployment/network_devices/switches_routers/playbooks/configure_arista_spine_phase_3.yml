@@ -1,0 +1,170 @@
+---
+- name: "North Star | Spine Playbook"
+  hosts: arista_spine_switches
+
+  tasks:
+### Device Configuration settings ###
+    - name: "Configure Hostname"
+      arista.eos.eos_system:
+        hostname: "{{ inventory_hostname }}"
+
+    - name: "Set Basic Configuration and SSH"
+      arista.eos.eos_config:
+        lines:
+          - banner login "UNAUTHORIZED ACCESS PROHIBITED"
+          - "idle-timeout 15"
+        parents: "management ssh"
+
+    - name: "Configure Enable Password"
+      arista.eos.eos_config:
+        lines:
+          - "enable password {{ vault_spine_enable_pass }}"
+        state: merged
+
+    - name: "Configure MSTP"
+      arista.eos.eos_config:
+        lines:
+          - "spanning-tree mode mstp"
+          - "spanning-tree priority 4096"
+        state: merged
+
+### VLAN Configuration ###
+    - name: "Configure VLANs"
+      arista.eos.eos_vlans:
+        config:
+          - vlan_id: "{{ item.id }}"
+            name: "{{ item.name }}"
+        state: merged
+      loop: "{{ north_star_vlans }}"
+
+### Interface Configuration ###
+    - name: "Configure Physical Interfaces"
+      arista.eos.eos_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            description: 'Link to {{ item.peer }}'
+        state: merged
+      loop: "{{ spine_interfaces }}"
+
+### Global Port-Channel Configuration ###
+    - name: "Configure Logical Port Channels on Physical Interfaces"
+      arista.eos.eos_lag_interfaces:
+        config:
+          - name: "Port-Channel{{ item.channel }}"
+            members:
+              - member: "{{ item.name }}"
+                mode: active
+        state: merged
+      loop: "{{ spine_interfaces }}"
+
+    - name: "Configure Native Vlan for Port-Channels"
+      arista.eos.eos_l2_interfaces:
+        config:
+          - name: port-channel 10
+            mode: trunk
+            trunk:
+              native_vlan: 666
+              trunk_allowed_vlans: "{{ trunk_vlans }}"
+          - name: port-channel 20
+            mode: trunk
+            trunk:
+              native_vlan: 666
+              trunk_allowed_vlans: "{{ trunk_vlans }}"
+          - name: port-channel 70
+            mode: trunk
+            trunk:
+              native_vlan: 666
+              trunk_allowed_vlans: "{{ trunk_vlans }}"
+        state: merged
+
+    - name: "Configure Downlink Port-Channels to Leaves"
+      arista.eos.eos_config:
+        lines:
+          - "interface Port-Channel 10"
+          - "mlag 10"
+          - "interface Port-Channel 20"
+          - "mlag 20"
+
+### MLAG Peer Interface and Port-Channel Configuration ###
+    - name: "Disable STP on MLAG Peer VLAN"
+      arista.eos.eos_config:
+        lines:
+          - "no spanning-tree vlan-id 70"
+
+    - name: "Configure Physical MLAG Links"
+      arista.eos.eos_config:
+        lines:
+          - "switchport trunk native vlan 666"
+          - "switchport trunk group MLAG_PEER"
+          - "channel-group 70 mode active"
+          - "switchport trunk group MLAG_PEER"
+        parents: "interface ethernet 3-4"
+
+    - name: "Configure Logical MLAG Peer Link"
+      arista.eos.eos_config:
+        lines:
+          - "description MLAG Peer Link Port Channel"
+          - "switchport mode trunk"
+          - "switchport trunk native vlan 666"
+          - "switchport trunk group MLAG_PEER"
+          - "no switchport trunk allowed vlan"
+        parents: "interface Port-Channel 70"
+
+    - name: "Configure MLAG Control SVI"
+      arista.eos.eos_config:
+        lines:
+          - "description MLAG Peer SVI Link"
+          - "ip address {{ mlag.ip }}"
+          - "no autostate"
+        parents: "interface Vlan70"
+
+### SVI Configuration ###
+    - name: "Configure the Shared MAC Address"
+      arista.eos.eos_config:
+        lines:
+          - "ip virtual-router mac-address 00:11:11:00:00:01"
+
+    - name: "Configure SVIs and VARP Gateways"
+      arista.eos.eos_config:
+        lines:
+          - "description {{ item.description }}"
+          - "ip address {{ item.ip_address }}"
+          - "ip virtual-router address 10.0.{{ item.vlan }}.254"
+        parents: "interface Vlan{{ item.vlan }}"
+      loop: "{{ svi_interfaces }}"
+
+## Configure Global and Interface OSFP Parameters
+    - name: "Configure PTP Interfaces"
+      arista.eos.eos_config:
+        lines:
+          - description "{{ item.description }}"
+          - no switchport
+          - ip address {{ item.ip_address }}
+          - ip ospf network {{ item.network }}
+          - ip ospf area {{ item.area }}
+        parents: "interface {{ item.name }}"
+      loop: "{{ ospf_interfaces }}"
+
+    - name: "Configure Global OSPF Process"
+      arista.eos.eos_config:
+        lines:
+          - router-id {{ ospf_router_id.router_id }}
+          - passive-interface default
+          - no passive-interface Ethernet1
+          - no passive-interface Ethernet2
+        parents: "router ospf 1"
+
+### MLAG Peer Domain Configuration ###
+    - name: "Configure MLAG Process"
+      arista.eos.eos_config:
+        lines:
+          - "mlag configuration"
+          - "domain-id NORTH_STAR"
+          - "local-interface Vlan70"
+          - "peer-address {{ mlag.peer_ip }}"
+          - "peer-link Port-Channel 70"
+
+### Save Configuration ###
+    - name: "Save Configuration"
+      arista.eos.eos_config:
+        save_when: modified
