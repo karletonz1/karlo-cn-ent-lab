@@ -13,6 +13,7 @@
         state: merged
       loop: "{{ router_interfaces }}"
 
+#Configure the physical interfaces into Bond0 LAG Interface
     - name: "Create Router Bond0 Interface"
       vyos.vyos.vyos_lag_interfaces:
         config:
@@ -32,6 +33,7 @@
         state: merged
       loop: "{{ router_lag_interfaces }}"
 
+#Configure IP addresses on the physical and Lag Interfaces
     - name: "Assign IP addresses to Router Interfaces"
       vyos.vyos.vyos_l3_interfaces:
         config:
@@ -50,26 +52,25 @@
         state: merged
       loop: "{{ router_lag_interfaces }}"
 
-    - name: "Configure OSPFv2 Global Parameters"
+#Configure Global and Interface OSPF Parameters
+    - name: "Configure OSPF Area on Interfaces"
       vyos.vyos.vyos_ospfv2:
-        config:
+        config :
           parameters:
             router_id: "{{ OSPF.router_id }}"
         state: merged
+          
+    - name: "Configure OSPF Area on Interfaces"
+      vyos.vyos.vyos_config:
+        lines:
+          - set protocols ospf interface eth1 area '0'
+          - set protocols ospf interface eth2 area '0'
+          - set protocols ospf interface bond0 area '0'
+          - set protocols ospf interface lo area '0'
 
-    - name: "Configure OSPF Interfaces (Network Type)"
-      vyos.vyos.vyos_ospf_interfaces:
-        config:
-          - name: "eth1"
-            address_family:
-              - afi: "ipv4"
-                network: "point-to-point"
-          - name: "eth2"
-            address_family:
-              - afi: "ipv4"
-                network: "point-to-point"
-          - name: "bond0"
-            address_family:
-              - afi: "ipv4"
-                network: "point-to-point"
-        state: merged
+    - name: "Configure OSPF Network Type on Interfaces"
+      vyos.vyos.vyos_config:
+        lines:
+          - set protocols ospf interface eth1 network 'point-to-point'
+          - set protocols ospf interface eth2 network 'point-to-point'
+          - set protocols ospf interface bond0 network 'point-to-point'
