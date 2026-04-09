@@ -76,7 +76,6 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
 | karlo-cn-fw-02 | eth1 | - | - | - | 1500 | PTP link between Firewall-01 and Router-01 | PTP |
 
-
 ### Router 01 PTP Address
 
 | Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
