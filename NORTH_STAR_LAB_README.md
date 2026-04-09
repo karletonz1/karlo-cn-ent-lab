@@ -177,7 +177,7 @@ The end of phase 3 marked the successful deployment of playbooks to configure al
 
 Phase 4 took a different approach and focussed on the manual deployment of the OPNsense firewalls, with a view to push Ansible automation once API keys and users have been created on the devices. It was also an opportune time to review the data flows in various testing scenarios to ensure that inter-VLAN routing and redundant link/node failures was working as intended before moving onto Phase 5.
 
-To view what was tested and the results of the testing, see the [phase_4_verification](01_design_documentation/phase_verification/phase_4_verification) page.
+To view what was tested and the results of the testing, see the [lab_scenarios](03_scenario_testing/lab_scenarios) page.
 
 Challenges and Wins:
 
