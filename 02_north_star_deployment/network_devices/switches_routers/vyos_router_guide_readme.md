@@ -49,3 +49,8 @@ Once communication is established between Ansible and the routers, the following
 
 For the security considerations that guide the North Star lab and applied to the routers, see the [network_design](../../../01_design_documentation/network_design.md) page.
 
+## Verification
+
+### Ansible 'Deploy North Star' Playbook for Phase 3
+
+To view the screenshots that show successful deployment of Phase 3 Ansible playbook, see the [phase_3_verification](../../../01_design_documentation/phase_verification/phase_3_verification) page.
