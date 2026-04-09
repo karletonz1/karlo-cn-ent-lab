@@ -97,4 +97,3 @@ For the security considerations that guide the North Star lab and applied to the
 **Spine 2**  
 ![mstp_spine_02](../../../Assets/Images/mstp_spine_02.png)
 
-## Deployment Hurdles & Pivots
