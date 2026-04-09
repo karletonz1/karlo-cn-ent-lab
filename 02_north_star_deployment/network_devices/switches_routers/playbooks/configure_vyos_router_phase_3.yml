@@ -4,7 +4,36 @@
   gather_facts: false
 
   tasks:
-#Configure Physical Interfaces Description and MTU
+### Device Configuration settings ###
+    - name: "Configure Banner"
+      vyos.vyos.vyos_banner:
+        banner: pre-login
+        text: |
+          ======================================================================
+          NORTH STAR LAB
+          UNAUTHORIZED ACCESS TO THIS NETWORK DEVICE IS STRICTLY PROHIBITED
+          Do not proceed unless are your authorized to access this environment
+          ======================================================================
+        state: present
+
+    - name: "Configure SSH and Security Hardening"
+      vyos.vyos.vyos_config:
+        lines:
+          - delete service telnet
+          - set service ssh access-control deny user root
+          - set service ssh client-keepalive-interval "300"
+
+    - name: "Management ACLs"
+      vyos.vyos.vyos_config:
+        lines:
+          - set firewall group address-group MGT address "10.0.10.253"
+          - set firewall ipv4 input filter default-action "drop"
+          - set firewall ipv4 input filter rule 10 action "accept"
+          - set firewall ipv4 input filter rule 10 destination port "22"
+          - set firewall ipv4 input filter rule 10 protocol "tcp"
+          - set firewall ipv4 input filter rule 10 source group address-group "MGT"
+
+#### Configure Physical Interfaces Description and MTU ###
     - name: "Configure Physical Interfaces"
       vyos.vyos.vyos_interfaces:
         config:
@@ -13,7 +42,7 @@
         state: merged
       loop: "{{ router_interfaces }}"
 
-#Configure the physical interfaces into Bond0 LAG Interface
+### Configure the physical interfaces into Bond0 LAG Interface ###
     - name: "Create Router Bond0 Interface"
       vyos.vyos.vyos_lag_interfaces:
         config:
@@ -33,7 +62,7 @@
         state: merged
       loop: "{{ router_lag_interfaces }}"
 
-#Configure IP addresses on the physical and Lag Interfaces
+### Configure IP addresses on the physical and Lag Interfaces ###
     - name: "Assign IP addresses to Router Interfaces"
       vyos.vyos.vyos_l3_interfaces:
         config:
@@ -52,7 +81,7 @@
         state: merged
       loop: "{{ router_lag_interfaces }}"
 
-#Configure Global and Interface OSPF Parameters
+### Configure Global and Interface OSPF Parameters ###
     - name: "Configure OSPF Area on Interfaces"
       vyos.vyos.vyos_ospfv2:
         config :
