@@ -4,16 +4,46 @@
 
   tasks:
 ### Device Configuration settings ###
+    - name: "Configure Banner"
+      arista.eos.eos_banner:
+        banner: login
+        text: |
+          ======================================================================
+          NORTH STAR LAB
+          UNAUTHORIZED ACCESS TO THIS NETWORK DEVICE IS STRICTLY PROHIBITED
+          Do not proceed unless are your authorized to access this environment
+          ======================================================================
+        state: present
+
+    - name: "Configure Management ACLs"
+      arista.eos.eos_config:
+        lines:
+          - ip access-list standard RESTRICT_MGMT
+          - permit host 10.0.10.253
+          - deny any log
+        save_when: modified
+
+    - name: "Configure SSH Management"
+      arista.eos.eos_config:
+        lines:
+          - management ssh
+          - ip access-group RESTRICT_MGMT in
+
+    - name: "Disable Telnet"
+      arista.eos.eos_config:
+        lines:
+          - management ssh
+          - no management telnet
+
+    - name: "Configure SSH timeout"
+      arista.eos.eos_config:
+        lines:
+          - "idle-timeout 15"
+        parents: "management ssh"
+
     - name: "Configure Hostname"
       arista.eos.eos_system:
         hostname: "{{ inventory_hostname }}"
-
-    - name: "Set Basic Configuration and SSH"
-      arista.eos.eos_config:
-        lines:
-          - banner login "UNAUTHORIZED ACCESS PROHIBITED"
-          - "idle-timeout 15"
-        parents: "management ssh"
 
     - name: "Configure Enable Password"
       arista.eos.eos_config:
