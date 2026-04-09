@@ -19,14 +19,12 @@
       arista.eos.eos_config:
         lines:
           - "enable password {{ vault_spine_enable_pass }}"
-        state: merged
 
     - name: "Configure MSTP"
       arista.eos.eos_config:
         lines:
           - "spanning-tree mode mstp"
           - "spanning-tree priority 4096"
-        state: merged
 
 ### VLAN Configuration ###
     - name: "Configure VLANs"
@@ -134,6 +132,11 @@
       loop: "{{ svi_interfaces }}"
 
 ## Configure Global and Interface OSFP Parameters
+    - name: "Enable OSPF Globally"
+      arista.eos.eos_config:
+        lines:
+          - "ip routing"
+
     - name: "Configure PTP Interfaces"
       arista.eos.eos_config:
         lines:
