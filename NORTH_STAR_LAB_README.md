@@ -112,7 +112,7 @@ Automation
 
 ## Project Evolution | A Journey of Discovery
 
-### In the beginning (Phase 1)
+### Phase 1: In the beginning  
 
 The initial choices made for the North Star lab revolved heavily around the resources available to deploy the lab in GNS3 with minimal cost. Some roadblocks were finding that some vendors required payment for using their official QCOW2 files needed for GNS3 appliances, and other hurdles were finding free alternatives but they did not have the full functionality needed to achieve the lab objectives. It was also important to be able to deploy this network by practicing automation, and Ansible was chosen for this purpose. A mix of manual configuration (bootstrap) was still required to get the initial networking up and running before fully configuring the network devices via Ansible Playbooks.
 
@@ -132,7 +132,7 @@ This phase had several challenges to overcome but it also had some valuable wins
 
    With the network switches confirmed, phase 2 focused on deploying the full switch configurations via automation and moving from a single-homed design to a dual-homed design using MLAG and LACP.
 
-### Into the Automation Unknown (Phase 2)
+### Phase 2: Into the Automation Unknown  
 
 This phase tested the concepts of Ansible automation on the Leaf switches before expanding the configuration to the Spines.
 
@@ -152,7 +152,7 @@ Challenges and Wins:
 
 4. Blood, sweat, and tears were shed whilst trying to learn and create the playbooks needed to deploy the Arista leaf and spine switches. I encountered instances where unknown precedences were happening within the switches causing it to retain certain unwanted commands which broke the MLAG configuration. Ad-hoc solutions like adding 'no' commands within an Ansible task to remove the unwanted code, were needed to achieve 100% automated deployment up until the end of phase 2. The end of phase 2 indicates successful deployment of the full spine and leaf configurations, confirmed MLAG peer status, and port-channel active status from the leafs to their respective spines, MSTP is configured correctly and all 4 switches have received their assigned priorities, all through the use of Ansible.
 
-### Beyond the Layer 2 (Phase 3)
+### Phase 3: Beyond the Layer 2  
 
 Now that the spines and leafs were operational at layer 2, it was time to focus on the layer 3 boundary between the spines and the routers. This required focusing on layer 3 addressing and configuration in the 'router domain' which runs Point-to-Point links between the routers-spines and routers-routers. It also signaled the start of the routing phase and the deployment of OSPF configuration on the spines and routers, which meant revisiting the Ansible playbooks and adding a new SVI and OSPF configuration section.
 
@@ -176,7 +176,7 @@ Challenges and Wins:
    This transition was a learning curve, but a valuable one. It gave me a greater appreciation of the difference between working on a Linux workstation versus Windows when working with Ansible and Git.
 3. Understanding how to operate VyOS routers was fairly simple for configuring basic router settings such as IP addresses and OSPF. As a right of passage, I came across the requirement to install the VyOS image onto the HDD of the appliance to allow for persistence and make `commit` and `save` commands work after reboot. This was essential in testing playbooks and deploying the routers from scratch as well as building on configuration beyond phase 3.
 
-### On the Back of the Backbone Infrastructure (Phase 4)
+### Phase 4: On the Back of the Backbone Infrastructure  
 
 The end of phase 3 marked the successful deployment of playbooks to configure all of the Leaf and Spine switches as well as both routers. Hardening configurations were also set which were appropriate for the point the lab was currently at. Authentication still required services and Domain Controllers to be provisioned, but this would be looked at during later phases.
 
