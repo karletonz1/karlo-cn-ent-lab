@@ -62,12 +62,14 @@ North Star will align to NIST 800-53 framework as the primary control document w
 - NIST 800-92 (Guide to Computer Security Log Management)
 - NIST 800-115 (Technical Guide to Information Security Testing and Assessment)
 - NIST 800-128 (Guide for Security-Focused Configuration Management of Information Systems)
+- NIST 800-70 Rev.4 (National Checklist Program for IT Products: Guidelines for Administrator of Security Configuration Checklists)
 
 Hardening Controls:  
 
-Establish a baseline configuration for all network infrastructure devices  
+Establish a baseline configuration for all network infrastructure devices including secure configuration checklist for bootstrap settings
 `Reference: NIST 800-128 (Section 2.3.7 Baseline Configuration)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.5 Configuration Management: CM-2 Baseline Configuration)`  
+`Reference: NIST 800-70 Rev. 4 (Section 2.1 Security Configuration Checklists)`  
 
 Default deny-all inbound and outbound traffic that has not been expressly permitted by a firewall policy  
 `Reference: NIST 800-41 Rev. 1 (Section 4: Firewall Policy)`  
@@ -75,13 +77,13 @@ Default deny-all inbound and outbound traffic that has not been expressly permit
 
 Disable unused ports and services.  
 `Reference: NIST 800-53 Rev. 5 (Section 3.5 Configuration Management: CM-7 Least Functionality)`  
-`Reference: NIST-800-128 (Appendix F: Best Practices for Establishing Secure Configurations)`  
+`Reference: NIST 800-128 (Appendix F: Best Practices for Establishing Secure Configurations)`  
 
 Implement network zones (LAN, DMZ, WAN)  
 `Reference: NIST 800-41 Rev. 1 (Section 3.1 Network Layouts with Firewalls)`  
 
 Enable security system events and audit record logs  
-`Reference: NIST 800-92 (Section 2.1.1 Security Software/Section 2.1.2 Operating Systems)`  
+`Reference: NIST 800-92 (Section 2.1.1 Security Software and Section 2.1.2 Operating Systems)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-2 Event Logging)`  
 
 Implement Radius authentication with local fallback  
@@ -89,7 +91,7 @@ Implement Radius authentication with local fallback
 `Reference: NIST 800-53 Rev. 5 (Section 3.1 Access Control: AC-2 Account Management)`  
 
 Apply ACLs to allow only the Ansible host IP to SSH into the management plane using a dedicated VRF management VLAN  
-`Reference: NIST 800-41 Rev. 1 (Section 4.1 Policies Based on IP addresses and Protocols)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.1 Access Control: AC-6:(1) Least Privilege - Authorized Access to Security Functions)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.18 System and Communication Protection: SC-7:(5) Boundary Protection: Deny by Default-Allow by Exception)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.18 System and Communications Protection: SC-2 Separation of System and User Functionality)`  
 
@@ -109,59 +111,73 @@ Control plane protections using boundary protection devices
 
 Centralized logging and Restrict Privileged Users to Read-only  
 `Reference: NIST 800-92 (Section 3.1 Log Management Infrastructure: Architecture)`  
-`Reference: NIST 800-92 (Section 2.3.1 Introduction to Computer Security Log Management: Log Generation and Storage)`  
+`Reference: NIST 800-92 (Section 2.3.1 Log Generation and Storage)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-9:(6) Protection of Audit Information: Read-only Access)`  
 
 **Proxmox Windows and Linux host servers with VMS**  
-Additional Referenced Standards:  
+Referenced Standards:  
 
 - NIST 800-53 Rev.5 (Security and Privacy Controls for Information Systems and Organizations)
 - NIST 800-123 (Guide to General Server Security)
 - NIST 800-128 (Guide for Security-Focused Configuration Management of Information Systems)
 - NIST 800-70 Rev.4 (National Checklist Program for IT Products: Guidelines for Administrator of Security Configuration Checklists)
-- NIST 800-125A (Security Recommendations for Server-based Hypervisor Platforms)
+- NIST 800-125 (Guide to Security for Full Virtualization Technologies)
 - NIST 800-92 (Guide to Computer Security Log Management)
 
 Hardening Controls:  
 
 Apply secure baseline configurations  
+`Reference: NIST 800-53 Rev. 5 (Section 3.5 Configuration Management: CM-2 Baseline Configuration)`  
+`Reference: NIST 800-70 Rev. 4 (Section 2.1 Security Configuration Checklists)`  
 
 Remove unnecessary services  
+`Reference: NIST 800-53 Rev. 5 (Section 3.5 Configuration Management: CM-7 Least Functionality)`  
+`Reference: NIST 800-123 (Section 4.2 Hardening and Securely Configuring the OS)`  
 
-Enforce least privilege  
+Enforce least privilege for Administrator roles to configure and access servers  
+`Reference: NIST 800-53 Rev. 5 (Section 3.1 Access Control: AC-6 Least Privilege)`  
 
 Apply regular patch management  
 `Reference: NIST 800-53 Rev. 5 (Section 3.19 System and Information Integrity: SI-2 Flaw Remediation)`  
 
 Enable System logging  
 `Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-2 Event Logging)`  
+`Reference: NIST 800-92 (Section 2.1.2 Operating Systems)`  
 
 Forward logs to centralized SIEM  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-9 Protection of Audit Information)`  
+`Reference: NIST 800-92 (Section 3.1 Log Management Infrastructure: Architecture)`  
 
-Enforce virtual machine network isolation  
+Enforce separate subnets to isolate system functions
+`Reference: NIST 800-125 (Section 4.3 Virtualized Infrastructure Security)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.18 System and Communication Protection: SC-7:(29) Boundary Protection - Separate Subnets to isolate Functions )`  
 
-Secure hypervisor management interface  
+Secure the hypervisor management interface to authorized Administrators only
+`Reference: NIST 800-125 (Section 4.1 Hypervisor Management)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.18 System and Communication Protection: SC-2 Separation of System and User Functionality)`  
 
 **Endpoints including the Windows 10 and Linux clients**  
 Referenced Standards:
 
 - NIST 800-53 Rev.5 (Security and Privacy Controls for Information Systems and Organizations)
-- NIST 800-137 (Information Security Continuous Monitoring for Federal Information Systems and Organizations)
 - NIST 800-92 (Guide to Computer Security Log Management)
 - NIST 800-115 (Technical Guide to Information Security Testing and Assessment)
+- NIST 800-137 (Information Security Continuous Monitoring for Federal Information Systems and Organizations)
 
 Hardening Controls:  
 
 Apply regular patch management  
-`Reference: NIST 800-53 Rev. 5 (Section 3.19 System and Information Integrity: SI-2 Flaw Remediation)`   
+`Reference: NIST 800-53 Rev. 5 (Section 3.19 System and Information Integrity: SI-2 Flaw Remediation)`  
 
-Enable continuous monitoring  
-`Reference: NIST 800-53 Rev. 5 (Section 3.29 System and Information Integrity: SI-4 System Monitoring)`  
+Enable continuous monitoring for endpoints  
+`Reference: NIST 800-53 Rev. 5 (Section 3.19 System and Information Integrity: SI-4 System Monitoring)`  
+`Reference: NIST 800-137 (Section 3.3 Implement an ISCM Program)`  
 
-Forward logs to SIEM  
-Reference: NIST 800-92 (Section 2.1.3 Applications)  
+Forward logs to centralized SIEM  
+`Reference: NIST 800-92 (Section 2.1.3 Applications)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-9:(2) Protection of Audit Information - Store on Separate Physical Systems or Components)`  
 
-Conduct vulnerability scanning  
+Conduct regular vulnerability scanning  
 `Reference: NIST 800-115 (Section 4.3 Vulnerability Scanning)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.16 Risk Assessment: RA-5 Vulnerability Monitoring and Scanning)`  
 
@@ -174,13 +190,26 @@ Referenced Standards:
 
 Hardening Controls:  
 
-Centralize logs in SIEM  
+Enable continuous monitoring across the entire lab  
+`Reference: NIST 800-53 Rev. 5 (Section 3.19 System and Information Integrity: SI-4 System Monitoring)`  
+`Reference: NIST 800-137 (Section 3.3 Implement an ISCM Program)`  
+
+Correlate logs across ntopng, Grafana, and Splunk dashboards  
+`Reference: NIST 800-92 (Section 3.1 Log Management Infrastructure: Architecture)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-9:(2) Protection of Audit Information - Store on Separate Physical Systems or Components)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-6:(3) Audit Record Review, Analysis, and Reporting - Correlate Audit Record Repositories)`  
 
 Monitor authentication events  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-2 Event Logging)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-3 Content of Audit Records)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-6 Audit Record Review, Analysis, and Reporting)`  
 
 Monitor network traffic anomalies  
+`Reference: NIST 800-53 Rev. 5 (Section 3.19 System and Information Integrity: SI-4:(4) System Monitoring: Inbound and Outbound Communications Traffic)`
 
-Retain logs per policy  
+Retain logs for investigation purposes or information retention requirements  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-11 Audit Record Retention)`  
+`Reference: NIST 800-92 (Section 3.2 Functions - Storage)`  
 
 Deploy security applications in their own subnet  
 `Reference: NIST 800-53 Rev. 5 (Section 3.18 System and Communication Protection: SC-7:(13) Boundary Protection: Isolation of Security Tools, Mechanisms, and Support Components)`  
