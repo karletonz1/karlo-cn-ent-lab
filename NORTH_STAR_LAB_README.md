@@ -6,7 +6,7 @@ For the final production release, see `north-star-prd.`
 
 ## Overview
 
-North Star was designed to demonstrate skills in infrastructure deployment, security best practices, endpoint monitoring, deployment and configuration of SIEM for centralized logging, backup and recovery, and vulnerability assessment. It is a cross-platform setup that includes Windows and Linux servers, clients, and network devices all virtualized within GNS3.
+North Star was designed to demonstrate skills in automated infrastructure deployment, security best practices, endpoint monitoring, deployment and configuration of SIEM for centralized logging, backup and recovery, and vulnerability assessment. It is a cross-platform setup that includes Windows and Linux servers, clients, and network devices all virtualized within GNS3.
 
 Key objectives:
 
@@ -24,21 +24,27 @@ Network & Edge
 - 2x VyOS Routers
 - 2x OPNsense Firewalls
 - 4x Arista vEOS Switches
-- GNS3 Ethernet Switch
+- 2x GNS3 Ethernet Switch
 
 Compute and Services
 
-- 3x Proxmox Servers (DC1/2, and IIS)
+- 4x Proxmox Hosts
 - Windows 10 Client
-- Linux Client
-- Veeam Server (Backups)
+- Rocky Linux Client
+- Veeam Server
 
-Security and Monitoring
+Security Monitoring
 
-- Kali Linux Security Node
+- Kali Linux
 - Wazuh
 - Tenable
 - Splunk
+
+Infrastructure Monitoring
+
+- Prometheus
+- Grafana
+- Ntopng
 
 Automation
 
@@ -46,29 +52,28 @@ Automation
 
 ## Skills Demonstrated
 
-:white_check_mark: Network infrastructure and security deployment (OPNsense, VyOS, vEOS)  
-:white_check_mark: Endpoint installation and security monitoring (Windows, Linux, Wazuh)  
-:white_check_mark: Central SIEM deployment and management (Splunk Free)  
+:white_check_mark: Ansible deployed routers and switches (VyOS and vEOS)  
+:white_check_mark: Firewall deployment and policy creation (OPNsense)  
+:white_check_mark: SIEM deployment and endpoint security monitoring (Wazuh, Splunk Free)  
 :white_check_mark: Backup services implemented, and recovery demonstrated (Veeam Community Edition)  
 :white_check_mark: Vulnerability assessment on endpoints (Nessus Essentials)  
 :white_check_mark: Conduct Attack simulations & analyse logs (Kali Linux)  
-:white_check_mark: Server provisioning, configuration and management (Windows 2022, Debian)  
-:white_check_mark: Complete Lab Virtualization via GNS3  
-:white_check_mark: GitHub repository storage and best practices (GitHub Codespaces/VScode)  
-:white_check_mark: Out-of-Band Management (OOBM) and Management VRF implementation (GNS3 Switch)  
+:white_check_mark: Server provisioning, configuration and management using Proxmox (Windows 2022, Debian)  
+:white_check_mark: Documentation best practices and Git version control (GitHub, Codespaces/VSCode)  
+:white_check_mark: Infrastructure Monitoring (Grafana, Prometheus, and ntopng)  
 
 | Skills demonstrated | Description |
 | ------------------- | ----------- |
-| **Firewall, Routing, and Switching** | Firewall policies, VARP, VLANs, OSPF, MLAG active-active redundancy, and LACP are done on OPNsense firewalls, VyOS routers, and Arista vEOS switches |
-| **Endpoint Monitoring** | Wazuh agents are installed on all Windows and Linux servers/clients and logs are forwarded to the central Splunk server |
-| **SIEM** | Splunk Free dashboards used for visualization |
-| **Backups** | Veeam Backup Server handles backups for Windows and Linux servers. A secondary repository is simulated using another VM within North Star |
+| **Ansible Routing and Switching Deployment** | VLANs, OSPF, and LACP are deployed across the network infrastructure, with MLAG and VARP deployed on the Arista vEOS switches |
+| **Firewall Deployment and Policy Creation** | Deployment of two OPNsense firewalls in an HA stack with LAN, WAN, and DMZ zones |  
+| **SIEM Deployment and Endpoint Monitoring** | Wazuh agents are installed on all Windows and Linux servers/clients and logs are forwarded to Splunk Free |
+| **Backups** | Veeam Backup Server handles backups for Windows and Linux servers |
 | **Vulnerability Scanning** | Nessus Essentials is used for periodic scans of targeted endpoints. There is a hard limit of five IP addresses that is enforced in Nessus Essentials |
-| **Attack Simulation** | Kali Linux is used for penetration testing scenarios such as targeting DMZ and internal hosts to test the effectiveness of the security systems and monitoring used in North Star |
-| **Windows & Debian Servers** | Windows Server 2022 evaluation used; includes DNS, DHCP, IIS and Active Directory. Debian (DMZ Web server) and Rocky Linux (desktop / test clients) is used for cross-platform examples |
-| **VM Environment** | North Star is fully virtualized within GNS3 |
-| **GitHub** | This is where the lab documentation is stored, which includes section guides, device configurations, and Ansible files used in North Star. This includes implementing best practices around managing passwords using Ansible Vault |
-| **OOBM Simulation** | The use of Ansible required the simulation of an OOBM network that would persist throughout the deployment phase |
+| **Attack Simulation and Documentation** | Kali Linux is used for security testing scenarios such as targeting DMZ and internal hosts to test the effectiveness of the security systems and monitoring used in North Star. |
+| **Windows & Debian Servers** | Windows Server 2022 evaluation used; includes DNS, DHCP, IIS and Active Directory. Debian (DMZ Apache Web server) and Rocky Linux is used for cross-platform examples |
+| **Documentation and Git Version Control** | The setup of the project repository reflects Ansible directory best practices and applies a lean approach to folder structure where possible in general. This is stored on GitHub but developed using VSCode. Industry best practices are applied where appropriate such as Ansible Vault for secure password management |
+| **Infrastructure Monitoring** | North Star utilizes various tools across three monitoring domains: Metrics, Network, and Security. Combined, the lab is able to answer the following questions: how much traffic is flowing, who is generating the traffic, and whether that traffic is suspicious |  
+| **Network Design and Architecture** | North Star was made to demonstrate known and new skills that I have learned through this journey. I have created documentation to highlight my decision making process to achieve the primary objective of creating a working lab to demonstrate these skills. There are limitations to virtualizing a lab within GNS3, which meant trying to mirror real world environments exactly often meant weighing up lab complexity with practicality |
 
 ## Lab Scenarios
 
