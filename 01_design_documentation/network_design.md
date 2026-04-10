@@ -110,7 +110,7 @@ Control plane protections using boundary protection devices
 Centralized logging and Restrict Privileged Users to Read-only  
 `Reference: NIST 800-92 (Section 3.1 Log Management Infrastructure: Architecture)`  
 `Reference: NIST 800-92 (Section 2.3.1 Introduction to Computer Security Log Management: Log Generation and Storage)`  
-`Reference: NIST 800-53 Rev. 5 (AU-9:(6) Protection of Audit Information: Read-only Access)`  
+`Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-9:(6) Protection of Audit Information: Read-only Access)`  
 
 **Proxmox Windows and Linux host servers with VMS**  
 Additional Referenced Standards:  
