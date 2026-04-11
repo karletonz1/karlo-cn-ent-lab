@@ -47,8 +47,8 @@ mlag:
 # Global VARP MAC Address
 varp_mac_address: "00:1c:73:00:00:01"
 
-mlag_svi_interfaces:
 # --- MLAG Peer Link SVI ---
+mlag_svi_interfaces:
 - mlag_vlan: "70"
   description: "SPINE MLAG PEER"
   ip_address: "10.0.70.1/30"
