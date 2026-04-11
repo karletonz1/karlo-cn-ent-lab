@@ -12,7 +12,7 @@ router_interfaces:
     description: "PTP Link between Router-02 and Firewall-02"
     ip_address: "10.0.72.14/30"
     area: "0"
-  - name: "eth4"
+  - name: "eth5"
     description: "PTP Link between Router-02 and Firewall-01"
     ip_address: "10.0.72.6/30"
     area: "0"
