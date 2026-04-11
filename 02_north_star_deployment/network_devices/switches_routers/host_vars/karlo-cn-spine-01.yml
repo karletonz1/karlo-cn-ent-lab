@@ -32,6 +32,18 @@ ospf_interfaces:
   ip_address: "10.0.71.14/30"
   network: "point-to-point"
 
+#OSPF on Spine SVIs
+ospf_svi_vlans:
+- vlan: "10"
+- vlan: "11"
+- vlan: "20"
+- vlan: "21"
+- vlan: "30"
+- vlan: "40"
+- vlan: "50"
+- vlan: "60"
+- vlan: "70"
+
 #Global OSPF
 ospf_area:
   area: "0"
