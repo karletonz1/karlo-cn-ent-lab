@@ -1,6 +1,8 @@
 # North Star Lab
 
-## Network Architecture
+This document outlines the Architecture decisions made to create North Star.
+
+## Network
 
 ### Firewall Layer
 
@@ -10,7 +12,7 @@ The firewalls will share a virtual IP through the use of Common Address Redundan
 
 ### Core Layer
 
-This layer uses a pair of VyOS routers and they act as the routing backbone for the North Star lab. Each point-to-point (PTP) link uses a VLSM segment of the 10.0.71.0/30 network to connect between the routers and to the spines.  
+This layer uses a pair of VyOS routers and they act as the routing backbone for the North Star lab. There are five point-to-point (PTP) links in total and they each use a separate /30 subnet, using the 10.0.71.0 network, to connect between the routers and to the spines.  
 
 All networks are propagated via OSPF Area 0.
 
@@ -42,11 +44,45 @@ The switches are fully deployed using the `ansible_connection: httpapi` plugin.
 
 ### Out-of-band Management
 
-- In order to configure the devices using Ansible, an out-of-band-management (OOBM) network was needed to replicate what would be done in a production environment with a separate OOBM network. This lab simulates this using a separate GNS3 Ethernet switch connected to the network devices via a dedicated VRF management network on vlan 10.  
+In order to configure the devices using Ansible, an out-of-band-management (OOBM) network was needed to replicate what would be done in a production environment with a separate OOBM network. This lab simulates this using a separate GNS3 Ethernet switch connected to the network devices via a dedicated VRF management network on vlan 10.  
 
-A bootstrap configuration is needed to configure the required settings so that Ansible can communicate with the switches.
+A bootstrap configuration is needed to configure the required settings so that Ansible can communicate with the switches.  
 
-## Security Standards Framework
+## North Star Monitoring Tools
+
+North Star has three monitoring domains:
+
+### Network Domain  
+
+This domain monitors the traffic flows within North Star using ntopng.
+
+It is able to:
+
+- Track bandwidth usage on select interfaces within North Star
+- Identify traffic flows, and their sources, and unusual traffic patterns
+- Displays in the ntopng dashboard
+
+### Security Domain  
+
+This domain is the logs, detection, and alerts all displayed in Splunk. Its primary purpose within North Star is to provide a central location for detecting threats so that an Administrator can investigate.
+
+It does the following:
+
+- Collects and correlates logs from servers, firewalls, and endpoints
+- Detects suspicious activity
+- Displays in the Splunk dashboard
+
+### Infrastructure Domain  
+
+This domain monitors the system health and performance of devices within North Star using a combination of Grafana and Prometheus.
+
+It does the following:
+
+- Uses Prometheus to collect metrics from chosen devices (CPU, RAM, Disk etc.)
+- Tracks system trends over time
+- Displays in the Grafana dashboard
+
+## Security Hardening Controls
 
 ### Purpose
 
@@ -65,8 +101,7 @@ North Star will align to NIST 800-53 framework as the primary control document w
 - NIST 800-70 Rev.4 (National Checklist Program for IT Products: Guidelines for Administrator of Security Configuration Checklists)
 
 Hardening Controls:  
-
-Establish a baseline configuration for all network infrastructure devices including secure configuration checklist for bootstrap settings
+Establish a baseline configuration for all network infrastructure devices including secure configuration checklists  
 `Reference: NIST 800-128 (Section 2.3.7 Baseline Configuration)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.5 Configuration Management: CM-2 Baseline Configuration)`  
 `Reference: NIST 800-70 Rev. 4 (Section 2.1 Security Configuration Checklists)`  
@@ -114,7 +149,7 @@ Centralized logging and Restrict Privileged Users to Read-only
 `Reference: NIST 800-92 (Section 2.3.1 Log Generation and Storage)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.3 Audit and Accountability: AU-9:(6) Protection of Audit Information: Read-only Access)`  
 
-**Proxmox Windows and Linux host servers with VMS**  
+**Proxmox Windows and Linux host servers with virtual machines**  
 Referenced Standards:  
 
 - NIST 800-53 Rev.5 (Security and Privacy Controls for Information Systems and Organizations)
@@ -125,7 +160,6 @@ Referenced Standards:
 - NIST 800-92 (Guide to Computer Security Log Management)
 
 Hardening Controls:  
-
 Apply secure baseline configurations  
 `Reference: NIST 800-53 Rev. 5 (Section 3.5 Configuration Management: CM-2 Baseline Configuration)`  
 `Reference: NIST 800-70 Rev. 4 (Section 2.1 Security Configuration Checklists)`  
@@ -165,7 +199,6 @@ Referenced Standards:
 - NIST 800-137 (Information Security Continuous Monitoring for Federal Information Systems and Organizations)
 
 Hardening Controls:  
-
 Apply regular patch management  
 `Reference: NIST 800-53 Rev. 5 (Section 3.19 System and Information Integrity: SI-2 Flaw Remediation)`  
 
@@ -189,7 +222,6 @@ Referenced Standards:
 - NIST 800-53 Rev.5 (Security and Privacy Controls for Information Systems and Organizations)
 
 Hardening Controls:  
-
 Enable continuous monitoring across the entire lab  
 `Reference: NIST 800-53 Rev. 5 (Section 3.19 System and Information Integrity: SI-4 System Monitoring)`  
 `Reference: NIST 800-137 (Section 3.3 Implement an ISCM Program)`  
