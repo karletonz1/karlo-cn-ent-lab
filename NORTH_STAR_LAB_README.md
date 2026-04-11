@@ -186,6 +186,8 @@ To view what was tested and the results of the testing, see the [lab_scenarios](
 
 Challenges and Wins:
 
+1. The bootstrap configuration of the VyOS routers were relatively simple. However, the initial firewall lockout scenario played havoc especially since I was trying to connect to it via a Win10 Client attached to the leafs on vlan 20. The bootstrapped firewalls had no awareness of routes or OSPF but was only away of directly connected routes. A manual configuration was required to tell the firewalls to use the IP address of the connected router as the destination for any traffic marked for the 10.0.0.0/16 network. This allowed my Win10 pc to connect via HTTPS and continue the configuration via the GUI.
+
 ## Contact
 
 - GitHub: <https://github.com/karletonz1>
