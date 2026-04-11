@@ -1,4 +1,7 @@
 ---
+spanning_tree_mode: mst
+spanning_tree_priority: "16384"
+
 leaf_interfaces:
 - name: "ethernet5"
   peer: "karlo-cn-spine-02"
