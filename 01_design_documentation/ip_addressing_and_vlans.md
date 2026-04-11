@@ -149,6 +149,7 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | -------- | --------- | ----------------- | ------------ | ---- | --------- |
 | karlo-cn-leaf-01 | eth5 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-01 | Trunk |
 | karlo-cn-leaf-01 | eth6 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-02 | Trunk |
+| karlo-cn-leaf-01 | eth12 | e0 | 20 | Access uplink to karlo-leaf-01 | Access |
 
 ### Leaf 02 Port-Channel
 
@@ -163,8 +164,8 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 
 | Hostname | GNS3 Port | IP Address | Vlan ID | Subnet | Gateway | MTU | Role | Link type |
 | -------- | --------- | ---------- | ------- | ------ | ------- | --- | ---- | -------- |
-| karlo-cn-kvm-01 | eth0 | 10.0.50.1 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-cn-leaf-01 | Access |
-| karlo-cn-kvm-02 | eth0 | 10.0.50.2 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-cn-leaf-02 | Access |
+| karlo-cn-kvm-01 | eth0 | 10.0.50.100 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-cn-leaf-01 | Access |
+| karlo-cn-kvm-02 | eth0 | 10.0.50.200 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-cn-leaf-02 | Access |
 
 ### Client IP Address
 
