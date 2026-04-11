@@ -94,6 +94,8 @@
         lines:
           - set protocols ospf interface eth1 area '0'
           - set protocols ospf interface eth2 area '0'
+          - set protocols ospf interface eth4 area '0'
+          - set protocols ospf interface eth5 area '0'
           - set protocols ospf interface bond0 area '0'
           - set protocols ospf interface lo area '0'
 
@@ -102,4 +104,6 @@
         lines:
           - set protocols ospf interface eth1 network 'point-to-point'
           - set protocols ospf interface eth2 network 'point-to-point'
+          - set protocols ospf interface eth4 network 'point-to-point'
+          - set protocols ospf interface eth5 network 'point-to-point'          
           - set protocols ospf interface bond0 network 'point-to-point'
