@@ -101,7 +101,7 @@ Automation
    It also includes the master [IP addressing table](01_design_documentation/ip_addressing_and_vlans.md) for all the IP address and VLANs used.
 
 2. Review North Star Deployment Files  
-   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used.  
+   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used. This also has the [Arista switch](02_north_star_deployment/network_devices/switches_routers/veos_switch_guide_readme.md) and [VyOS router](02_north_star_deployment/network_devices/switches_routers/veos_switch_guide_readme.md) readme guides which has the technical details on how they are used in North Star.
 
 3. Read Lab Scenarios  
    Open [scenario_testing](03_scenario_testing) to read about the various scenarios conducted. The scenario pages will follow a format as follows:  
@@ -180,11 +180,31 @@ Challenges and Wins:
 
 The end of phase 3 marked the successful deployment of playbooks to configure all of the Leaf and Spine switches as well as both routers. Hardening configurations were also set which were appropriate for the point the lab was currently at. Authentication still required services and Domain Controllers to be provisioned, but this would be looked at during later phases.
 
-Phase 4 took a different approach and focussed on the manual deployment of the OPNsense firewalls, with a view to push Ansible automation once API keys and users have been created on the devices. It was also an opportune time to review the data flows in various testing scenarios to ensure that inter-VLAN routing and redundant link/node failures was working as intended before moving onto Phase 5.
+Phase 4 took a different approach and the objective was to manually deploy the OPNsense firewalls as a baseline, test inter-VLAN routing, and validate link redundancy before applying Ansible automation before moving onto Phase 5.
 
 To view what was tested and the results of the testing, see the [lab_scenarios](03_scenario_testing/lab_scenarios) page.
 
 Challenges and Wins:
+
+1. The initial bootstrap of the VyOS routers was relatively straightforward, but provisioning the firewalls presented a classic routing catch-22. I attempted to configure the bootstrapped firewalls from a Win10 client on VLAN 20. However, the firewalls were only aware of directly connected subnets and lacked a return route to the 10.0.0.0/16 network. A manual static route pointing to the connected router's IP was required to establish the initial HTTPS GUI connection
+
+2. During initial testing, the OPNsense GUI was taking an unusually long time to load on the Win10 PC. Basic connectivity was established, so I initiated deep-dive packet captures to diagnose
+
+   The packet analysis revealed that SYN-ACKs were not reaching the client, causing the PC to wait for timeouts before retransmitting SYN requests. By temporarily connecting the PC directly to the firewall, the issue disappeared, isolating the fault to a network issue. After ruling out MTU mismatches and TCP MSS clamping issues, I identified the root cause in the routing plane.
+
+   The current network was relying on OSPF Equal-Cost Multi-Path (ECMP) routing at the router layer. While good for load-balancing stateless traffic, ECMP was causing asymmetric routing. The return traffic from the stateful firewall was taking a different path than the outbound traffic, causing the firewall to drop the packets.  
+
+   The troubleshooting highlighted a limitation of traditional Layer 2 MLAG and Layer 3 ECMP designs when interacting with independent stateful perimeter devices, without additional tools to manage these limitations.  
+
+   Some possible solutions were:
+   1. Apply a local fix by forcing active/standby routing or heavily tuning OSPF path costs for all traffic.
+   2. Enforce only a specific VLAN have access to the firewall and apply static routes to use specific paths for this network.  
+   3. Treat this baseline failure as a catalyst to deploy a modern solution to the entire lab.
+
+   Herein lay the ultimate Catch-22, the network design did intend to configure the firewalls as a synchronized High Availability cluster but because the ECMP routing was dropping my initial provisioning traffic, I couldn't reliably access the GUI to actually build the HA cluster in the first place.
+
+
+### Phase 5: Back to the future
 
 ## Contact
 
