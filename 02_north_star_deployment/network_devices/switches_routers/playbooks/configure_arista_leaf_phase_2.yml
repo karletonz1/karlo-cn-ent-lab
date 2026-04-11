@@ -20,6 +20,7 @@
         lines:
           - "enable password {{ vault_leaf_enable_pass }}"
 
+### VLAN Configuration ###
     - name: "Configure VLANs"
       arista.eos.eos_vlans:
         config:
@@ -28,7 +29,6 @@
         state: merged
       loop: "{{ north_star_vlans }}"
 
-### VLAN Configuration ###
     - name: "Configure VLAN Descriptions"
       arista.eos.eos_interfaces:
         config:
@@ -43,9 +43,29 @@
         config:
           - name: "{{ item.name }}"
             description: "Uplink to {{ item.peer }}"
-            enabled: true # For non-Arista devices
         state: merged
       loop: "{{ leaf_interfaces }}"
+
+    - name: "Configure Physical Access Interface Descriptions "
+      arista.eos.eos_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            description: "Uplink to {{ item.peer }}"
+        state: merged
+      loop: "{{ leaf_interfaces_access }}"
+      when: inventory_hostname == "karlo-cn-leaf-01"
+
+    - name: "Configure Physical Access Interfaces"
+      arista.eos.eos_l2_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            mode: "{{ item.mode }}"
+            access:
+              vlan: "{{ item.vlan }}"
+        state: merged
+      loop: "{{ leaf_interfaces_access }}"
+      when: inventory_hostname == "karlo-cn-leaf-01"
+
 
 ### Global Port-Channel Configuration ###
     - name: "Configure Port Channels on Physical Interfaces"
