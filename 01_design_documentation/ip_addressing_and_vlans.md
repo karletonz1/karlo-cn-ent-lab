@@ -99,6 +99,8 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
 | karlo-cn-rtr-01 | eth1 | 10.0.71.0/30 | 10.0.71.1/30 | 10.0.71.3/30 | 1500 | PTP link between Router-01 and Spine-01 | PTP |
 | karlo-cn-rtr-01 | eth2 | 10.0.71.4/30 | 10.0.71.5/30 | 10.0.71.7/30 | 1500 | PTP link between Router-01 and Spine-02 | PTP |
+| karlo-cn-rtr-01 | eth4 | 10.0.72.0/30 | 10.0.72.2/30 | 10.0.72.3/30 | 1500 | PTP link between Router-01 and firewall-01 | PTP |
+| karlo-cn-rtr-01 | eth5 | 10.0.72.8/30 | 10.0.72.10/30 | 10.0.72.11/30 | 1500 | PTP link between Router-01 and firewall-02 | PTP |
 | karlo-cn-rtr-01 | eth8/9:bond0 | 10.0.71.16/30 | 10.0.71.17/30 | 10.0.71.19/30 | 1500 | LAG Link between RTR-01/02 | PTP |
 
 ### Router 02 PTP Address
@@ -107,6 +109,8 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
 | karlo-cn-rtr-02 | eth1 | 10.0.71.8/30 | 10.0.71.9/30 | 10.0.71.11/30 | 1500 | PTP link between Router-02 and Spine-02 | PTP |
 | karlo-cn-rtr-02 | eth2 | 10.0.71.12/30 | 10.0.71.13/30 | 10.0.71.15/30 | 1500 | PTP link between Router-02 and Spine-01 | PTP |
+| karlo-cn-rtr-02 | eth4 | 10.0.72.12/30 | 10.0.72.14/30 | 10.0.72.15/30 | 1500 | PTP link between Router-02 and Firewall-02 | PTP |
+| karlo-cn-rtr-02 | eth5 | 10.0.72.4/30 | 10.0.72.6/30 | 10.0.72.7/30 | 1500 | PTP link between Router-02 and Firewall-01 | PTP |
 | karlo-cn-rtr-02 | eth8/9:bond0 | 10.0.71.16/30 | 10.0.71.18/30 | 10.0.71.19/30 | 1500 | LAG Link between RTR-01/02 | PTP |
 
 ### Spine 01 PTP Address
