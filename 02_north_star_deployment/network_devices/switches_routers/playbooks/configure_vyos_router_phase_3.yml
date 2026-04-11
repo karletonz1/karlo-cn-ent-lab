@@ -23,15 +23,20 @@
           - set service ssh access-control deny user root
           - set service ssh client-keepalive-interval "300"
 
-    - name: "Management ACLs"
+    - name: "Management ACL to allow access from Ansible host only"
       vyos.vyos.vyos_config:
         lines:
           - set firewall group address-group MGT address "10.0.10.253"
-          - set firewall ipv4 input filter default-action "drop"
           - set firewall ipv4 input filter rule 10 action "accept"
           - set firewall ipv4 input filter rule 10 destination port "22"
           - set firewall ipv4 input filter rule 10 protocol "tcp"
           - set firewall ipv4 input filter rule 10 source group address-group "MGT"
+          - set firewall ipv4 input filter rule 10 action "accept"      
+          - set firewall ipv4 input filter rule 20 action "drop"
+          - set firewall ipv4 input filter rule 20 destination port "22"
+          - set firewall ipv4 input filter rule 20 protocol "tcp"
+          - set firewall ipv4 input filter rule 20 action "drop"     
+          - set firewall ipv4 input filter default-action "accept"
 
 #### Configure Physical Interfaces Description and MTU ###
     - name: "Configure Physical Interfaces"
@@ -105,5 +110,5 @@
           - set protocols ospf interface eth1 network 'point-to-point'
           - set protocols ospf interface eth2 network 'point-to-point'
           - set protocols ospf interface eth4 network 'point-to-point'
-          - set protocols ospf interface eth5 network 'point-to-point'          
+          - set protocols ospf interface eth5 network 'point-to-point'
           - set protocols ospf interface bond0 network 'point-to-point'
