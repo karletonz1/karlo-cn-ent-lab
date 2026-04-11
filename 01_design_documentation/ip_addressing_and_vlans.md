@@ -30,7 +30,18 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | Link 2 | 10.0.71.4/30 | Router-01 to Spine-02 PTP link |
 | Link 3 | 10.0.71.8/30 | Router-02 to Spine-02 PTP link |
 | Link 4 | 10.0.71.12/30 | Router-02 to Spine-01 PTP link |
-| Link 5 | 10.0.71.16/30 | Router-01 to Router-02 PTP Bond0 Link |
+| Sync | 10.0.71.16/30 | Router-01 to Router-02 PTP Bond0 Link |
+
+### Firewall Subnets
+
+| Link | Subnet | Purpose |  
+| ---- | ------ | ------- |
+| Link 6 | 10.0.72.0/30 | Firewall-01 to Router-01 PTP link |
+| Link 7 | 10.0.72.4/30 | Firewall-01 to Router-02 PTP link |
+| Link 8 | 10.0.72.8/30 | Firewall-02 to Router-01 PTP link |
+| Link 9 | 10.0.72.12/30 | Firewall-02 to Router-02 PTP link |
+| Sync | 10.0.72.16/30 | Firewall-01 to Firewall-01 PTP Sync link |
+| WAN | 10.0.72.24/29 | Firewall to WAN CARP Gateway link |
 
 ## SVI Allocations
 
@@ -68,13 +79,19 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 
 | Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
-| karlo-cn-fw-01 | eth1 | - | - | - | 1500 | PTP link between Firewall-01 and Router-01 | PTP |
+| karlo-cn-fw-01 | vtnet0 | 10.0.72.24/29 | 10.0.72.25/29 | 10.0.72.31/29 | 1500 | Firewall-01 WAN Link | PTP |
+| karlo-cn-fw-01 | vtnet1 | 10.0.72.16/30 | 10.0.72.17/30 | 10.0.72.19/30 | 1500 | PTP Sync link between Firewall-01 and Firewall-02 | PTP |
+| karlo-cn-fw-01 | vtnet2 | 10.0.72.0/30 | 10.0.72.1/30 | 10.0.72.3/30 | 1500 | PTP link between Firewall-01 and Router-01 | PTP |
+| karlo-cn-fw-01 | vtnet3 | 10.0.72.4/30 | 10.0.72.5/30 | 10.0.72.7/30 | 1500 | PTP link between Firewall-01 and Router-02 | PTP |
 
 ### Firewall 02 IP Address
 
 | Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
-| karlo-cn-fw-02 | eth1 | - | - | - | 1500 | PTP link between Firewall-01 and Router-01 | PTP |
+| karlo-cn-fw-02 | vtnet0 | 10.0.72.24/29 | 10.0.72.26/29 | 10.0.72.31/29 | 1500 | Firewall-02 WAN Link | PTP |
+| karlo-cn-fw-02 | vtnet1 | 10.0.72.16/30 | 10.0.72.18/30 | 10.0.72.19/30 | 1500 | PTP Sync link between Firewall-02 and Firewall-01 | PTP |
+| karlo-cn-fw-02 | vtnet2 | 10.0.72.8/30 | 10.0.72.9/30 | 10.0.72.11/30 | 1500 | PTP link between Firewall-02 and Router-01 | PTP |
+| karlo-cn-fw-02 | vtnet3 | 10.0.72.12/30 | 10.0.72.13/30 | 10.0.72.15/30 | 1500 | PTP link between Firewall-02 and Router-02 | PTP |
 
 ### Router 01 PTP Address
 
