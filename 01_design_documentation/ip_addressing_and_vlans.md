@@ -172,6 +172,7 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | Hostname | GNS3 Port | IP Address | Vlan ID | Subnet | Gateway | MTU | Role | Link type |
 | -------- | --------- | ---------- | ------- | ------ | ------- | --- | ---- | -------- |
 | karlo-cn-ansible | eth0 | 10.0.10.253 | 10 | 10.0.10.0/24 | 10.0.10.254 | 1500 | Uplink to karlo-cn-leaf-01 | Access |
+| win10 | NIC1 | 10.0.20.100 | 20 | 10.0.20.0/24 | 10.0.20.254 | 1500 | Uplink to karlo-cn-leaf-01 | Access |
 
 ## Managment IP Allocations
 
