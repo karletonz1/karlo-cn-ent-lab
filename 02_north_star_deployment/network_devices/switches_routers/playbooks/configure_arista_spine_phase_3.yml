@@ -18,28 +18,21 @@
     - name: "Configure Management ACLs"
       arista.eos.eos_config:
         lines:
-          - ip access-list standard RESTRICT_MGMT
-          - permit host 10.0.10.253
-          - deny any log
-        save_when: modified
+          - "permit host 10.0.10.253"
+          - "deny any log"
+        parents: "ip access-list standard RESTRICT_MGMT"
 
-    - name: "Configure SSH Management"
-      arista.eos.eos_config:
-        lines:
-          - management ssh
-          - ip access-group RESTRICT_MGMT in
-
-    - name: "Disable Telnet"
-      arista.eos.eos_config:
-        lines:
-          - management ssh
-          - no management telnet
-
-    - name: "Configure SSH timeout"
+    - name: "Configure SSH Management & Timeout"
       arista.eos.eos_config:
         lines:
           - "idle-timeout 15"
+          - "ip access-group RESTRICT_MGMT in"
         parents: "management ssh"
+
+    - name: "Disable Telnet Globally"
+      arista.eos.eos_config:
+        lines:
+          - "no management telnet"
 
     - name: "Configure Hostname"
       arista.eos.eos_system:
@@ -191,11 +184,11 @@
     - name: "Configure MLAG Process"
       arista.eos.eos_config:
         lines:
-          - "mlag configuration"
           - "domain-id NORTH_STAR"
           - "local-interface Vlan70"
           - "peer-address {{ mlag.peer_ip }}"
           - "peer-link Port-Channel 70"
+        parents: "mlag configuration"
 
 ### Save Configuration ###
     - name: "Save Configuration"
