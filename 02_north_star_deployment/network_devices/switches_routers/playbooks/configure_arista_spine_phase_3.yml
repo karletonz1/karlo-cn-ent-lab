@@ -163,22 +163,29 @@
     - name: "Configure PTP Interfaces"
       arista.eos.eos_config:
         lines:
-          - description "{{ item.description }}"
-          - no switchport
-          - ip address {{ item.ip_address }}
-          - ip ospf network {{ item.network }}
-          - ip ospf area {{ item.area }}
+          - "description {{ item.description }}"
+          - "no switchport"
+          - "ip address {{ item.ip_address }}"
+          - "ip ospf network {{ item.network }}"
+          - "ip ospf area {{ item.area }}"
         parents: "interface {{ item.name }}"
       loop: "{{ ospf_interfaces }}"
 
     - name: "Configure Global OSPF Process"
       arista.eos.eos_config:
         lines:
-          - router-id {{ ospf_router_id.router_id }}
-          - passive-interface default
-          - no passive-interface Ethernet1
-          - no passive-interface Ethernet2
+          - "router-id {{ ospf_router_id.router_id }}"
+          - "passive-interface default"
+          - "no passive-interface Ethernet1"
+          - "no passive-interface Ethernet2"
         parents: "router ospf 1"
+
+    - name: "Enable OSPF on SVIs"
+      arista.eos.eos_config:
+        lines:
+          - "ip ospf area 0"
+        parents: "interface vlan{{ item.vlan }}"
+      loop: "{{ ospf_svi_vlans }}"
 
 ### MLAG Peer Domain Configuration ###
     - name: "Configure MLAG Process"
