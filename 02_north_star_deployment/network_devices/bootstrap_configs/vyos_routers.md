@@ -1,4 +1,16 @@
-# Router Bootstrap Configuration
+# VyOS Router Bootstrap
+
+## Purpose
+
+This document serves as the initial configuration checklist for bootstrapping the VyOS routers. It is the minimum configuration required via CLI to allow Ansible to reach the devices before pushing the remaining configuration via automation.
+
+## Prerequisites
+
+:white_check_mark: GNS3 topology is cabled according to the physical design.
+
+:white_check_mark: All routers are powered on.
+
+:white_check_mark: GNS3 console access is working.  
 
 Manual Bootstrap: Minimum configuration required via CLI to allow Ansible to reach the devices before pushing the remaining configuration via automation.
 
