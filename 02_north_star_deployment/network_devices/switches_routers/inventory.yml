@@ -9,6 +9,10 @@ all:
                ansible_host: 10.0.10.106
              karlo-cn-leaf-02:
                ansible_host: 10.0.10.107
+             karlo-cn-leaf-03:
+               ansible_host: 10.0.10.108
+             karlo-cn-leaf-04:
+               ansible_host: 10.0.10.109
          arista_spine_switches:
            hosts:
              karlo-cn-spine-01:
