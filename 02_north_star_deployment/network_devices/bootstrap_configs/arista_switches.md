@@ -17,7 +17,7 @@ This document serves as the initial configuration checklist for bootstrapping th
 > [!NOTE]
 > Default credentials for a new vEOS switch is admin, no password
 
-## karlo-cn-leaf-01 Bootstrap Config  
+## karlo-cn-prd-al01 Bootstrap Config  
 
 ```text
 enable
@@ -50,7 +50,7 @@ exit
 copy run start
 ```
 
-## karlo-cn-leaf-02 Bootstrap Config  
+## karlo-cn-prd-al02 Bootstrap Config  
 
 ```text
 enable
@@ -83,7 +83,73 @@ exit
 copy run start
 ```
 
-## karlo-cn-spine-01 Bootstrap Config  
+## karlo-cn-prd-al03 Bootstrap Config  
+
+```text
+enable
+config
+
+! Management User
+username leafadmin privilege 15 secret "{{ vault_leaf_admin_pass }}"
+enable password "{{ vault_leaf_enable_pass }}"
+
+! Enable eAPI
+management api http-commands
+   protocol https
+   no protocol HTTP
+   no shutdown
+   vrf management
+   no shutdown
+   exit
+
+! Create the management VRF
+vrf instance management
+
+! Configure the physical management port
+interface Management1
+   description OOBM-TO-ANSIBLE
+   vrf management
+   ip address 10.0.10.108/24
+   no shutdown
+exit
+
+copy run start
+```
+
+## karlo-cn-prd-al04 Bootstrap Config  
+
+```text
+enable
+config
+
+! Management User
+username leafadmin privilege 15 secret "{{ vault_leaf_admin_pass }}"
+enable password "{{ vault_leaf_enable_pass }}"
+
+! Enable eAPI
+management api http-commands
+   protocol https
+   no protocol HTTP
+   no shutdown
+   vrf management
+   no shutdown
+   exit
+
+! Create the management VRF
+vrf instance management
+
+! Configure the physical management port
+interface Management1
+   description OOBM-TO-ANSIBLE
+   vrf management
+   ip address 10.0.10.109/24
+   no shutdown
+exit
+
+copy run start
+```
+
+## karlo-cn-prd-sp01 Bootstrap Config  
 
 ```text
 enable
@@ -116,7 +182,7 @@ exit
 copy run start
 ```
 
-## karlo-cn-spine-02 Bootstrap Config  
+## karlo-cn-prd-sp02 Bootstrap Config  
 
 ```text
 enable
