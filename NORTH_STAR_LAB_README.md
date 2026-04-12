@@ -101,7 +101,7 @@ Automation
    It also includes the master [IP addressing table](01_design_documentation/ip_addressing_and_vlans.md) for all the IP address and VLANs used.
 
 2. Review North Star Deployment Files  
-   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used.  
+   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used. This also has the [Arista switch](02_north_star_deployment/network_devices/switches_routers/veos_switch_guide_readme.md) and [VyOS router](02_north_star_deployment/network_devices/switches_routers/veos_switch_guide_readme.md) readme guides which has the technical details on how they are used in North Star.
 
 3. Read Lab Scenarios  
    Open [scenario_testing](03_scenario_testing) to read about the various scenarios conducted. The scenario pages will follow a format as follows:  
@@ -187,6 +187,24 @@ To view what was tested and the results of the testing, see the [lab_scenarios](
 Challenges and Wins:
 
 1. The bootstrap configuration of the VyOS routers were relatively simple. However, the initial firewall lockout scenario played havoc especially since I was trying to connect to it via a Win10 Client attached to the leafs on vlan 20. The bootstrapped firewalls had no awareness of routes or OSPF but was only away of directly connected routes. A manual configuration was required to tell the firewalls to use the IP address of the connected router as the destination for any traffic marked for the 10.0.0.0/16 network. This allowed my Win10 pc to connect via HTTPS and continue the configuration via the GUI.
+
+2. I found that connecting to the OPNsense GUI was taking an extremely long time to load on the Win10 PC. Troubleshooting steps were taken to determine that connectivity between the client and the firewall was working.
+
+   Deep troubleshooting discovered that the SYN-ACK were not being received by the PC which caused it to wait at least 15 seconds before sending another SYN request which made the page appear to be stuck in loading. Connecting the PC directly to the OPNsense firewall fixed the loading issue and it verified the issue with the network. Various steps were taken to rule out MTU mismatches, MSS issues, and initial config hurdles with the firewall itself.
+
+   I discovered that I had made a fundamental miscalculation in the design of the network. I realized that OSPF ECMP breaks independent stateful firewalls and that there were limits to the traditional MLAG/OSPF routing. This was the case with the return traffic from the firewall and the routers essentially choosing which path they wanted since there were two equal paths installed and active in their routing tables.
+
+   The solutions to fix this fell into two categories: possible options that would allow an active/standby design at the router level or tuning of OSPF to fix this specific issue, or pivot to a potentially more complex solution but modern technology and would compliment my developing knowledge of infrastructure-as-a-code with large scale deployment skills.
+
+   I decided to modernize the core design and this was the catalyst needed to redo the legacy foundation and rebuild it using EVPN/VXLAN. This would require a huge pivot from the original design, and a significant part of the existing playbooks, inventory and host files, were redundant and needed archiving. Physical and logical topologies needed updating since I also decided to add two extra leaf switches. Add to the mountain of tasks was the rebuilding of my Ansible Host due to an untimely delete in GNS3. It was then I discovered my handy CTL+Z had no power in the land of GNS3.
+
+   Some of the benefits of EVPN/VXLAN are well documented and would take up too much space to recount here. But the key benefit for myself is learning a modern technology applied in cutting edge organizations and facing the challenge of applying this through automation just like North Star version 1.
+
+With the significant pivot to the new architecture confirmed, the next phase would put me back into hardware mode and recreate the infrastructure before heading back to the firewalls and proceeding with the original tasks of phase 4.
+
+### Phase 5: Back to the future
+
+
 
 ## Contact
 
