@@ -454,28 +454,32 @@ exit
 
 ## Verification Tests
 
->[!NOTE] Use the following OSPF neighbor commands to verify devices can see their neighbors
+>[!NOTE]
+>Use the following OSPF neighbor commands to verify devices can see their neighbors
 
 | Device | Command | Success Criteria |
 | ------ | ------- | ----- |
 | All switches | show ip ospf neighbor | Success Criteria: You should see the Router IDs of the directly connected neighbors. The state must say FULL. If it says INIT, 2-WAY, or EXSTART, your MTU might be mismatched or packets are dropping. |
 | VyOS border leafs | show ip ospf neighbor | Success Criteria: You should see the Router IDs of the directly connected neighbors. The state must say FULL. If it says INIT, 2-WAY, or EXSTART, your MTU might be mismatched or packets are dropping. |
 
->[!NOTE] Use the following route commands once neighbors in 'full' status to indicate they can now exchange their databases.  
+>[!NOTE]
+>Use the following route commands once neighbors in 'full' status to indicate they can now exchange their databases.  
 
 | Device | Command | Success Criteria |
 | ------ | ------- | ----- |
 | All switches | show ip route ospf | Success Criteria: You should see a list of /32 routes for every single switch and router in the fabric. We specifically want to see everyone's Loopback0 IP |
 | VyOS border leafs | show ip route ospf | Success Criteria: You should see a list of /32 routes for every single switch and router in the fabric. We specifically want to see everyone's Loopback0 IP |
 
->[!NOTE] Ensure the each device is able to ping using the Router's loopback address.  
+>[!NOTE]
+>Ensure the each device is able to ping using the Router's loopback address.  
 
 | Device | Command | Success Criteria |
 | ------ | ------- | ----- |
 | All switches | ping { IP address } source { Loopback address of testing switch } | Success Criteria: 100% success rate |
 | VyOS border leaf | ping { IP address } interface dum0 | Success Criteria: 100% success rate |
 
->[!NOTE] We need to verify that Jumbo frame configuration has been applied successfully. This is critical for EVPN/VXLAN.
+>[!NOTE]
+>We need to verify that Jumbo frame configuration has been applied successfully. This is critical for EVPN/VXLAN.
 
 | Device | Command | Success Criteria |
 | ------ | ------- | ----- |
