@@ -52,6 +52,32 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | karlo-cn-prd-fw02 | /31 | 10.0.70.30 | vtnet2 | karlo-cn-prd-bl02 | 10.0.70.31 | eth8 | PTP link between Firewall-02 and Border Leaf 02 |
 | karlo-cn-prd-fw01 | /31 | 10.0.70.32 | sync | karlo-cn-prd-fw02 | 10.0.70.33 | sync | PTP link between Firewall-01 and Firewall-02 |
 
+## ASN
+
+Spine 01: AS 65010
+Spine 02: AS 65020
+Access Leaf 01: AS 65001
+Access Leaf 02: AS 65002
+Access Leaf 03: AS 65003
+Access Leaf 04: AS 65004
+Border Leaf 01: AS 65101
+Border Leaf 02: AS 65102
+
+## Anycast Gateways
+
+| VLAN | Name  | Device A IP | Interface | Device B | Device B IP | Interface | Description |
+
+| VLAN | Name | Anycast Gateway IP | vMAC | VNI |
+| ---- | ---- | ------------------ | ---- | --- |
+| 10 | INFRA-MGMT | 10.0.10.254/24 | 00:1c:73:00:00:99 | 10010 |
+| 11 | SRV-MGMT | 10.0.11.254/24 | 00:1c:73:00:00:99 | 10011 |
+| 20 | WIN-CLIENTS | 10.0.20.254/24 | 00:1c:73:00:00:99 | 10020 |
+| 21 | LIN-CLIENTS | 10.0.21.254/24 | 00:1c:73:00:00:99 | 10021 |
+| 30 | SEC-APPS | 10.0.30.254/24 | 00:1c:73:00:00:99 | 10030 |
+| 40 | DMZ | 10.0.40.254/24 | 00:1c:73:00:00:99 | 10040 |
+| 50 | PRD-SVRS | 10.0.50.254/24 | 00:1c:73:00:00:99 | 10050 |
+| 60 | BACKUPS | 10.0.60.254/24 | 00:1c:73:00:00:99 | 10060 |
+
 ## Subnet Allocation  
 
 ### VLANs
