@@ -180,31 +180,38 @@ Challenges and Wins:
 
 The end of phase 3 marked the successful deployment of playbooks to configure all of the Leaf and Spine switches as well as both routers. Hardening configurations were also set which were appropriate for the point the lab was currently at. Authentication still required services and Domain Controllers to be provisioned, but this would be looked at during later phases.
 
-Phase 4 took a different approach and focussed on the manual deployment of the OPNsense firewalls, with a view to push Ansible automation once API keys and users have been created on the devices. It was also an opportune time to review the data flows in various testing scenarios to ensure that inter-VLAN routing and redundant link/node failures was working as intended before moving onto Phase 5.
+Phase 4 took a different approach and the objective was to manually deploy the OPNsense firewalls as a baseline, test inter-VLAN routing, and validate link redundancy before applying Ansible automation before moving onto Phase 5.
 
 To view what was tested and the results of the testing, see the [lab_scenarios](03_scenario_testing/lab_scenarios) page.
 
 Challenges and Wins:
 
-1. The bootstrap configuration of the VyOS routers were relatively simple. However, the initial firewall lockout scenario played havoc especially since I was trying to connect to it via a Win10 Client attached to the leafs on vlan 20. The bootstrapped firewalls had no awareness of routes or OSPF but was only away of directly connected routes. A manual configuration was required to tell the firewalls to use the IP address of the connected router as the destination for any traffic marked for the 10.0.0.0/16 network. This allowed my Win10 pc to connect via HTTPS and continue the configuration via the GUI.
+1. The initial bootstrap of the VyOS routers was relatively straightforward, but provisioning the firewalls presented a classic routing catch-22. I attempted to configure the bootstrapped firewalls from a Win10 client on VLAN 20. However, the firewalls were only aware of directly connected subnets and lacked a return route to the 10.0.0.0/16 network. A manual static route pointing to the connected router's IP was required to establish the initial HTTPS GUI connection
 
-2. I found that connecting to the OPNsense GUI was taking an extremely long time to load on the Win10 PC. Troubleshooting steps were taken to determine that connectivity between the client and the firewall was working.
+2. During initial testing, the OPNsense GUI was taking an unusually long time to load on the Win10 PC. Basic connectivity was established, so I initiated deep-dive packet captures to diagnose
 
-   Deep troubleshooting discovered that the SYN-ACK were not being received by the PC which caused it to wait at least 15 seconds before sending another SYN request which made the page appear to be stuck in loading. Connecting the PC directly to the OPNsense firewall fixed the loading issue and it verified the issue with the network. Various steps were taken to rule out MTU mismatches, MSS issues, and initial config hurdles with the firewall itself.
+   The packet analysis revealed that SYN-ACKs were not reaching the client, causing the PC to wait for timeouts before retransmitting SYN requests. By temporarily connecting the PC directly to the firewall, the issue disappeared, isolating the fault to a network issue. After ruling out MTU mismatches and TCP MSS clamping issues, I identified the root cause in the routing plane.
 
-   I discovered that I had made a fundamental miscalculation in the design of the network. I realized that OSPF ECMP breaks independent stateful firewalls and that there were limits to the traditional MLAG/OSPF routing. This was the case with the return traffic from the firewall and the routers essentially choosing which path they wanted since there were two equal paths installed and active in their routing tables.
+   The current network was relying on OSPF Equal-Cost Multi-Path (ECMP) routing at the router layer. While good for load-balancing stateless traffic, ECMP was causing asymmetric routing. The return traffic from the stateful firewall was taking a different path than the outbound traffic, causing the firewall to drop the packets.  
 
-   The solutions to fix this fell into two categories: possible options that would allow an active/standby design at the router level or tuning of OSPF to fix this specific issue, or pivot to a potentially more complex solution but modern technology and would compliment my developing knowledge of infrastructure-as-a-code with large scale deployment skills.
+   The troubleshooting highlighted a limitation of traditional Layer 2 MLAG and Layer 3 ECMP designs when interacting with independent stateful perimeter devices, without additional tools to manage these limitations.  
 
-   I decided to modernize the core design and this was the catalyst needed to redo the legacy foundation and rebuild it using EVPN/VXLAN. This would require a huge pivot from the original design, and a significant part of the existing playbooks, inventory and host files, were redundant and needed archiving. Physical and logical topologies needed updating since I also decided to add two extra leaf switches. Add to the mountain of tasks was the rebuilding of my Ansible Host due to an untimely delete in GNS3. It was then I discovered my handy CTL+Z had no power in the land of GNS3.
+   Some possible solutions were:
+   1. Apply a local fix by forcing active/standby routing or heavily tuning OSPF path costs for all traffic.
+   2. Enforce only a specific VLAN have access to the firewall and apply static routes to use specific paths for this network.  
+   3. Treat this baseline failure as a catalyst to deploy a modern solution to the entire lab.
 
-   Some of the benefits of EVPN/VXLAN are well documented and would take up too much space to recount here. But the key benefit for myself is learning a modern technology applied in cutting edge organizations and facing the challenge of applying this through automation just like North Star version 1.
+   Herein lay the ultimate Catch-22, the network design did intend to configure the firewalls as a synchronized High Availability cluster but because the ECMP routing was dropping my initial provisioning traffic, I couldn't reliably access the GUI to actually build the HA cluster in the first place.
+
+   In the end, I decided to consider modern alternatives to maintain an Active/Active environment and this led me to redo the legacy foundation and rebuild it using EVPN/VXLAN with all the benefits and complexities that come with it.
+
+   This would be a huge pivot from the original design, and a significant part of the existing playbooks, inventory and host files, would now be redundant and need archiving. But I was intrigued about complementing my developing knowledge of infrastructure-as-a-code with large scale deployment skills that EVPN/VXLAN could provide.  
+
+   Physical and logical topologies needed updating since I also decided to add two extra leaf switches. Adding to the mountain of tasks was the rebuilding of my Ansible Host due to an untimely delete in GNS3. It was then I discovered my handy CTL+Z had no power in the land of GNS3.
 
 With the significant pivot to the new architecture confirmed, the next phase would put me back into hardware mode and recreate the infrastructure before heading back to the firewalls and proceeding with the original tasks of phase 4.
 
 ### Phase 5: Back to the future
-
-
 
 ## Contact
 
