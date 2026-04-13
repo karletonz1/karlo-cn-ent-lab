@@ -79,11 +79,11 @@ Configure IPv4 address LAN interface via DHCP? [y/n]
 
 Enter the new LAN IPv4 address:
 
-    Type: 10.0.72.1 and press Enter.
+    Type: 10.0.70.24 and press Enter.
 
 Enter the new LAN IPv4 subnet bit count (1 to 32):
 
-    Type: 30 and press Enter.
+    Type: 31 and press Enter.
 
 For a WAN, enter the new LAN IPv4 upstream gateway address. For a LAN, press <ENTER> for none:
 
@@ -188,11 +188,11 @@ Configure IPv4 address LAN interface via DHCP? [y/n]
 
 Enter the new LAN IPv4 address:
 
-    Type: 10.0.72.9 and press Enter.
+    Type: 10.0.70.30 and press Enter.
 
 Enter the new LAN IPv4 subnet bit count (1 to 32):
 
-    Type: 30 and press Enter.
+    Type: 31 and press Enter.
 
 For a WAN, enter the new LAN IPv4 upstream gateway address. For a LAN, press <ENTER> for none:
 
@@ -240,7 +240,7 @@ Do you want to proceed? [y/N]:
 ```text
 Initial GUI Configuration
 
-Navigate to https://[10.0.72.1] and https://[10.0.72.9].
+Navigate to https://[10.0.70.24] and https://[10.0.70.30].
 
 - Navigate to System > Settings > Administration. 
 
@@ -248,3 +248,163 @@ Set Hostnames: Navigate to System > Settings > General.
 
 - Node 1: karlo-cn-fw-01
 - Node 2: karlo-cn-fw-02
+```
+
+## Phase 2 Linkage
+
+The VyOS Border Leafs (karlo-cn-prd-bl01 & bl02) have been configured with /31 transit links facing the firewalls (10.0.70.24/31 through 10.0.70.30/31).
+
+Complete the following via the GUI:
+
+### Step 1: Install the FRR/BGP Plugin in OPNsense
+
+**Navigate to the Plugins Menu:**  
+
+Go to System -> Firmware -> Plugins.  
+
+**Install FRR:**  
+
+- In the search bar, type os-frr.  
+
+- Click the + (Install) icon next to the plugin.  
+
+- Wait for the installation to complete, then refresh your browser.  
+
+**Enable the Routing Daemon:**  
+
+- You will now see a new Routing menu in the left-hand navigation pane.  
+
+- Go to Routing -> General.  
+
+- Check the box for Enable to turn on the FRR daemon.  
+
+- Click Save.  
+
+### Step 2: Establish Peer to the Border Leafs
+
+**Configure the BGP Base Settings:**  
+
+- Navigate to Routing -> BGP -> General.  
+
+- Enable BGP: Check the box.  
+
+- BGP AS Number: Enter 65250 (or your chosen Edge AS).  
+
+- Router ID: Enter 10.0.71.150 (from your IP Schema).  
+
+- Leave the Network field blank for now (we will handle the default route in Step 3).  
+
+- Click Save.  
+
+**Add Neighbor 1 (Border Leaf 01):**  
+
+- Navigate to Routing -> BGP -> Neighbors.
+
+- Click the + button to add a new peer.
+
+- Enabled: Check the box.
+
+- Peer IP: 10.0.70.25 (BL01's interface IP).
+
+- Remote AS: 65101.
+
+- Update Source: Select vtnet2  
+
+- Click Save.
+
+**Add Neighbor 2 (Border Leaf 02):**  
+
+- Still under Neighbors, click the + button again.  
+
+- Enabled: Check the box.  
+
+- Peer IP: 10.0.70.27 (BL02's interface IP).  
+
+- Remote AS: 65102.  
+
+- Update Source: Select vtnet3  
+
+- Click Save.  
+
+### Step 3: Default Route (0.0.0.0/0)
+
+This forces the firewall to advertise a 0.0.0.0/0 route to the Border Leafs, making the firewall the default exit node for the fabric.
+
+- Navigate back to Routing -> BGP -> Neighbors.
+
+- Edit the Neighbor 1 (10.0.70.25) configuration.
+
+- Scroll down to the Advanced section.
+
+- Locate the checkbox for Default originate
+
+- Check the box and click Save.
+
+- Repeat this exact process for Neighbor 2 (10.0.70.27).
+
+- Finally, navigate to Routing -> Diagnostics -> General to restart the FRR service and apply the changes.
+
+### How to configure the Loopback in OPNsense  
+
+To assign that 10.0.71.150/32 IP so BGP can use it as a Router ID, you will do this in the OPNsense GUI:  
+
+**Create the Interface:**
+
+- Go to Interfaces -> Other Types -> Loopback.  
+
+- Click the + (Add) button.  
+
+- Give it a description and click Save.
+
+**Assign the Interface:**  
+
+- Go to Interfaces -> Assignments.
+
+-At the bottom of the list, select your new lo1 interface from the dropdown next to "New interface" and click + Add.
+
+**Configure the IP:**  
+
+- Click on the newly assigned interface in the left-hand menu
+
+- Enable the interface.
+
+- Set the IPv4 Configuration Type to Static IPv4.
+
+- Enter your IP: 10.0.71.150 and set the subnet mask to /32.
+
+- Click Save and Apply Changes.
+
+### Step 4: Physical Interface & MTU Configuration
+
+Assign IPs to the physical interfaces if this has not been done as part of the initial configuration.  
+
+**Assign the Interfaces:**  
+
+- Go to Interfaces -> Assignments.
+
+- Assign all outstanding interfaces.
+
+**Configure IP and MTU:**  
+
+- Click on each newly assigned interface in the left-hand menu.
+
+- Enable the interface.
+
+- Set IPv4 Configuration Type to Static IPv4.
+
+- Enter the IPs from the Phase 2 schema.
+
+- Ensure the MTU field is left blank or explicitly set to 1500.
+
+- Click Save and Apply Changes.
+
+### Validation
+
+To confirm the firewall is successfully participating in the fabric underlay:
+
+- Go to Routing -> Diagnostics -> BGP. You should see both 10.0.70.25 and 10.0.70.27 listed with a state of Established or a numerical prefix count.
+
+- In the VyOS Border Leafs: Run show ip bgp summary. You should see the .24 and .26 IPs from FW01 listed as established peers, and checking the routing table (show ip route) should reveal the 0.0.0.0/0 route learned via BGP.
+
+>[!NOTE]
+> Detailed configuration screenshots and HA setup to follow in Phase 4
