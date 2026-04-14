@@ -423,7 +423,8 @@ set interfaces ethernet eth9 mtu '9214'
 set protocols bgp system-as 65101
 set protocols bgp parameters router-id '10.0.71.100'
 
-set protocols bgp peer-group UNDERLAY remote-as external
+set protocols bgp neighbor 10.0.70.16 remote-as 65010
+set protocols bgp neighbor 10.0.70.20 remote-as 65020
 set protocols bgp neighbor 10.0.70.16 peer-group UNDERLAY
 set protocols bgp neighbor 10.0.70.20 peer-group UNDERLAY
 
@@ -462,7 +463,8 @@ set interfaces ethernet eth9 mtu '9214'
 set protocols bgp system-as 65102
 set protocols bgp parameters router-id '10.0.71.200'
 
-set protocols bgp peer-group UNDERLAY remote-as external
+set protocols bgp neighbor 10.0.70.18 remote-as 65010
+set protocols bgp neighbor 10.0.70.22 remote-as 65020
 set protocols bgp neighbor 10.0.70.18 peer-group UNDERLAY
 set protocols bgp neighbor 10.0.70.22 peer-group UNDERLAY
 
