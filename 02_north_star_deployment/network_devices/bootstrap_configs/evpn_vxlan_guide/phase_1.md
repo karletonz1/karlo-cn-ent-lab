@@ -477,9 +477,9 @@ set protocols bgp address-family ipv4-unicast network 10.0.71.200/32
 set protocols bgp address-family l2vpn-evpn neighbor EVPN_OVERLAY activate
 ```
 
-## Verification
+## Verification Tests
 
-### MTU Verification
+>[!NOTE] Use the following OSPF neighbor commands to verify devices can see their neighbors
 
 | Device | Command | Success Criteria |
 | ------ | ------- | ----- |
@@ -488,26 +488,21 @@ set protocols bgp address-family l2vpn-evpn neighbor EVPN_OVERLAY activate
 | VyOS border leaf | show interfaces ethernet { eth } MTU | Success Criteria: Your physical transit interfaces (e.g., Ethernet5, eth1) must show an MTU of 9214 |
 | | ping { Destination Loopback IP } interface dum0 size 9000 | 100% Success |
 
->[!NOTE] 
-> We need to verify that Jumbo frame configuration has been applied successfully. This is critical for EVPN/VXLAN.
-
-### IPv4 BGP Verification
+>[!NOTE] Use the following route commands once neighbors in 'full' status to indicate they can now exchange their databases.  
 
 | Device | Command | Success Criteria |
 | ------ | ------- | ----- |
-| All Switches | show ip bgp summary | The State/PfxRcd column for all /31 peers must show a number (the number of prefixes received), NOT Active or Idle |
-| | show ip route | You must see the Loopback IPs (10.0.71.x/32) of every other switch in the fabric learned via BGP (marked with a B) |
-| Border Leaf | show ip bgp summary | Peers must show a value under State/PfxRcd |
-| | show ip route bgp | You should see the 10.0.71.x/32 loopbacks from the Spines and Leafs |
+| All switches | show ip route ospf | Success Criteria: You should see a list of /32 routes for every single switch and router in the fabric. We specifically want to see everyone's Loopback0 IP |
+| VyOS border leafs | show ip route ospf | Success Criteria: You should see a list of /32 routes for every single switch and router in the fabric. We specifically want to see everyone's Loopback0 IP |
 
-### EVPN Verification
+>[!NOTE] Ensure the each device is able to ping using the Router's loopback address.  
 
 | Device | Command | Success Criteria |
 | ------ | ------- | ----- |
 | All switches | show bgp evpn summary | The neighbor IPs should be the Loopback of the other switches. The State/PfxRcd must be a number |
 | Border Leaf | show bgp l2vpn evpn summary | State a number not active or connect |
 
-### VTEP Verification
+>[!NOTE] We need to verify that Jumbo frame configuration has been applied successfully. This is critical for EVPN/VXLAN.
 
 | Device | Command | Success Criteria |
 | ------ | ------- | ----- |
