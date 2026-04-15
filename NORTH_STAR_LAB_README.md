@@ -203,13 +203,6 @@ Challenges and Wins:
 
    Herein lay the ultimate Catch-22, the network design did intend to configure the firewalls as a synchronized High Availability cluster but because the ECMP routing was dropping my initial provisioning traffic, I couldn't reliably access the GUI to actually build the HA cluster in the first place.
 
-   In the end, I decided to consider modern alternatives to maintain an Active/Active environment and this led me to redo the legacy foundation and rebuild it using EVPN/VXLAN with all the benefits and complexities that come with it.
-
-   This would be a huge pivot from the original design, and a significant part of the existing playbooks, inventory and host files, would now be redundant and need archiving. But I was intrigued about complementing my developing knowledge of infrastructure-as-a-code with large scale deployment skills that EVPN/VXLAN could provide.  
-
-   Physical and logical topologies needed updating since I also decided to add two extra leaf switches. Adding to the mountain of tasks was the rebuilding of my Ansible Host due to an untimely delete in GNS3. It was then I discovered my handy CTL+Z had no power in the land of GNS3.
-
-With the significant pivot to the new architecture confirmed, the next phase would put me back into hardware mode and recreate the infrastructure before heading back to the firewalls and proceeding with the original tasks of phase 4.
 
 ### Phase 5: Back to the future
 
