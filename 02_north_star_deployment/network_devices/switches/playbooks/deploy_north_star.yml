@@ -2,4 +2,3 @@
 # For running multiple playbooks at the same time.
 - import_playbook: configure_arista_spine_phase_3.yml
 - import_playbook: configure_arista_leaf_phase_2.yml
-- import_playbook: configure_vyos_router_phase_3.yml
