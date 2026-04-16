@@ -1,0 +1,20 @@
+---
+spanning_tree_mode: mst
+spanning_tree_priority: "12288"
+
+leaf_interfaces:
+- name: "ethernet5"
+  peer: "karlo-cn-spine-01"
+  channel: "10"
+  mode: "trunk"
+- name: "ethernet6"
+  peer: "karlo-cn-spine-02"
+  channel: "10"
+  mode: "trunk"
+
+
+leaf_interfaces_access:
+- name: "ethernet 12"
+  peer: "karlo-cn-leaf-01"
+  mode: "access"
+  vlan: "20"

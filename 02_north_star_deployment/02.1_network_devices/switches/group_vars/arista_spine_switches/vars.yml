@@ -1,0 +1,12 @@
+---
+ansible_user: spineadmin
+ansible_password: "{{ vault_spine_admin_pass }}"
+ansible_become: true
+ansible_become_method: enable
+ansible_become_password: "{{ vault_spine_enable_pass }}"
+
+ansible_connection: ansible.netcommon.httpapi
+ansible_network_os: arista.eos.eos
+ansible_httpapi_use_ssl: true
+ansible_httpapi_validate_certs: false
+ansible_httpapi_port: 443
