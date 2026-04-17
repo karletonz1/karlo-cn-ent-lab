@@ -6,39 +6,48 @@ For the final production release, see `north-star-prd.`
 
 ## Overview
 
-North Star was designed to demonstrate skills in automated infrastructure deployment, security best practices, endpoint monitoring, deployment and configuration of SIEM for centralized logging, backup and recovery, and vulnerability assessment. It is a cross-platform setup that includes Windows and Linux servers, clients, and network devices all virtualized within GNS3.
+North Star was designed to demonstrate skills in deploying a corporate network, optimizing the network for business needs, and securing the network to ensure business continuity.
+
+This is achieved through automated infrastructure deployment, security best practices, endpoint monitoring, deployment and configuration of SIEM for centralized logging, backup and recovery, and vulnerability assessment. It is a cross-platform setup that includes Windows and Linux servers, clients, and network devices all virtualized within GNS3.
+
+The repository has been created to simulate the level of details and documentation that I would implement for deploying infrastructure, tuning the routing networks, or monitoring an existing environment with the continual mindset of always improving.  
 
 Key objectives:
 
-- Implement firewall, routing, VLAN segmentation, and DMZ isolation  
-- Deploy endpoint monitoring and real-time detection using Wazuh  
-- Centralize logs and build dashboards using Splunk Free  
-- Perform vulnerability scanning with Nessus Essentials  
-- Simulate attack scenarios using Kali Linux  
-- Demonstrate backup and disaster recovery with Veeam
+- Demonstrate detailed design and documentation skills
+- Deploy infrastructure and servers to achieve business needs  
+- Deploy endpoint monitoring, centralized logs, and real-time detection through dashboards
+- Perform vulnerability testing and validate the effectiveness of deployed security measures
+- Demonstrate a disaster recovery mindset and high availability design decision making
 
 ## Lab Devices & Applications
 
-Network & Edge
+WAN
 
-- 2x VyOS Routers
-- 2x OPNsense Firewalls
-- 4x Arista vEOS Switches
-- 2x GNS3 Ethernet Switch
+- GNS3 Cloud Node
+- 3x VyOS Routers (MPLS)
 
-Compute and Services
+Network & Edge (Both sites combined)
+
+- 3x OPNsense Firewalls
+- 2x Arista vEOS Spine Switches
+- 5x Arista vEOS Leaf Switches
+- 1x GNS3 Ethernet Switch
+
+Compute Nodes
 
 - 4x Proxmox Hosts
-- Windows 10 Client
-- Rocky Linux Client
-- Veeam Server
+- 2x Windows 10 Client
+- 2x Rocky Linux Client
 
-Security Monitoring
+Applications and Virtual Machines
 
-- Kali Linux
-- Wazuh
-- Tenable
+- Veeam
 - Splunk
+- Nessus Tenable
+- Wazuh
+- Windows Server 2022
+- Debian Linux
 
 Infrastructure Monitoring
 
@@ -52,7 +61,7 @@ Automation
 
 ## Skills Demonstrated
 
-:white_check_mark: Ansible deployed routers and switches (VyOS and vEOS)  
+:white_check_mark: Ansible deployed switches (vEOS)  
 :white_check_mark: Firewall deployment and policy creation (OPNsense)  
 :white_check_mark: SIEM deployment and endpoint security monitoring (Wazuh, Splunk Free)  
 :white_check_mark: Backup services implemented, and recovery demonstrated (Veeam Community Edition)  
@@ -64,7 +73,7 @@ Automation
 
 | Skills demonstrated | Description |
 | ------------------- | ----------- |
-| **Ansible Routing and Switching Deployment** | VLANs, OSPF, and LACP are deployed across the network infrastructure, with MLAG and VARP deployed on the Arista vEOS switches |
+| **Ansible Switch Deployment** | VLANs, OSPF, LACP, MLAG, and VARP |
 | **Firewall Deployment and Policy Creation** | Deployment of two OPNsense firewalls in an HA stack with LAN, WAN, and DMZ zones |  
 | **SIEM Deployment and Endpoint Monitoring** | Wazuh agents are installed on all Windows and Linux servers/clients and logs are forwarded to Splunk Free |
 | **Backups** | Veeam Backup Server handles backups for Windows and Linux servers |
@@ -73,7 +82,6 @@ Automation
 | **Windows & Debian Servers** | Windows Server 2022 evaluation used; includes DNS, DHCP, IIS and Active Directory. Debian (DMZ Apache Web server) and Rocky Linux is used for cross-platform examples |
 | **Documentation and Git Version Control** | The setup of the project repository reflects Ansible directory best practices and applies a lean approach to folder structure where possible in general. This is stored on GitHub but developed using VSCode. Industry best practices are applied where appropriate such as Ansible Vault for secure password management |
 | **Infrastructure Monitoring** | North Star utilizes various tools across three monitoring domains: Metrics, Network, and Security. Combined, the lab is able to answer the following questions: how much traffic is flowing, who is generating the traffic, and whether that traffic is suspicious |  
-| **Network Design and Architecture** | North Star was made to demonstrate known and new skills that I have learned through this journey. I have created documentation to highlight my decision making process to achieve the primary objective of creating a working lab to demonstrate these skills. There are limitations to virtualizing a lab within GNS3, which meant trying to mirror real world environments exactly often meant weighing up lab complexity with practicality |
 
 ## Lab Scenarios
 
@@ -96,19 +104,27 @@ Automation
 1. Start with the Topology  
    Open [design_documentation](01_design_documentation) to understand the North Star topologies.
 
-   This directory also includes the [network design document](01_design_documentation/network_design.md) which describes the decisions made for building North Star.  
+   This directory also includes the [system design documentation](01_design_documentation/1_1_system_design/system_design_document.md) which describes the decisions made for building North Star.  
 
-   It also includes the master [IP addressing table](01_design_documentation/ip_addressing_and_vlans.md) for all the IP address and VLANs used.
+   It also includes the master [logical addressing table](01_design_documentation/1_2_detailed_design/appendices/appendix_b_logical_addressing.md) for all the IP address and VLANs used.
 
 2. Review North Star Deployment Files  
-   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used. This also has the [Arista switch](02_north_star_deployment/network_devices/switches_routers/veos_switch_guide_readme.md) and [VyOS router](02_north_star_deployment/network_devices/switches_routers/veos_switch_guide_readme.md) readme guides which has the technical details on how they are used in North Star.
+   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used for all all devices deployed in GNS3 as well as the Ansible files used to deploy the Arista switches.  
+
+   The most commonly used device in North Star is the [Arista switch](02_north_star_deployment/2_1_network_devices/switches/veos_switch_guide_readme.md) and the readme document contains the technical details on how they are used.
 
 3. Read Lab Scenarios  
-   Open [scenario_testing](03_scenario_testing) to read about the various scenarios conducted. The scenario pages will follow a format as follows:  
+   Open [lab scenarios](03_scenario_testing/lab_scenarios.md) to read about the various testing scenarios conducted. The scenario pages will follow a format as follows:  
    - What was the scenario?
    - How was the scenario simulated?  
    - What was the result of the scenario?
    - Were any lab improvements needed as a result?
+
+## Contact
+
+- GitHub: <https://github.com/karletonz1>
+- LinkedIn: <https://www.linkedin.com/in/karloc>
+
 
 ## Project Evolution | A Journey of Discovery
 
