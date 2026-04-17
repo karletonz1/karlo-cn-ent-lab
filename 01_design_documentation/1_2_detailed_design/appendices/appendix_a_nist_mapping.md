@@ -1,10 +1,10 @@
-### Purpose
+# Purpose
 
 North Star will align to NIST 800-53 framework as the primary control document with supplementary standards to achieve the controls listed under each section below.
 
-### Scope
+## Scope
 
-**Network infrastructure (VyOS routers, Arista vEOS spines/leafs, and OPNsense firewalls)**  
+**Network infrastructure**  
  Referenced Standards:  
 
 - NIST 800-41 Rev.1 (Guidelines on Firewalls and Firewall Policy)
@@ -13,8 +13,27 @@ North Star will align to NIST 800-53 framework as the primary control document w
 - NIST 800-115 (Technical Guide to Information Security Testing and Assessment)
 - NIST 800-128 (Guide for Security-Focused Configuration Management of Information Systems)
 - NIST 800-70 Rev.4 (National Checklist Program for IT Products: Guidelines for Administrator of Security Configuration Checklists)
+- NIST 800-123 Information Security Continuous Monitoring (ISCM) for Federal Information Systems and Organizations
+- NIST 800-125 Guide to Security for Full Virtualization Technologies
+- NIST 800-137 Guide to General Server Security
 
-Hardening Controls:  
+### Implementation Summary Table
+
+| Device Type | NIST Standard | Control | Specific Device |
+| ----------- | ------------- | ------- | --------------- |
+| Baseline - Common | | | |
+| Network Devices | | | |
+| Hypervisors | | | |
+| Endpoints | | | |
+| Security | | | |
+
+### Hardening Controls (Expanded)
+
+**Proxmox Windows and Linux host servers with virtual machines**  
+Referenced Standards:  
+
+- NIST 800-53 Rev.5 (Security and Privacy Controls for Information Systems and Organizations)
+
 Establish a baseline configuration for all network infrastructure devices including secure configuration checklists  
 `Reference: NIST 800-128 (Section 2.3.7 Baseline Configuration)`  
 `Reference: NIST 800-53 Rev. 5 (Section 3.5 Configuration Management: CM-2 Baseline Configuration)`  
