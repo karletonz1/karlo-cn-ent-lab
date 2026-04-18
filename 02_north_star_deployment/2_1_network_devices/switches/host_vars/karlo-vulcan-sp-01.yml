@@ -1,0 +1,114 @@
+---
+#Spanning Tree Configuration
+spanning_tree:
+  mode: mst
+  priority: "4096"
+
+#Physical Interfaces
+spine_interfaces:
+- name: "Ethernet1"
+  peer: "karlo-vulcan-sp-02"
+  channel: "80"
+- name: "Ethernet4"
+  peer: "karlo-vulcan-sp-02"
+  channel: "80"
+- name: "Ethernet2"
+  peer: "karlo-vulcan-fw-01"
+  channel: "100"
+- name: "Ethernet3"
+  peer: "karlo-vulcan-fw-02"
+  channel: "200"
+- name: "Ethernet5"
+  peer: "karlo-vulcan-al-01"
+  channel: "10"
+- name: "Ethernet6"
+  peer: "karlo-vulcan-al-02"
+  channel: "20"
+- name: "Ethernet7"
+  peer: "karlo-vulcan-al-03"
+  channel: "30"
+- name: "Ethernet8"
+  peer: "karlo-vulcan-al-04"
+  channel: "40"
+
+#OSPF Interfaces
+ospf_interfaces:
+- name: "Ethernet2"
+  description: "OSPF Interface to karlo-vulcan-fw-01"
+  area: "0"
+  ip_address: "10.0.80.1/31"
+  network: "point-to-point"
+- name: "Ethernet3"
+  description: "OSPF Interface to karlo-vulcan-fw-02"
+  area: "0"
+  ip_address: "10.0.80.5/31"
+  network: "point-to-point"
+
+#OSPF on Spine SVIs
+ospf_svi_vlans:
+- vlan: "10"
+- vlan: "20"
+- vlan: "30"
+- vlan: "40"
+- vlan: "50"
+- vlan: "60"
+- vlan: "70"
+- vlan: "80"
+
+#Global OSPF
+ospf_area:
+  area: "0"
+
+ospf_router_id:
+  router_id: "11.11.11.11"
+
+#MLAG Configuration
+mlag:
+  ip: "10.0.80.11/30"
+  peer_ip: "10.0.80.12"
+
+# Global VARP MAC Address
+varp_mac_address: "00:1c:73:00:00:01"
+
+# --- MLAG Peer Link SVI ---
+mlag_svi_interfaces:
+- mlag_vlan: "80"
+  description: "SPINE MLAG PEER"
+  ip_address: "10.0.80.11/30"
+  autostate: false
+
+# VARP Gateway SVIs
+svi_interfaces:
+- vlan: "10"
+  description: "Mgmt"
+  ip_address: "10.0.10.1/24"
+  varp_ip: "10.0.10.254"
+- vlan: "20"
+  description: "core"
+  ip_address: "10.0.20.1/24"
+  varp_ip: "10.0.20.254"
+- vlan: "30"
+  description: "corp_users"
+  ip_address: "10.0.30.1/24"
+  varp_ip: "10.0.30.254"
+- vlan: "40"
+  description: "corp_apps"
+  ip_address: "10.0.40.1/24"
+  varp_ip: "10.0.40.254"
+- vlan: "50"
+  description: "sec"
+  ip_address: "10.0.50.1/24"
+  varp_ip: "10.0.50.254"
+- vlan: "60"
+  description: "dmz_ext"
+  ip_address: "10.0.60.1/24"
+  varp_ip: "10.0.60.254"
+- vlan: "70"
+  description: "backups"
+  ip_address: "10.0.70.1/24"
+  varp_ip: "10.0.70.254"
+- vlan: "80"
+  description: "mlag_peer_link"
+  ip_address: "10.0.80.11/24"
+  varp_ip: "10.0.80.254"
+    
