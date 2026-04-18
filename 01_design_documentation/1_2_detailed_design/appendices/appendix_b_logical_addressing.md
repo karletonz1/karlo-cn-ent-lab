@@ -1,22 +1,21 @@
 # IP Addressing and VLANs
 
-This document defines the logical architecture, IP addressing scheme for the Karlo-CN Infrastructure. All devices within the n will adhere to these specifications.
+This document defines the logical architecture and IP addressing scheme.
 
 ## Subnet Allocation  
 
 ### VLANs
 
-| Vlan ID | Vlan Name | Subnet |  
-| ------- | --------- | ------ |
-| 10 | Network Management | 10.0.10.0/24 |
-| 11 | Server Management | 10.0.11.0/24 |
-| 20 | Windows Clients | 10.0.20.0/24 |
-| 21 | Linux Clients | 10.0.21.0/24 |
-| 30 | Security Applications | 10.0.30.0/24 |
-| 40 | DMZ | 10.0.40.0/24 |
-| 50 | Production Servers | 10.0.50.0/24 |
-| 60 | Backups | 10.0.60.0/24 |
-| 70 | Spine MLAG Peer | 10.0.70.0/30 |
+| Vlan ID | Vlan Name | Description | Subnet | Members |
+| ------- | --------- | ----------- | ------ | ------- |
+| 10 | Mgmt | OOB Management/Ansible | 10.0.10.0/24 | All Management IPs |
+| 20 | Core | Active Directory, DNS | 10.0.20.0/24 | DC1, DC2 |
+| 30 | Corp_users | User Trusted Endpoints | 10.0.30.0/24 | Windows and Linux Clients |
+| 40 | Corp_apps | Corporation Application Servers | 10.0.40.0/24 | All Corp Servers |
+| 50 | Sec | Security Monitoring Applications | 10.0.50.0/24 | Wazuh, Splunk, Nessus |
+| 60 | DMZ_EXT | Public facing Web Servers | 10.0.60.0/24 | Web Servers |
+| 70 | Backups | Storage and Backup | 10.0.70.0/24 | Veeam Server |
+| 80 | Spine MLAG Peer | 10.0.80.0/30 |
 | 666 | Black Hole Sun | - |
 
 > [!NOTE]
@@ -75,7 +74,7 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 
 ## IP Address Allocations
 
-### Firewall 01 IP Address
+### Firewall IP Address
 
 | Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
@@ -83,17 +82,12 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | karlo-cn-fw-01 | vtnet1 | 10.0.72.16/30 | 10.0.72.17/30 | 10.0.72.19/30 | 1500 | PTP Sync link between Firewall-01 and Firewall-02 | PTP |
 | karlo-cn-fw-01 | vtnet2 | 10.0.72.0/30 | 10.0.72.1/30 | 10.0.72.3/30 | 1500 | PTP link between Firewall-01 and Router-01 | PTP |
 | karlo-cn-fw-01 | vtnet3 | 10.0.72.4/30 | 10.0.72.5/30 | 10.0.72.7/30 | 1500 | PTP link between Firewall-01 and Router-02 | PTP |
-
-### Firewall 02 IP Address
-
-| Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
-| -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
 | karlo-cn-fw-02 | vtnet0 | 10.0.72.24/29 | 10.0.72.26/29 | 10.0.72.31/29 | 1500 | Firewall-02 WAN Link | PTP |
 | karlo-cn-fw-02 | vtnet1 | 10.0.72.16/30 | 10.0.72.18/30 | 10.0.72.19/30 | 1500 | PTP Sync link between Firewall-02 and Firewall-01 | PTP |
 | karlo-cn-fw-02 | vtnet2 | 10.0.72.8/30 | 10.0.72.9/30 | 10.0.72.11/30 | 1500 | PTP link between Firewall-02 and Router-01 | PTP |
 | karlo-cn-fw-02 | vtnet3 | 10.0.72.12/30 | 10.0.72.13/30 | 10.0.72.15/30 | 1500 | PTP link between Firewall-02 and Router-02 | PTP |
 
-### Router 01 PTP Address
+### Router PTP Address
 
 | Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
@@ -102,34 +96,24 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | karlo-cn-rtr-01 | eth4 | 10.0.72.0/30 | 10.0.72.2/30 | 10.0.72.3/30 | 1500 | PTP link between Router-01 and firewall-01 | PTP |
 | karlo-cn-rtr-01 | eth5 | 10.0.72.8/30 | 10.0.72.10/30 | 10.0.72.11/30 | 1500 | PTP link between Router-01 and firewall-02 | PTP |
 | karlo-cn-rtr-01 | eth8/9:bond0 | 10.0.71.16/30 | 10.0.71.17/30 | 10.0.71.19/30 | 1500 | LAG Link between RTR-01/02 | PTP |
-
-### Router 02 PTP Address
-
-| Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
-| -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
 | karlo-cn-rtr-02 | eth1 | 10.0.71.8/30 | 10.0.71.9/30 | 10.0.71.11/30 | 1500 | PTP link between Router-02 and Spine-02 | PTP |
 | karlo-cn-rtr-02 | eth2 | 10.0.71.12/30 | 10.0.71.13/30 | 10.0.71.15/30 | 1500 | PTP link between Router-02 and Spine-01 | PTP |
 | karlo-cn-rtr-02 | eth4 | 10.0.72.12/30 | 10.0.72.14/30 | 10.0.72.15/30 | 1500 | PTP link between Router-02 and Firewall-02 | PTP |
 | karlo-cn-rtr-02 | eth5 | 10.0.72.4/30 | 10.0.72.6/30 | 10.0.72.7/30 | 1500 | PTP link between Router-02 and Firewall-01 | PTP |
 | karlo-cn-rtr-02 | eth8/9:bond0 | 10.0.71.16/30 | 10.0.71.18/30 | 10.0.71.19/30 | 1500 | LAG Link between RTR-01/02 | PTP |
 
-### Spine 01 PTP Address
+### Spine PTP Address
 
 | Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
 | -------- | --------- | --------------- | ---------- | ----------------- | ---- | ---- | -------- |
 | karlo-cn-spine-01 | eth1 | 10.0.71.0/30 | 10.0.71.2/30 | 10.0.71.3/30 | 1500 | PTP link between Spine-01 and Router-01 | PTP |
 | karlo-cn-spine-01 | eth2 | 10.0.71.12/30 | 10.0.71.14/30 | 10.0.71.15/30 | 1500 | PTP link between Spine-01 and Router-02 | PTP |
-
-### Spine 02 PTP Address
-
-| Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
-| -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
 | karlo-cn-spine-02 | eth1 | 10.0.71.8/30 | 10.0.71.10/30 | 10.0.71.11/30 | 1500 | PTP link between Spine-02 and Router-02 | PTP |
 | karlo-cn-spine-02 | eth2 | 10.0.71.4/30 | 10.0.71.6/30 | 10.0.71.7/30 | 1500 | PTP link between Spine-02 and Router-01 | PTP |
 
 ## Port-Channel Allocations
 
-### Spine 01 Port-Channel
+### Spine Port-Channel
 
 | Hostname | GNS3 Port | Logical Interface | Allowed Vlan | Role | Link type |
 | -------- | --------- | ----------------- | ------------ | ---- | --------- |
@@ -137,28 +121,18 @@ This document defines the logical architecture, IP addressing scheme for the Kar
 | karlo-cn-spine-01 | eth4 | Port-channel 70 | 10,11,20,21,30,40,50,60,666,70 | MLAG peer link to secondary | Trunk |
 | karlo-cn-spine-01 | eth5 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Downlink to karlo-cn-leaf-01 | Trunk |
 | karlo-cn-spine-01 | eth6 | Port-channel 20 | 10,11,20,21,30,40,50,60,666 | Downlink to karlo-cn-leaf-02 | Trunk |
-
-### Spine 02 Port-Channel
-
-| Hostname | GNS3 Port | Logical Interface | Allowed Vlan | Role | Link type |
-| -------- | --------- | ----------------- | ------------ | ---- | --------- |
 | karlo-cn-spine-02 | eth3 | Port-channel 70 | 10,11,20,21,30,40,50,60,666,70 | MLAG peer link to primary | Trunk |
 | karlo-cn-spine-02 | eth4 | Port-channel 70 | 10,11,20,21,30,40,50,60,666,70 | MLAG peer link to primary | Trunk |
 | karlo-cn-spine-02 | eth5 | Port-channel 20 | 10,11,20,21,30,40,50,60,666 | Downlink to karlo-cn-leaf-02 | Trunk |
 | karlo-cn-spine-02 | eth6 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Downlink to karlo-cn-leaf-01 | Trunk |
 
-### Leaf 01 Port-Channel
+### Leaf Port-Channel
 
 | Hostname | GNS3 Port | Logical Interface | Allowed Vlan | Role | Link type |
 | -------- | --------- | ----------------- | ------------ | ---- | --------- |
 | karlo-cn-leaf-01 | eth5 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-01 | Trunk |
 | karlo-cn-leaf-01 | eth6 | Port-channel 10 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-02 | Trunk |
 | karlo-cn-leaf-01 | eth12 | e0 | 20 | Access uplink to karlo-leaf-01 | Access |
-
-### Leaf 02 Port-Channel
-
-| Hostname | GNS3 Port | Logical Interface | Allowed Vlan | Role | Link type |
-| -------- | --------- | ----------------- | ------------ | ---- | --------- |
 | karlo-cn-leaf-02 | eth5 | Port-channel 20 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-02 | Trunk |
 | karlo-cn-leaf-02 | eth6 | Port-channel 20 | 10,11,20,21,30,40,50,60,666 | Port-Channel uplink to karlo-spine-01 | Trunk |
 
