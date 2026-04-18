@@ -10,7 +10,7 @@ North Star was designed to demonstrate skills in deploying a corporate network, 
 
 This is achieved through automated infrastructure deployment, security best practices, endpoint monitoring, deployment and configuration of SIEM for centralized logging, backup and recovery, and vulnerability assessment. It is a cross-platform setup that includes Windows and Linux servers, clients, and network devices all virtualized within GNS3.
 
-The repository has been created to simulate the level of details and documentation that I would implement for deploying infrastructure, tuning the routing networks, or monitoring an existing environment with the continual mindset of always improving.  
+The repository has been created to simulate the level of details and documentation that I would implement for deploying infrastructure, tuning the routing networks, or monitoring an existing environment with the continual mindset of always improving. It is designed to read as if it was a real document for a production environment.  
 
 Key objectives:
 
@@ -102,11 +102,9 @@ Automation
 ## How to Explore
 
 1. Start with the Topology  
-   Open [design_documentation](01_design_documentation) to understand the North Star topologies.
+   Open the [system design documentation](01_design_documentation/1_1_system_design/system_design_document.md) which describes the high level decisions made for building North Star.  
 
-   This directory also includes the [system design documentation](01_design_documentation/1_1_system_design/system_design_document.md) which describes the decisions made for building North Star.  
-
-   It also includes the master [logical addressing table](01_design_documentation/1_2_detailed_design/appendices/appendix_b_logical_addressing.md) for all the IP address and VLANs used.
+   It also includes appendices such as the master [logical addressing table](01_design_documentation/1_2_detailed_design/appendices/appendix_b_logical_addressing.md) for all the IP address and VLANs used which are referenced in the system design documentation.
 
 2. Review North Star Deployment Files  
    Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used for all all devices deployed in GNS3 as well as the Ansible files used to deploy the Arista switches.  
