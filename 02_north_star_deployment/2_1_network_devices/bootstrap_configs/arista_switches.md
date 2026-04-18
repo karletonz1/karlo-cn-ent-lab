@@ -43,7 +43,7 @@ vrf instance management
 interface Management1
    description OOBM-TO-ANSIBLE
    vrf management
-   ip address 10.0.10.106/24
+   ip address 10.10.10.106/24
    no shutdown
 exit
 
@@ -76,7 +76,7 @@ vrf instance management
 interface Management1
    description OOBM-TO-ANSIBLE
    vrf management
-   ip address 10.0.10.107/24
+   ip address 10.10.10.107/24
    no shutdown
 exit
 
@@ -109,7 +109,7 @@ vrf instance management
 interface Management1
    description OOBM-TO-ANSIBLE
    vrf management
-   ip address 10.0.10.108/24
+   ip address 10.10.10.108/24
    no shutdown
 exit
 
@@ -142,7 +142,7 @@ vrf instance management
 interface Management1
    description OOBM-TO-ANSIBLE
    vrf management
-   ip address 10.0.10.109/24
+   ip address 10.10.10.109/24
    no shutdown
 exit
 
@@ -175,7 +175,7 @@ vrf instance management
 interface Management1
    description OOBM-TO-ANSIBLE
    vrf management
-   ip address 10.0.10.104/24
+   ip address 10.10.10.104/24
    no shutdown
 exit
 
@@ -208,7 +208,7 @@ vrf instance management
 interface Management1
    description OOBM-TO-ANSIBLE
    vrf management
-   ip address 10.0.10.105/24
+   ip address 10.10.10.105/24
    no shutdown
 exit
 
