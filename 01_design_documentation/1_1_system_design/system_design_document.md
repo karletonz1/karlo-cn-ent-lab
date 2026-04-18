@@ -25,7 +25,6 @@
 - 4.1 Core Fabric & Underlay Routing  
 - 4.2 Security Boundary & Inter-VLAN Routing  
 - 4.3 Edge Transit & WAN Routing  
-- 4.4 Virtualization & Endpoint Isolation  
 
 5.0 [High Availability & Redundancy](#50-high-availability-and-redundancy)  
 
@@ -51,35 +50,33 @@
 
 ### 1.1 Purpose
 
-This high-level document outlines the design decisions and business justifications for a simulated corporate enterprise network called North Star. It defines the standard enterprise documentation expected for a project that connects a central Headquarters called Vulcan, with a cost-optimized fledgling remote branch called Santino.  
+This high-level document outlines the design decisions and business justifications for a simulated corporate enterprise network called North Star. It includes the standard enterprise documentation expected for a project that connects a central headquarters called Vulcan, with a cost-optimized fledgling remote branch called Santino.  
 
-The key objective of this document is to establish the standardized site profiles, and security boundaries required to deploy and manage this environment. The intent is to ensure that the detailed design documentation will serve as the As-built record, which will match the production state of both sites.
+The key objective of this document is to establish the standardized site profiles, and security boundaries required to deploy and manage this environment. 
 
 For granular configuration, IP schemas, and device-specific information, refer to the [detailed design documentation](../1_2_detailed_design/detailed_design_document.md).
 
 ### 1.2 Scope
 
-This section governs the design and high-level traffic flows of the North Star environment.  
-
 The following are in-scope:
 
-- Core Routing & Switching: The Arista vEOS Leaf-Spine inter-VLAN routing, OSPF, MLAG, and LACP configuration.  
+- The Arista vEOS Leaf-Spine inter-VLAN routing, OSPF, MLAG, and LACP configuration.  
 
-- Security & Perimeter Defense: The OPNsense Active/Passive boundary.  
+- Deployment of the OPNsense firewall in an Active/Passive pair.  
 
-- Automation: The Ansible repository structure and configuration management for Arista switches.  
+- The Ansible repository structure and configuration management for Arista switches.  
 
-- Monitoring: The centralized monitoring and SIEM strategy utilizing Splunk, Wazuh, ntopng, Prometheus, and Grafana.  
+- The centralized monitoring and SIEM strategy utilizing Splunk, Wazuh, ntopng, Prometheus, and Grafana.  
 
-- Compute & Virtualization: The Proxmox hypervisor layer hosting critical enterprise services.
+- The Proxmox hypervisor layer hosting critical enterprise services.
 
 The following are out-of-scope:
 
-- Hardware considerations based off capacity planning is excluded. Typically a requirements discovery phase would be conducted to determine the number of connections needed for the environment, this would determine the number of devices and types needed to deliver these requirements.  
+- Hardware considerations based on capacity planning is excluded. Typically a requirements discovery phase would be conducted to determine the number of connections needed for the environment, this would determine the number of devices and types needed to deliver these requirements.  
 
 - Cloud integration is excluded from this design.  
 
-- Wireless AP connectivity is not a focus, although in corporate environments it is acknowledged that a LAN-wireless and/or guest Wi-Fi networks are highly likely to be deployed and used.
+- Wireless AP connectivity is excluded, although in corporate environments it is acknowledged that a LAN-wireless and/or guest Wi-Fi networks are highly likely to be deployed and used.
 
 - Although an MPLS WAN network will be created to simulate the inter-site links, this is not the focus of the environment and will only include bootstrap configuration files needed to replicate this in GNS3.
 
@@ -92,11 +89,11 @@ The following are out-of-scope:
 Chief Technology Officers, Network Team Managers, Network Architects, Systems Administrators, or Security Operations (SecOps) teams requiring a conceptual understanding of the design choices, fault tolerance, and security posture of the environment.
 
 >[!NOTE]
-> Although this document would ordinarily be created for specific organizational stakeholders in mind, the primary purpose of North Star is for technical evaluation and assessment. Hiring Managers and Senior Engineering peers can review this portfolio project and assess the decision-making process, documentation choices, as well as assessing technical skill application and verification.
+> Although this document would ordinarily be created for specific stakeholders in mind, the primary purpose of North Star is for technical evaluation and assessment. It is presented for peer review in order to assess the decision-making process, documentation choices, as well as assessing technical skill application that went into deploying North Star.
 
 ### 1.4 References
 
-This section grounds the design in vendor standards and industry best practices.
+The following are some of the resources used to develop North Star:
 
 - **Arista 7500 Scale-Out Cloud Network Designs:** Validates the L3 Leaf-Spine and ECMP scaling methodology.
 
@@ -106,9 +103,7 @@ This section grounds the design in vendor standards and industry best practices.
 
 - **NIST Special Publication series 800:** The foundational compliance framework justifying the control measures implemented across North Star. The details for each control used can be found in the [NIST security page](../1_2_detailed_design/appendices/appendix_a_nist_security.md).
 
-- **Ansible Community Documentation:** The primary documentation for the programmatic management of the Arista fabric configurations via the CLI/eAPI transport.
-
-- **Cisco Security Architecture for Enterprise 2018 Framework:** Utilized as the vendor-agnostic foundational framework for defining the Places in the Network.  
+- **Ansible Community Documentation:** The primary documentation for the management of the Arista fabric configurations via eAPI.
 
 - **Arista Cognitive Campus Architecture:** Referenced for various Arista deployment options.
 
@@ -133,11 +128,11 @@ Manual network configuration introduces a high risk of configuration drift, ente
 
 This decision minimizes configuration drift by defining the Arista configuration in Ansible playbooks. This ensures that the production environment consistently matches the documented architectural intent.
 
-Furthermore, this approach drastically reduces the Recovery Time Objective (RTO) in the event of a catastrophic hardware failure at either site. The use of Ansible allows the network fabric to be redeployed in minutes rather than days, minimizing business downtime. This methodology integrates directly with disaster recovery planning, allowing for frequent testing of the playbooks to ensure effectiveness and accuracy over time.
+Furthermore, this approach drastically reduces the Recovery Time Objective in the event of a catastrophic hardware failure at either site. The use of Ansible allows the network fabric to be redeployed in minutes rather than days, minimizing business downtime. This methodology integrates directly with disaster recovery planning, allowing for frequent testing of the playbooks to ensure effectiveness and accuracy over time.
 
 ### 2.3 NIST Cybersecurity Compliance
 
-In alignment with the NIST Cybersecurity Framework, North Star is designed for defense-in-depth and least privilege. A combination of several Special Publications ensures that the environment is implementing the correct controls that are aligned with industry standards. These controls can be found [here](../1_2_detailed_design/appendices/appendix_a_nist_security.md).
+In alignment with the NIST Cybersecurity Framework, North Star is designed for defense-in-depth and least privilege. A combination of several Special Publications ensures that the environment is implementing the correct controls that are aligned with industry standards. These controls can be found in the [Appendix A: NIST Security](../1_2_detailed_design/appendices/appendix_a_nist_security.md) page.
 
 Strict network segmentation is achieved through inter-VLAN zoning and secure OSPF authentication. This ensures that corporate users, publicly accessible DMZs, and critical application servers are securely isolated and governed by the firewall security boundary.
 
@@ -155,10 +150,10 @@ Refer to the [Vulcan physical topology](appendices/appendix_a_physical_topology.
 Vulcan utilizes a fully redundant Arista Leaf-Spine architecture. The topology includes dual connections from each leaf to the dual spines.
 
 - **Perimeter Security**  
-The edge is protected by a High-Availability (HA) Active/Passive OPNsense firewall cluster. This boundary manages deep packet inspection, inter-VLAN routing, and secure VPN termination. There is an active and backup WAN connection routed to each firewall.
+The edge is protected by a High-Availability (HA) Active/Passive OPNsense firewall cluster. This boundary manages deep packet inspection between security zones and secure VPN termination. There is an active and backup WAN connection routed to each firewall.
 
 - **Compute & Virtualization**  
-The site hosts a high-density Proxmox hypervisor cluster. Hypervisors are dual-homed to the Leaf switches using Link Aggregation (LACP) to ensure virtual machines remain online during physical switch maintenance. The topology includes dual links from servers to two separate access leafs and the DMZ hypervisor host connects to both firewalls via a vSwitch.
+The site hosts a four Proxmox hypervisor hosts. Hypervisors are dual-homed to the Leaf switches using Link Aggregation (LACP) to ensure virtual machines remain online during physical switch maintenance. The topology also includes dual links from the DMZ server to both firewalls via a vSwitch.
 
 - **Primary Use Case**  
 Vulcan is the primary corporate network for the organization. It hosts critical enterprise workloads, including the centralized Active Directory infrastructure, the security monitoring stack, and the primary Veeam disaster recovery repositories.
@@ -170,19 +165,19 @@ Santino represents the standard template for North Star’s remote branch office
 Refer to the [Vulcan physical topology](appendices/appendix_a_physical_topology.md) page.
 
 - **Topology & Fabric**  
-To minimize hardware costs, Santino utilizes a firewall-on-a-stick topology. Inter-VLAN routing and security policies are handled by a single physical interface that utilizes logical sub-interfaces (802.1Q tagging) to separate traffic.
+To minimize hardware costs, Santino utilizes a router-on-a-stick topology. Inter-VLAN routing and security policies are handled by a single physical interface that utilizes logical sub-interfaces (802.1Q tagging) to separate traffic.
 
 - **Perimeter Security**  
-The branch relies on a single-threaded hardware deployment using an Arista L3 switch and one OPNsense firewall. Rather than local hardware redundancy, Santino relies on resilient WAN protocols and local breakout capabilities to survive network disruptions until business requirements change that justify additional expenditure to achieve resiliency and high-availability.
+The branch relies on a single-threaded hardware deployment using an Arista L3 switch and an OPNsense firewall. Rather than local hardware redundancy, Santino relies on resilient WAN protocols and local breakout capabilities to survive network disruptions until business requirements change that justify additional expenditure to achieve resiliency and high-availability.
 
 - **Primary Use Case**  
-Santino acts as an edge transit node. It provides local staff with secure site-to-site VPN access back to the Vulcan hub, ensuring branch employees have identical access to internal applications as HQ staff without the need to deploy duplicate servers locally.
+Santino provides local staff with secure site-to-site VPN access back to the Vulcan hub, ensuring branch employees have identical access to internal HQ applications without the need to deploy duplicate servers locally.
 
 ### 3.3 The Infrastructure as Code Advantage
 
-A key advantage of the North Star architecture is its modularity. If the Santino branch experiences rapid business growth, the site can be upgraded from a cost optimizing model to a model closely aligned to Vulcan.
+A key advantage of the North Star architecture is its modularity. If the Santino branch experiences rapid business growth, the site can be expanded to more closely align with Vulcan.
 
-Because the entire infrastructure is managed via Ansible, administrators can simply amend the Santino's playbooks within the repository. By applying the Vulcan group_vars blueprint to Santino's new hardware, the enterprise can stamp out a new, fully redundant Leaf-Spine fabric in hours, drastically reducing deployment timeframes and ensuring strict adherence to corporate standards.
+Because automation is used in the environment, administrators can simply amend the Santino playbooks within the repository to amend or expand as required. By applying the Vulcan group_vars blueprint to Santino's new hardware, the enterprise can deploy a new and fully redundant Leaf-Spine fabric in hours, drastically reducing deployment timeframes and ensuring adherence to corporate standards.
 
 ## 4.0 Network Design
 
@@ -206,33 +201,18 @@ To ensure that there are no asymmetric issues due to the use of active/active li
 The perimeter of the Vulcan environment is defined by an Active/Passive OPNsense firewall cluster. This cluster serves as the primary North-South security boundary and the enforcement point for inter-zone traffic.
 
 - **Gateway Placement**  
-To enforce strict access control, the OPNsense cluster acts as the default gateway for all highly restricted segments such as the DMZ, LAN, and WAN zones.
-
-- **Virtualization Abstraction**  
-To prevent Layer 2 bridging loops and isolate broadcast domains, the Proxmox hypervisor network stack is deliberately virtualized. Physical Leaf switch ports map to virtual Linux bridges (vSwitches) within Proxmox, terminating Layer 2 domains at the hypervisor edge and forcing all inter-zone traffic to traverse the firewall.
+To enforce strict access policies, the OPNsense cluster acts as the primary security boundary between the DMZ, LAN, and WAN zones. The inline placement of the routers makes full use of Suricata as an IPS and an extra layer or protection.
 
 - **Stateful High Availability**
 Working in tandem with the deterministic OSPF fabric, the OPNsense cluster utilizes CARP (Common Address Redundancy Protocol) for virtual IP failover and pfsync to continuously mirror the firewall state table. This ensures zero connection drops during a physical firewall failure or maintenance window.
 
 ### 4.3 Edge Transit & WAN Routing
 
-To connect the Vulcan Hub with the Santino Branch, the architecture implements a resilient Edge Transit layer managed by dedicated VyOS routers configure with MPLS.
-
 - **WAN Architecture**  
-The environment mimics a standard corporate enterprise WAN, utilizing a primary simulated MPLS underlay with redundant paths and a secondary internet backup link.
+To connect Vulcan with the Santino branch, the environment mimics a standard corporate enterprise WAN link using a primary simulated MPLS mesh with redundant paths and a secondary internet backup link.
 
 - **Dynamic Reachability**  
 Dynamic routing protocols are extended across the WAN links to automatically exchange prefix information between Vulcan and Santino. This ensures that branch users maintain reachability to corporate applications and that traffic is automatically rerouted across backup paths during a primary circuit failure, without the need for manual static route intervention.
-
-### 4.4 Virtualization & Endpoint Isolation
-
-The architecture enforces a strict "Zero Trust" mentality regarding where workloads are physically and logically placed.
-
-- **Workload Isolation**  
-Client workloads (such as Windows 10 and Linux endpoints) are heavily restricted and isolated from the infrastructure core. They operate in dedicated access zones and must cross the security boundary to interact with any corporate services.
-
-- **Critical Infrastructure Segregation**  
-Critical services such as the Active Directory Domain Controllers and Veeam backup repositories, reside on segmented virtual networks. This logical isolation prevents lateral movement from compromised endpoints, ensuring that a vulnerability at the user edge cannot easily pivot and escalate into more critical services.
 
 ## 5.0 High Availability and Redundancy
 
@@ -257,13 +237,13 @@ Each member of a bond is cabled to a different Arista Leaf switch. If a physical
 
 ### 5.3 Logical Redundancy
 
-The Arista routing core provides the high-speed backbone of the Vulcan HQ, utilizing dynamic protocols to manage path availability and hardware utilization.
+The Arista routing core provides the high-speed backbone of the Vulcan HQ that uses secure OSPF to manage path selection and routing across the fabric.
 
 - **Active-Active Pathing:**  
 OSPF Equal-Cost Multi-Path is use and this allows the network to utilize all available physical bandwidth between switches simultaneously, rather than leaving redundant links idle.
 
 - **Fast Convergence:**  
-By utilizing OSPF, the fabric can detect a link failure and reroute traffic in milliseconds. This ensures that internal traffic—such as backups to the Veeam repository or database queries to the Core servers—remains uninterrupted even during a partial failures.
+By utilizing OSPF, the fabric can detect a link failure and reroute traffic in milliseconds. This ensures that internal traffic—such as backups to the Veeam repository or database queries to the Core servers remains uninterrupted.
 
 - **SVI Resilience:**  
 Because the Layer 3 boundaries (SVIs) are distributed across the fabric, the failure of a single Spine switch does not result in the loss of a subnet. The remaining Spine automatically assumes the full routing load for the environment.
@@ -279,25 +259,29 @@ To ensure network connectivity during a data-plane failure, North Star replicate
 - **Management Isolation:**  
 All Arista switches, OPNsense firewalls, and VyOS routers are connected to a dedicated Layer 2 management network represented by a single L2 GNS3 Ethernet switch.  
 
-> ![NOTE]
+>![NOTE]
 > The management links to the VyOS routers are a local GNS3 lab construct to be able to configure them within the network. Since they represent external MPLS routers, they would not normally be part of an organization's internal management network.
 
 - **VRF Segmentation:**  
 Management interfaces on all devices are placed in dedicated Management VRFs. This minimizes the risk of a misconfigured OSPF routing policy or a broadcast storm on the production network severing administrative access to the infrastructure.
 
-### 6.2 Infrastructure Automation (Ansible)
+### 6.2 Infrastructure Automation
 
-Project North Star use automation at the switch level to minimize configuration drift, reduce deployment times, and standardize the environment across site profiles.
+Project North Star uses automation at the switch level to minimize configuration drift, reduce deployment times, and standardize the environment across site profiles.
 
 - **Automation Solution:**  
 Ansible has been chosen as the automation tool for this purpose. Configuration states for the Arista vEOS fabric are written in YAML playbooks.
 
 - **Site Scalability:**  
-North Star aligns with modular best practices by organizing the repository structure into Ansible `group_vars` and `host_vars` directories. Scaling the Santino remote branch to improve redundancy and availability will simply require executing existing playbooks rather than manual CLI configuration, drastically improving redeployment time during a catastrophic failure or natural disaster at Santino.  
+North Star aligns with modular best practices by organizing the repository structure into Ansible `group_vars` and `host_vars` directories. Scaling the Santino remote branch to improve redundancy and availability will simply require amending existing playbooks rather than manual CLI configuration, drastically improving redeployment time during a catastrophic failure or natural disaster at Santino.  
 
 ### 6.3 The Monitoring Domains
 
+Monitoring Vulcan is done via a comprehensive multi-layer of defenses used together to protect the network. These protections are defined in three distinct domains as outlined below. The same monitoring is applied to Santino but there are some nuances in how the data and metrics is sent to Vulcan.
+
 To preserve WAN bandwidth across the inter-site links, the monitoring design utilizes a distributed collection, but centralized, visualization model. Agents installed at the Santino branch ship compressed data to the Vulcan HQ, allowing for data visualization using centralized dashboards without having to install duplicate systems at the remote site.
+
+The three domains are as follows:
 
 **Domain 1: Network Domain**  
 
@@ -315,9 +299,9 @@ This domain handles log aggregation, detection, and alerting. Its primary purpos
 - **Chosen Solution:** Wazuh, Splunk, Nessus, and Kali Linux  
 Wazuh agents are deployed to collect and correlate logs from servers, firewalls, and endpoints. Logs are aggregated and displayed within the Splunk dashboard.  
 
-Tenable (Nessus) performs automated, credentialed scans across the segmented VLANs to identify unpatched software and misconfigurations. A dedicated Kali Linux node is deployed in North Star to perform security penetration testing.
+Nessus Essentials performs automated, credentialed scans across the segmented VLANs to identify unpatched software and misconfigurations. A dedicated Kali Linux node is deployed in North Star to perform security penetration testing.
 
-> ![NOTE]
+>![NOTE]
 > Due to the limitations of scannable IPs using Nessus Essentials, only five IP addresses can be targeted within North Star. These five will be distributed across 1x Windows client, 1x Linux client, and 3x Proxmox VMs.
 
 **Domain 3: Infrastructure Domain**  
@@ -326,7 +310,7 @@ Tenable (Nessus) performs automated, credentialed scans across the segmented VLA
 This domain monitors the system health and performance of devices within North Star.
 
 - **Chosen Solution:** Prometheus and Grafana  
-Prometheus is an open-source systems monitoring and alerting toolkit that collects and stores metrics such as CPU, RAM, and disk utilization. Grafana queries this Prometheus database and utilizes site-based tagging to visualize the health of both locations on a single, unified Grafana dashboard.
+Prometheus is an open-source systems monitoring and alerting toolkit that collects and stores metrics such as CPU, RAM, and disk utilization. Grafana queries the Prometheus database and utilizes site-based tagging to visualize the health of both locations on a single Grafana dashboard.
 
 ## 7.0 Disaster Recovery and Business Continuity
 
@@ -338,18 +322,17 @@ Prometheus is an open-source systems monitoring and alerting toolkit that collec
 
 ## 8.0 Security in Depth
 
-This section discusses some of the design philosophies that were considered for North Star and the chosen solutions to implement.
+The first design philosophy was to protect everything, but there are tradeoffs between using one method over another and no single solution is enough to protect an organization from today's threats. This view closely aligned with the new standard of Zero Trust which is the philosophy of 'Never Trust, Always Verify'.
 
-The guiding philosophy was to protect everything, but there are tradeoffs between using one method over another and no single solution is enough to protect an organization from today's threats. This view closely aligned with the new modern standard of Zero Trust which is the philosophy of 'Never Trust, Always Verify'.
+The culmination of all security measures applied within North Star presents an environment that applies Zero Trust Architecture principles and is supported by Defense in Depth. However, it does not provide a truly pure Zero Trust environment, but there are enough varied protection methods that are applied together and adequately provides a comprehensive and layered security stack.
 
-The culmination of all security measures applied within North Star presents an environment that applies Zero Trust Architecture principles and is supported by Defense in Depth. However, it does not provide a truly pure Zero Trust environment, but there are enough varied protection methods applied together that makes provides enough of a comprehensive and layered stack to protect a network of this size.
+The security stack is as follows:
 
-The security stack for North Star is as follows:
-
-- NIST hardening recommendations applied across servers, clients, services, and network devices.
-- Suricata and OPNsense firewalls for perimeter boundary security between zones and inspection of critical vlans.
+- NIST hardening recommendations applied across all devices
+- Suricata IPS and OPNsense firewall policy enforcement for perimeter boundary security
 - Wazuh for EDR/XDR and Splunk monitoring
 - ntopng for network flow monitoring
 - Grafana and Prometheus provides continuous monitoring
 - Proxmox hypervisor micro-segmentation
 - Nessus Essentials for vulnerability scanning
+- Secure Dynamic Routing
