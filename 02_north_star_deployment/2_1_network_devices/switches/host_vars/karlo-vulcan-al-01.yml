@@ -4,17 +4,17 @@ spanning_tree_priority: "12288"
 
 leaf_interfaces:
 - name: "ethernet5"
-  peer: "karlo-cn-spine-01"
+  peer: "karlo-vulcan-sp-01"
   channel: "10"
   mode: "trunk"
-- name: "ethernet6"
-  peer: "karlo-cn-spine-02"
+- name: "ethernet9"
+  peer: "karlo-vulcan-sp-02"
   channel: "10"
   mode: "trunk"
 
 
 leaf_interfaces_access:
 - name: "ethernet 12"
-  peer: "karlo-cn-leaf-01"
+  peer: "karlo-vulcan-win10"
   mode: "access"
-  vlan: "20"
+  vlan: "30"

@@ -1,0 +1,13 @@
+---
+spanning_tree_mode: mst
+spanning_tree_priority: "16384"
+
+leaf_interfaces:
+- name: "ethernet6"
+  peer: "karlo-vulcan-sp-01"
+  channel: "20"
+  mode: "trunk"
+- name: "ethernet10"
+  peer: "karlo-vulcan-sp-02"
+  channel: "20"
+  mode: "trunk"
