@@ -123,7 +123,7 @@ The Leaf-Spine design allows for additional switches over time as requirements c
 Seven distinct VLANs have been defined to satisfy NIST security zoning requirements. These segments are routed at the Spine layer via OSPF to ensure failover and optimal path selection.
 
 >[!NOTE]
-> Lab Scaling Factor: For the purposes of this GNS3 environment, a maximum of 15 interfaces is assumed per virtual vEOS node. In a production environment, physical Arista hardware would provide 48 ports. The logic, routing protocols, and automation playbooks remain identical regardless of physical port density.
+> For the purposes of this GNS3 environment, a maximum of 15 interfaces is assumed per virtual vEOS switch. In a production environment, physical Arista hardware would provide 48 ports. The logic, routing protocols, and automation playbooks remain identical regardless of physical port density.
 
 The Santino branch has been deployed as a cost-optimized remote footprint. It prioritizes secure edge transit and site-to-site VPN connectivity back to Vulcan, but it has not been scaled to provide the redundancy and high-availability of Vulcan's design. Monitoring will be centralized at Vulcan, and secure access to all corporate resources will be available at the Santino site.
 
