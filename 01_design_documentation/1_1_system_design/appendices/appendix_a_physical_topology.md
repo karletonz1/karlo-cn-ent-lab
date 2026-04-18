@@ -1,9 +1,9 @@
 # Physical Topology for North Star Lab
 
-## Physical Data Plane Topology
+## Headquarters: Vulcan
 
-![alt text](../../assets/Images/physical_topology.png)
+![Vulcan Physical Topology](../../../assets/Images/vulcan_physical_topology.svg)
 
-## Physical Management Plane Topology
+## Remote Branch: Santino
 
-![alt text](../../assets/Images/oobm_network_topology.png)
+![Santino Physical Topology](../../../assets/Images/santino_physical_topology.svg)
