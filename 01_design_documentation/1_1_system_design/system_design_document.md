@@ -167,7 +167,7 @@ Vulcan is the primary corporate network for the organization. It hosts critical 
 
 Santino represents the standard template for North Star’s remote branch offices. It is engineered to balance cost savings with secure and reliable access to corporate resources.
 
-Refer to the ![Vulcan physical topology](../../Assets/Images/vulcan_physical_topology.png).
+![Vulcan physical topology](../../Assets/Images/vulcan_physical_topology.png).
 
 - **Topology & Fabric**  
 To minimize hardware costs, Santino utilizes a firewall-on-a-stick topology. Inter-VLAN routing and security policies are handled by a single physical interface that utilizes logical sub-interfaces (802.1Q tagging) to separate traffic.
