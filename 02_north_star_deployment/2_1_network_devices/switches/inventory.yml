@@ -5,23 +5,17 @@ all:
       children:
          arista_leaf_switches:
            hosts:
-             karlo-cn-prd-al01:
+             karlo-vulcan-al-01:
                ansible_host: 10.0.10.106
-             karlo-cn-prd-al02:
+             karlo-vulcan-al-02:
                ansible_host: 10.0.10.107
-             karlo-cn-prd-al03:
+             karlo-vulcan-al-03:
                ansible_host: 10.0.10.108
-             karlo-cn-prd-al04:
+             karlo-vulcan-al-04:
                ansible_host: 10.0.10.109
          arista_spine_switches:
            hosts:
-             karlo-cn-prd-sp01:
+             karlo-vulcan-sp-01:
                ansible_host: 10.0.10.104
-             karlo-cn-prd-sp02:
+             karlo-vulcan-sp-02:
                ansible_host: 10.0.10.105
-    vyos_routers:
-      hosts:
-        karlo-cn-prd-bl01:
-          ansible_host: 10.0.10.102
-        karlo-cn-prd-bl02:
-          ansible_host: 10.0.10.103
