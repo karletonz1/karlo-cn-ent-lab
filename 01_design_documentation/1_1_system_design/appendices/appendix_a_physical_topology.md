@@ -2,8 +2,8 @@
 
 ## Headquarters: Vulcan
 
-![Vulcan Physical Topology](../../../assets/Images/vulcan_physical_topology.svg)
+![Vulcan Physical Topology](../../../assets/Images/vulcan_physical_topology.png)
 
 ## Remote Branch: Santino
 
-![Santino Physical Topology](../../../assets/Images/santino_physical_topology.svg)
+![Santino Physical Topology](../../../assets/Images/santino_physical_topology.png)
