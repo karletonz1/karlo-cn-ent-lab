@@ -41,3 +41,18 @@ The switches are fully deployed using the `ansible_connection: httpapi` plugin.
 ### Out-of-band Management
 
 In order to configure the devices using Ansible, an out-of-band-management (OOBM) network was needed to replicate what would be done in a production environment with a separate OOBM network. This lab simulates this using a separate GNS3 Ethernet switch connected to the network devices via a dedicated VRF management network on vlan 10.  
+
+
+IP address allocation
+10- global private network
+(10 or 20) site code - Vulcan is 10, Santino is 20
+(#) VLAN identifier
+- 10 mgmt oobm
+- 13 Hypervisor Hosts
+- 20 Infrastructure services
+- 30 Corp Users
+- 40 Corp Apps
+- 50 sec
+- 60 dmz_ext
+- PTP links
+(#) IP address allocation
