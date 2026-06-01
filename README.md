@@ -2,7 +2,7 @@
 
 Active development repository in real-time with multiple document changes and technical design pivots as the North Star lab develops and improves over time.
 
-For the final production release, see `north-star-prd.`
+It is a work-in-progress and is incomplete. For the final production release, see `north-star-prd.`
 
 ## Overview
 
