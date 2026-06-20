@@ -16,22 +16,22 @@ Resources (Per Node):
 
 ## Physical Topology
 
-For the full physical data and management plane topologies, see the [physical_topology](../../../01_design_documentation/topologies/physical_topology.md) page.
+For the full physical data and management plane topologies, see the [physical topology](../../../01_design_documentation/1_1_system_design/appendices/appendix_a_physical_topology.md) page.
 
 > [!NOTE]  
 > In order to provision the devices using Ansible with only a bootstrap configuration, an out-of-band-management (OOBM) network was needed to replicate what would be done in a production environment with a separate OOBM network. This lab simulates this by using a separate switch connected to the network devices via a dedicated VRF management network on vlan 10.  
 
 ### Interface Mapping
 
-For the interface mapping tables for all switches, see the [physical_interface_mapping](../../../01_design_documentation/physical_interface_mapping.md) page.
+For the interface mapping tables for all switches, see the [physical interface mapping](../../../01_design_documentation/1_2_detailed_design/appendices/appendix_c_port_mapping.md) page.
 
 ## Logical Topology
 
-For the full logical topology, see the [logical_topology](../../../01_design_documentation/topologies/logical_topology.md) page.
+For the full logical topology, see the [logical topology](../../../01_design_documentation/1_1_system_design/appendices/appendix_b_logical_topology.md) page.
 
 ### IP Address Mapping
 
-For the spine and leaf IP addressing tables, see the [ip_addressing_and_vlans](../../../01_design_documentation/ip_addressing_and_vlans.md) page.
+For the spine and leaf IP addressing tables, see the [logical IP addressing](../../../01_design_documentation/1_2_detailed_design/appendices/appendix_b_logical_addressing.md) page.
 
 ## Bootstrap Configuration
 
@@ -56,14 +56,14 @@ For the full bootstrap configuration required, see the [arista_switches](../boot
 
 ## Security & Compliance Hardening
 
-For the security considerations that guide the North Star lab and applied to the switches, see the [network_design](../../../01_design_documentation/network_design.md) page.
+For the security considerations that guide the North Star lab and applied to the switches, see the [system design document](../../../01_design_documentation/1_2_detailed_design/detailed_design_document.md) page.
 
 ## Verification
 
 ### Ansible 'Deploy North Star' Playbook for Phase 1a  
 
-To view the screenshots that show successful deployment of Phase 1a Ansible playbook, see the [phase_1a_verification](../../../01_design_documentation/phase_verification/phase_1a_verification) page.  
+To view the screenshots that show successful deployment of Phase 1a Ansible playbook, see the [phase 1a verification](../../../01_design_documentation/1_3_phase_verification/phase_1a_verification.md) page.  
 
 ### Ansible 'Deploy North Star' Playbook for Phase 1b
 
-To view the screenshots that show successful deployment of Phase 1b Ansible playbook, see the [phase_1b_verification](../../../01_design_documentation/phase_verification/phase_1b_verification) page.
+To view the screenshots that show successful deployment of Phase 1b Ansible playbook, see the [phase 1b verification](../../../01_design_documentation/1_3_phase_verification/phase_1b_verification.md) page.
