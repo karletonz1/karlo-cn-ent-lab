@@ -22,29 +22,23 @@
 
 4.0 [Network Design](#40-network-design)  
 
-- 4.1 Core Fabric & Underlay Routing  
-- 4.2 Security Boundary & Inter-VLAN Routing  
-- 4.3 Edge Transit & WAN Routing  
+- 4.1 Core Fabric Routing  
+- 4.2 Security Boundary
+- 4.3 WAN
 
-5.0 [High Availability & Redundancy](#50-high-availability-and-redundancy)  
+5.0 [Management, Automation, and Monitoring](#60-management-automation-and-monitoring)  
 
-- 5.1 Security Boundary  
-- 5.2 Physical Redundancy  
-- 5.3 Logical Redundancy  
+- 5.1 Out-of-Band Management  
+- 5.2 Infrastructure Automation  
+- 5.3 The Three Domains of North Star monitoring  
 
-6.0 [Management, Automation, and Monitoring](#60-management-automation-and-monitoring)  
+6.0 [Disaster Recovery and Business Continuity](#70-disaster-recovery-and-business-continuity)  
 
-- 6.1 Out-of-Band Management  
-- 6.2 Infrastructure Automation  
-- 6.3 The Three Domains of North Star monitoring  
+- 6.1 Backup Strategy  
+- 6.2 Infrastructure as a Code Restoration  
+- 6.3 Site Survivability and lab scenario planning  
 
-7.0 [Disaster Recovery and Business Continuity](#70-disaster-recovery-and-business-continuity)  
-
-- 7.1 Backup Strategy  
-- 7.2 Infrastructure as a Code Restoration  
-- 7.3 Site Survivability and lab scenario planning  
-
-8.0 [Security in Depth](#80-security-in-depth)
+7.0 [Security in Depth](#80-security-in-depth)
 
 ## 1.0 Executive Summary
 
@@ -183,22 +177,27 @@ Because automation is used in the environment, administrators can simply amend t
 
 This section defines the logical infrastructure components and the traffic flow methodologies that govern the North Star enterprise network. It establishes how data moves efficiently within the network and securely across the public and private WAN boundaries.
 
-### 4.1 Core Fabric & Underlay Routing
+### 4.1 Core Fabric Routing
 
-The Vulcan Headquarters utilizes an active/active 2-tier Leaf-Spine architecture. This design is specifically engineered to optimize East-West server-to-server communication required by virtualization clusters and storage arrays.
+The Vulcan Headquarters utilizes an active/active 2-tier collapsed core design and an active/passive firewall configuration.
 
 - **Underlay Routing Protocol**  
 The fabric utilizes OSPF configured as a single-area Area 0 backbone.
 
-- **Link Utilization & Convergence**  
-To provide gateway redundancy at the access layer without relying on legacy Spanning Tree Protocol (STP), the fabric implements Multi-Chassis Link Aggregation (MLAG) for physical path redundancy, paired with Virtual ARP (VARP) for active-active default gateways.
+- **Link Redundancy**  
+To provide gateway redundancy at the access layer, the fabric implements Multi-Chassis Link Aggregation (MLAG) for physical path redundancy, paired with Virtual ARP (VARP) for active-active default gateways. Each access leaf will have a port channel link to their respective spines.
 
 - **OSPF Tuning and Asymmetric Routing**
-To ensure that there are no asymmetric issues due to the use of active/active links in the fabric, OSPF tuning will be used to route VLAN subnets to preferred spines (e.g., Spine 1 acts as the primary transit path for half the VLANs, while Spine 2 handles the remainder). This allows for load balancing and ensures symmetric paths for stateful firewall inspections.
+To minimize the chances of asymmetric issues due to active/active links in the fabric, OSPF tuning will be used to route subnets to preferred spines (e.g., Spine 1 acts as the primary transit path for half the VLANs, while Spine 2 handles the remainder). This allows for load balancing as well as addresses asymmetry issues.
 
-### 4.2 Security Boundary & Inter-VLAN Routing
+- **Multiple Spanning Tree Protocol**
+MLAG provides the loop-free, active/active topology in the switching fabric but MSTP is still configured to provide a backup safety net for the just-in-case scenarios. Unused ports will be disabled which will further prevent chances of unexpected cables being plugged into ports that could create loops in the network.
 
-The perimeter of the Vulcan environment is defined by an Active/Passive OPNsense firewall cluster. This cluster serves as the primary North-South security boundary and the enforcement point for inter-zone traffic.
+The only exception is disabling MSTP on the VLAN used for the MLAG peer link between the spines.
+
+### 4.2 Security Boundary
+
+The perimeter of the Vulcan environment is defined by an Active/Passive OPNsense firewall cluster to ensure that a firewall failure does not result in dropped user sessions or broken VPN tunnels. This cluster serves as the primary North-South security boundary and the enforcement point for inter-zone traffic.
 
 - **Gateway Placement**  
 To enforce strict access policies, the OPNsense cluster acts as the primary security boundary between the DMZ, LAN, and WAN zones. The inline placement of the routers makes full use of Suricata as an IPS and an extra layer or protection.
@@ -206,7 +205,11 @@ To enforce strict access policies, the OPNsense cluster acts as the primary secu
 - **Stateful High Availability**
 Working in tandem with the deterministic OSPF fabric, the OPNsense cluster utilizes CARP (Common Address Redundancy Protocol) for virtual IP failover and pfsync to continuously mirror the firewall state table. This ensures zero connection drops during a physical firewall failure or maintenance window.
 
-### 4.3 Edge Transit & WAN Routing
+In addition, there are LAG links configured between the spines and the firewall with a separate LAG link for the two connections from FW1 to both spines, and a separate LAG link from FW2 to both spines.
+
+OSPF cost metrics will be adjusted on the Master and Backup firewalls to prevent asymmetry issues.
+
+### 4.3 WAN
 
 - **WAN Architecture**  
 To connect Vulcan with the Santino branch, the environment mimics a standard corporate enterprise WAN link using a primary simulated MPLS mesh with redundant paths and a secondary internet backup link.
@@ -214,45 +217,11 @@ To connect Vulcan with the Santino branch, the environment mimics a standard cor
 - **Dynamic Reachability**  
 Dynamic routing protocols are extended across the WAN links to automatically exchange prefix information between Vulcan and Santino. This ensures that branch users maintain reachability to corporate applications and that traffic is automatically rerouted across backup paths during a primary circuit failure, without the need for manual static route intervention.
 
-## 5.0 High Availability and Redundancy
-
-This section discusses the choices made to ensure that in the event of a disaster, the network is resilient enough to continue due to a combination of physical and logical safeguards. At the Vulcan Headquarters, every critical path is redundant to ensure maximum uptime for corporate services.
-
-### 5.1 Security Redundancy
-
-The perimeter security layer utilizes a stateful active-passive cluster to ensure that a firewall failure does not result in dropped user sessions or broken VPN tunnels.
-
-- **State Synchronization**  
-The pfsync protocol is used to continuously mirror the firewall's state table between the primary and secondary nodes. This ensures that if the primary node fails, the secondary node already knows about every active connection, allowing for a transparent failover that is invisible to the end-users.
-
-### 5.2 Physical Redundancy
-
-To ensure physical continuity between the Proxmox compute layer and the network fabric, the design utilizes a deterministic approach to interface bonding.
-
-- **Active-Backup Methodology:**  
-Proxmox hypervisors are configured with Active-Backup network bonds. This ensures that only one physical path is active at a time for a specific virtual interface.
-
-- **Physical Path Diversity:**  
-Each member of a bond is cabled to a different Arista Leaf switch. If a physical cable or a Leaf switch fails, the Proxmox host automatically swings traffic to the secondary link, maintaining connectivity for hosted servers without requiring manual reconfiguration.
-
-### 5.3 Logical Redundancy
-
-The Arista routing core provides the high-speed backbone of the Vulcan HQ that uses secure OSPF to manage path selection and routing across the fabric.
-
-- **Active-Active Pathing:**  
-OSPF Equal-Cost Multi-Path is use and this allows the network to utilize all available physical bandwidth between switches simultaneously, rather than leaving redundant links idle.
-
-- **Fast Convergence:**  
-By utilizing OSPF, the fabric can detect a link failure and reroute traffic in milliseconds. This ensures that internal traffic—such as backups to the Veeam repository or database queries to the Core servers remains uninterrupted.
-
-- **SVI Resilience:**  
-Because the Layer 3 boundaries (SVIs) are distributed across the fabric, the failure of a single Spine switch does not result in the loss of a subnet. The remaining Spine automatically assumes the full routing load for the environment.
-
-## 6.0 Management, Automation, and Monitoring
+## 5.0 Management, Automation, and Monitoring
 
 This section defines the management plane and the monitoring strategy used to maintain visibility across the Vulcan and Santino infrastructure.  
 
-### 6.1 Out-of-Band Management (OOBM)  
+### 5.1 Out-of-Band Management (OOBM)  
 
 To ensure network connectivity during a data-plane failure, North Star replicates the concept of a separate OOBM network, isolated in its own subnet and VRF, through the use of a dedicated Layer 2 switch.  
 
@@ -265,7 +234,7 @@ All Arista switches, OPNsense firewalls, and VyOS routers are connected to a ded
 - **VRF Segmentation:**  
 Management interfaces on all devices are placed in dedicated Management VRFs. This minimizes the risk of a misconfigured OSPF routing policy or a broadcast storm on the production network severing administrative access to the infrastructure.
 
-### 6.2 Infrastructure Automation
+### 5.2 Infrastructure Automation
 
 Project North Star uses automation at the switch level to minimize configuration drift, reduce deployment times, and standardize the environment across site profiles.
 
@@ -275,7 +244,7 @@ Ansible has been chosen as the automation tool for this purpose. Configuration s
 - **Site Scalability:**  
 North Star aligns with modular best practices by organizing the repository structure into Ansible `group_vars` and `host_vars` directories. Scaling the Santino remote branch to improve redundancy and availability will simply require amending existing playbooks rather than manual CLI configuration, drastically improving redeployment time during a catastrophic failure or natural disaster at Santino.  
 
-### 6.3 The Monitoring Domains
+### 5.3 The Monitoring Domains
 
 Monitoring Vulcan is done via a comprehensive multi-layer of defenses used together to protect the network. These protections are defined in three distinct domains as outlined below. The same monitoring is applied to Santino but there are some nuances in how the data and metrics is sent to Vulcan.
 
@@ -312,15 +281,15 @@ This domain monitors the system health and performance of devices within North S
 - **Chosen Solution:** Prometheus and Grafana  
 Prometheus is an open-source systems monitoring and alerting toolkit that collects and stores metrics such as CPU, RAM, and disk utilization. Grafana queries the Prometheus database and utilizes site-based tagging to visualize the health of both locations on a single Grafana dashboard.
 
-## 7.0 Disaster Recovery and Business Continuity
+## 6.0 Disaster Recovery and Business Continuity
 
-### 7.1 Backup Strategy
+### 6.1 Backup Strategy
 
-### 7.2 Infrastructure as a Code Restoration
+### 6.2 Infrastructure as a Code Restoration
 
-### 7.3 Site Survivability and lab scenario planning  
+### 6.3 Site Survivability and lab scenario planning  
 
-## 8.0 Security in Depth
+## 7.0 Security in Depth
 
 The first design philosophy was to protect everything, but there are tradeoffs between using one method over another and no single solution is enough to protect an organization from today's threats. This view closely aligned with the new standard of Zero Trust which is the philosophy of 'Never Trust, Always Verify'.
 
