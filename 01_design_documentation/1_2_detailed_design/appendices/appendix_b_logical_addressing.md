@@ -8,39 +8,44 @@ This document defines the logical architecture and IP addressing scheme.
 
 | Vlan ID | Vlan Name | Description | Subnet | Members |
 | ------- | --------- | ----------- | ------ | ------- |
-| 10 | Mgmt | OOB Management/Ansible | 10.0.10.0/24 | All Management IPs |
-| 20 | Core | Active Directory, DNS | 10.0.20.0/24 | DC1, DC2 |
-| 30 | Corp_users | User Trusted Endpoints | 10.0.30.0/24 | Windows and Linux Clients |
-| 40 | Corp_apps | Corporation Application Servers | 10.0.40.0/24 | All Corp Servers |
-| 50 | Sec | Security Monitoring Applications | 10.0.50.0/24 | Wazuh, Splunk, Nessus |
-| 60 | DMZ_EXT | Public facing Web Servers | 10.0.60.0/24 | Web Servers |
-| 70 | Backups | Storage and Backup | 10.0.70.0/24 | Veeam Server |
-| 80 | Spine MLAG Peer | 10.0.80.0/30 |
+| 10 | Mgmt | OOB Management/Ansible | 10.10.10.0/24 | All Management IPs |
+| 20 | Core | Active Directory, DNS | 10.10.20.0/24 | DC1, DC2 |
+| 30 | Corp_users | User Trusted Endpoints | 10.10.30.0/24 | Windows and Linux Clients |
+| 40 | Corp_apps | Corporation Application Servers | 10.10.40.0/24 | All Corp Servers |
+| 50 | Sec | Security Monitoring Applications | 10.10.50.0/24 | Wazuh, Splunk, Nessus |
+| 60 | DMZ_EXT | Public facing Web Servers | 10.10.60.0/24 | Web Servers |
+| 70 | Backups | Storage and Backup | 10.10.70.0/24 | Veeam Server |
+| 80 | PTP links | 10.10.80.0/30 |
 | 666 | Black Hole Sun | - |
 
 > [!NOTE]
 > VLAN 666: Used as a "Black Hole" Native VLAN for all trunk ports**
 
-### Router Subnets
+### Point-to-Point Subnets
 
 | Link | Subnet | Purpose |  
 | ---- | ------ | ------- |
-| Link 1 | 10.0.71.0/30 | Router-01 to Spine-01 PTP link |
-| Link 2 | 10.0.71.4/30 | Router-01 to Spine-02 PTP link |
-| Link 3 | 10.0.71.8/30 | Router-02 to Spine-02 PTP link |
-| Link 4 | 10.0.71.12/30 | Router-02 to Spine-01 PTP link |
-| Sync | 10.0.71.16/30 | Router-01 to Router-02 PTP Bond0 Link |
+| Link 1 | 10.0.80.0/31 | Firewall-01 to Spine-01 |
+| Link 2 | 10.0.80.2/31 | Firewall-01 to Spine-02 |
+| Link 3 | 10.0.80.4/31 | Firewall-02 to Spine-01 |
+| Link 4 | 10.0.80.6/31 | Firewall-02 to Spine-02 |
+| Sync | 10.0.80.8/31 | Firewall PTP Sync |
+| MLAG Peer | 10.0.80.12/30 | Spine MLAG Control Peer |
+| Router-ID | 10.0.80.16/28
+| WAN | - | Firewall to WAN Gateway |
 
-### Firewall Subnets
+### Loopback & Router IDs
 
-| Link | Subnet | Purpose |  
-| ---- | ------ | ------- |
-| Link 6 | 10.0.72.0/30 | Firewall-01 to Router-01 PTP link |
-| Link 7 | 10.0.72.4/30 | Firewall-01 to Router-02 PTP link |
-| Link 8 | 10.0.72.8/30 | Firewall-02 to Router-01 PTP link |
-| Link 9 | 10.0.72.12/30 | Firewall-02 to Router-02 PTP link |
-| Sync | 10.0.72.16/30 | Firewall-01 to Firewall-01 PTP Sync link |
-| WAN | 10.0.72.24/29 | Firewall to WAN CARP Gateway link |
+| Device | Router ID / Loopback 0 | Description |
+| ------ | ---------------------- | ----------- |
+| karlo-vulcan-sp-01 | 10.10.80.17/32 | HQ Spine 01 |
+| karlo-vulcan-sp-02 | 10.10.80.18/32 | HQ Spine 02 |
+| karlo-vulcan-al-01 | 10.10.80.19/32 | HQ Access Leaf 01 |
+| karlo-vulcan-al-02 | 10.10.80.20/32 | HQ Access Leaf 02 |
+| karlo-vulcan-al-03 | 10.10.80.21/32 | HQ Access Leaf 03 |
+| karlo-vulcan-al-04 | 10.10.80.22/32 | HQ Access Leaf 04 |
+| karlo-Santino-leaf-01 | 10.20.80.23/32 | Remote Access Leaf 01 |
+
 
 ## SVI Allocations
 
