@@ -10,3 +10,34 @@ ansible_network_os: arista.eos.eos
 ansible_httpapi_use_ssl: true
 ansible_httpapi_validate_certs: false
 ansible_httpapi_port: 443
+
+north_star_vlans:
+- vlan: "10"
+  name: "Mgmt"
+  description: "OOB Management Network"
+- vlan: "20"
+  name: "core"
+  description: "Infrastructure Services"
+- vlan: "30"
+  name: "corp_users"
+  description: "User endpoints"
+- vlan: "40"
+  name: "corp_apps"
+  description: "Application Servers"
+- vlan: "50"
+  name: "sec"
+  description: "Security Monitoring"
+- vlan: "60"
+  name: "dmz_ext"
+  description: "Public DMZ"
+- vlan: "70"
+  name: "backups"
+  description: "Storage and Backup"
+- vlan: "80"
+  name: "mlag_peer_link"
+  description: "MLAG HA link"
+- vlan: "666"
+  name: "black_hole_sun"
+  description: "black hole VLAN"
+
+trunk_vlans: "10,20,30,40,50,60,70,80"
