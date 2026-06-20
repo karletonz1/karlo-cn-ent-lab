@@ -24,7 +24,7 @@
     - name: "Configure VLANs"
       arista.eos.eos_vlans:
         config:
-          - vlan_id: "{{ item.id }}"
+          - vlan_id: "{{ item.vlan }}"
             name: "{{ item.name }}"
         state: merged
       loop: "{{ north_star_vlans }}"
@@ -32,7 +32,7 @@
     - name: "Configure VLAN Descriptions"
       arista.eos.eos_interfaces:
         config:
-          - name: "VLAN{{ item.id }}"
+          - name: "VLAN{{ item.vlan }}"
             description: "{{ item.description }}"
         state: merged
       loop: "{{ north_star_vlans }}"
