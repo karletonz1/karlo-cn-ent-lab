@@ -10,3 +10,16 @@ ansible_network_os: arista.eos.eos
 ansible_httpapi_use_ssl: true
 ansible_httpapi_validate_certs: false
 ansible_httpapi_port: 443
+
+vlan_ospf_tuning:
+  - { id: 10, name: "mgmt", primary: "karlo-vulcan-spine-01" }
+  - { id: 20, name: "core", primary: "karlo-vulcan-spine-02" }
+  - { id: 30, name: "corp_users", primary: "karlo-vulcan-spine-01" }
+  - { id: 40, name: "corp_apps", primary: "karlo-vulcan-spine-02" }
+  - { id: 50, name: "sec", primary: "karlo-vulcan-spine-01" }
+  - { id: 60, name: "dmz_ext", primary: "karlo-vulcan-spine-02" }
+  - { id: 70, name: "backups", primary: "karlo-vulcan-spine-02" }
+
+path_costs:
+  preferred: 10
+  backup: 100
