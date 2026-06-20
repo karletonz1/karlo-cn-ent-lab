@@ -36,16 +36,16 @@ ospf_interfaces:
 - name: "Ethernet2"
   description: "OSPF Interface to karlo-vulcan-fw-01"
   area: "0"
-  ip_address: "10.0.80.7/31"
+  ip_address: "10.10.80.7/31"
   network: "point-to-point"
 - name: "Ethernet3"
   description: "OSPF Interface to karlo-vulcan-fw-02"
   area: "0"
-  ip_address: "10.0.80.3/31"
+  ip_address: "10.10.80.3/31"
   network: "point-to-point"
 
 #OSPF on Spine SVIs
-ospf_svi_vlans:
+trunk_vlans:
 - vlan: "10"
 - vlan: "20"
 - vlan: "30"
@@ -62,52 +62,57 @@ ospf_area:
 ospf_router_id:
   router_id: "22.22.22.22"
 
-#mlag Configuration
+#Spine to Spine MLAG Configuration
 mlag:
-  ip: "10.0.80.12/30"
-  peer_ip: "10.0.80.11"
+  ip: "10.10.80.14/30"
+  peer_ip: "10.10.80.13"
 
-# Global VARP MAC Address
+#Spine to Spine MLAG Configuration
+mlag:
+  ip: "10.10.80.14/30"
+  peer_ip: "10.10.80.13"
+
+#Spine Global VARP MAC Address
 varp_mac_address: "00:1c:73:00:00:01"
 
-# --- MLAG Peer Link SVI ---
+# Spine to Spine MLAG Peer Link SVI
 mlag_svi_interfaces:
 - mlag_vlan: "80"
   description: "SPINE MLAG PEER"
-  ip_address: "10.0.80.12/30"
+  ip_address: "10.10.80.12/30"
   autostate: false
 
 # VARP Gateway SVIs
 svi_interfaces:
 - vlan: "10"
   description: "Mgmt"
-  ip_address: "10.0.10.2/24"
-  varp_ip: "10.0.10.254"
+  ip_address: "10.10.10.2/24"
+  varp_ip: "10.10.10.254"
 - vlan: "20"
   description: "core"
-  ip_address: "10.0.20.2/24"
-  varp_ip: "10.0.20.254"
+  ip_address: "10.10.20.2/24"
+  varp_ip: "10.10.20.254"
 - vlan: "30"
   description: "corp_users"
-  ip_address: "10.0.30.2/24"
-  varp_ip: "10.0.30.254"
+  ip_address: "10.10.30.2/24"
+  varp_ip: "10.10.30.254"
 - vlan: "40"
   description: "corp_apps"
-  ip_address: "10.0.40.2/24"
-  varp_ip: "10.0.40.254"
+  ip_address: "10.10.40.2/24"
+  varp_ip: "10.10.40.254"
 - vlan: "50"
   description: "sec"
-  ip_address: "10.0.50.2/24"
-  varp_ip: "10.0.50.254"
+  ip_address: "10.10.50.2/24"
+  varp_ip: "10.10.50.254"
 - vlan: "60"
   description: "dmz_ext"
-  ip_address: "10.0.60.2/24"
-  varp_ip: "10.0.60.254"
+  ip_address: "10.10.60.2/24"
+  varp_ip: "10.10.60.254"
 - vlan: "70"
   description: "backups"
-  ip_address: "10.0.70.2/24"
-  varp_ip: "10.0.70.254"
+  ip_address: "10.10.70.2/24"
+  varp_ip: "10.10.70.254"
 - vlan: "80"
   description: "mlag_peer_link"
-  ip_address: "10.0.80.12/24"
-  varp_ip: "10.0.80.254"
+  ip_address: "10.10.80.12/24"
+  varp_ip: "10.10.80.254"
