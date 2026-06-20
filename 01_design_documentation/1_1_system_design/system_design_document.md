@@ -26,13 +26,13 @@
 - 4.2 Security Boundary
 - 4.3 WAN
 
-5.0 [Management, Automation, and Monitoring](#60-management-automation-and-monitoring)  
+5.0 [Management, Automation, and Monitoring](#50-management-automation-and-monitoring)  
 
 - 5.1 Out-of-Band Management  
 - 5.2 Infrastructure Automation  
 - 5.3 The Three Domains of North Star monitoring  
 
-6.0 [Security in Depth](#80-security-in-depth)
+6.0 [Security in Depth](#60-security-in-depth)
 
 ## 1.0 Executive Summary
 
@@ -40,7 +40,7 @@
 
 This high-level document outlines the design decisions and business justifications for a simulated corporate enterprise network called North Star. It includes the standard enterprise documentation expected for a project that connects a central headquarters called Vulcan, with a cost-optimized fledgling remote branch called Santino.  
 
-The key objective of this document is to establish the standardized site profiles, and security boundaries required to deploy and manage this environment. 
+The key objective of this document is to establish the standardized site profiles, and security boundaries required to deploy and manage this environment.  
 
 For granular configuration, IP schemas, and device-specific information, refer to the [detailed design documentation](../1_2_detailed_design/detailed_design_document.md).
 
@@ -223,7 +223,7 @@ To ensure network connectivity during a data-plane failure, North Star replicate
 All Arista switches, OPNsense firewalls, and VyOS routers are connected to a dedicated Layer 2 management network represented by a single L2 GNS3 Ethernet switch.  
 
 >[!NOTE]
-> The management links to the VyOS routers are a local GNS3 lab construct to be able to configure them within the network. Since they represent external MPLS routers, they would not normally be part of an organization's internal management network.
+> The management links to the VyOS routers are a local GNS3 lab construct to be able to configure them within the network. Since they represent external MPLS routers, they would not normally be part of an organization's internal management network.  
 
 - **VRF Segmentation:**  
 Management interfaces on all devices are placed in dedicated Management VRFs. This minimizes the risk of a misconfigured OSPF routing policy or a broadcast storm on the production network severing administrative access to the infrastructure.
@@ -265,7 +265,7 @@ Wazuh agents are deployed to collect and correlate logs from servers, firewalls,
 Nessus Essentials performs automated, credentialed scans across the segmented VLANs to identify unpatched software and misconfigurations. A dedicated Kali Linux node is deployed in North Star to perform security penetration testing.
 
 >[!NOTE]
-> Due to the limitations of scannable IPs using Nessus Essentials, only five IP addresses can be targeted within North Star. These five will be distributed across 1x Windows client, 1x Linux client, and 3x Proxmox VMs.
+> Due to the limitations of scannable IPs using Nessus Essentials, only five IP addresses can be targeted within North Star. These five will be distributed across 1x Windows client, 1x Linux client, and 3x Proxmox VMs.  
 
 **Domain 3: Infrastructure Domain**  
 
