@@ -18,7 +18,28 @@ Key objectives:
 - Deploy infrastructure and servers to achieve business needs  
 - Deploy endpoint monitoring, centralized logs, and real-time detection through dashboards
 - Perform vulnerability testing and validate the effectiveness of deployed security measures
-- Demonstrate a disaster recovery mindset and high availability design decision making
+- Demonstrate a disaster recovery mindset and high availability design decision making  
+
+## How to Explore
+
+1. Start with the Topology  
+   Open the comprehensive [system design documentation](01_design_documentation/1_1_system_design/system_design_document.md) which describes the high level decisions made for building North Star.  
+
+   It also includes appendices such as the master [logical addressing table](01_design_documentation/1_2_detailed_design/appendices/appendix_b_logical_addressing.md) and [physical port mapping tables](01_design_documentation/1_2_detailed_design/appendices/appendix_c_port_mapping.md) used which are referenced in the system design documentation.
+
+2. Explore the [phase verification](01_design_documentation/1_3_phase_verification) pages for confirmation of successful Ansible deployment screenshots for phase 1.
+
+3. Review North Star Deployment Files  
+   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used for all all devices deployed in GNS3 as well as the Ansible files used to deploy the Arista switches.  
+
+   The most commonly used device in North Star is the [Arista switch](02_north_star_deployment/2_1_network_devices/switches/veos_switch_guide_readme.md) and the readme document contains the technical details on how they are used.
+
+4. Read Lab Scenarios  
+   Open [lab scenarios](03_scenario_testing/lab_scenarios.md) to read about the various testing scenarios conducted. The scenario pages will follow a format as follows:  
+   - What was the scenario?
+   - How was the scenario simulated?  
+   - What was the result of the scenario?
+   - Were any lab improvements needed as a result?  
 
 ## Lab Devices & Applications
 
@@ -99,24 +120,7 @@ Automation
 - [02_north_star_deployment](02_north_star_deployment) | Ansible and device configuration files for deploying North Star.
 - [03_scenario_testing](03_scenario_testing) | Lab scenario documentation
 
-## How to Explore
 
-1. Start with the Topology  
-   Open the [system design documentation](01_design_documentation/1_1_system_design/system_design_document.md) which describes the high level decisions made for building North Star.  
-
-   It also includes appendices such as the master [logical addressing table](01_design_documentation/1_2_detailed_design/appendices/appendix_b_logical_addressing.md) for all the IP address and VLANs used which are referenced in the system design documentation.
-
-2. Review North Star Deployment Files  
-   Open [north_star_deployment](02_north_star_deployment) to see detailed device configuration files used for all all devices deployed in GNS3 as well as the Ansible files used to deploy the Arista switches.  
-
-   The most commonly used device in North Star is the [Arista switch](02_north_star_deployment/2_1_network_devices/switches/veos_switch_guide_readme.md) and the readme document contains the technical details on how they are used.
-
-3. Read Lab Scenarios  
-   Open [lab scenarios](03_scenario_testing/lab_scenarios.md) to read about the various testing scenarios conducted. The scenario pages will follow a format as follows:  
-   - What was the scenario?
-   - How was the scenario simulated?  
-   - What was the result of the scenario?
-   - Were any lab improvements needed as a result?
 
 ## Contact
 
