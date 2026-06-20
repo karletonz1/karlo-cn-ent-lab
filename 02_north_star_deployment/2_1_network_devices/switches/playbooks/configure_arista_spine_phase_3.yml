@@ -53,10 +53,10 @@
     - name: "Configure VLANs"
       arista.eos.eos_vlans:
         config:
-          - vlan_id: "{{ item.id }}"
-            name: "{{ item.name }}"
+          - vlan_id: "{{ item.vlan }}"
+            name: "{{ item.description }}"
         state: merged
-      loop: "{{ north_star_vlans }}"
+      loop: "{{ svi_interfaces }}"
 
 ### Interface Configuration ###
     - name: "Configure Physical Interfaces"
@@ -85,18 +85,29 @@
             mode: trunk
             trunk:
               native_vlan: 666
-              trunk_allowed_vlans: "{{ trunk_vlans }}"
+              trunk_allowed_vlans: "{{ item.vlan }}"
           - name: port-channel 20
             mode: trunk
             trunk:
               native_vlan: 666
-              trunk_allowed_vlans: "{{ trunk_vlans }}"
+              trunk_allowed_vlans: "{{ item.vlan }}"
+          - name: port-channel 30
+            mode: trunk
+            trunk:
+              native_vlan: 666
+              trunk_allowed_vlans: "{{ item.vlan }}"
+          - name: port-channel 40
+            mode: trunk
+            trunk:
+              native_vlan: 666
+              trunk_allowed_vlans: "{{ item.vlan }}"              
           - name: port-channel 70
             mode: trunk
             trunk:
               native_vlan: 666
-              trunk_allowed_vlans: "{{ trunk_vlans }}"
+              trunk_allowed_vlans: "{{ item.vlan }}"
         state: merged
+      loop: "{{ trunk_vlans }}"
 
     - name: "Configure Downlink Port-Channels to Leaves"
       arista.eos.eos_config:
@@ -105,21 +116,25 @@
           - "mlag 10"
           - "interface Port-Channel 20"
           - "mlag 20"
+          - "interface Port-Channel 30"
+          - "mlag 30"
+          - "interface Port-Channel 40"
+          - "mlag 40"
 
 ### MLAG Peer Interface and Port-Channel Configuration ###
-    - name: "Disable STP on MLAG Peer VLAN"
+    - name: "Disable MSTP on MLAG Peer VLAN"
       arista.eos.eos_config:
         lines:
-          - "no spanning-tree vlan-id 70"
+          - "no spanning-tree vlan-id 80"
 
     - name: "Configure Physical MLAG Links"
       arista.eos.eos_config:
         lines:
           - "switchport trunk native vlan 666"
           - "switchport trunk group MLAG_PEER"
-          - "channel-group 70 mode active"
+          - "channel-group 80 mode active"
           - "switchport trunk group MLAG_PEER"
-        parents: "interface ethernet 3-4"
+        parents: "interface ethernet 1,4"
 
     - name: "Configure Logical MLAG Peer Link"
       arista.eos.eos_config:
@@ -129,7 +144,7 @@
           - "switchport trunk native vlan 666"
           - "switchport trunk group MLAG_PEER"
           - "no switchport trunk allowed vlan"
-        parents: "interface Port-Channel 70"
+        parents: "interface Port-Channel 80"
 
     - name: "Configure MLAG Control SVI"
       arista.eos.eos_config:
@@ -137,7 +152,7 @@
           - "description MLAG Peer SVI Link"
           - "ip address {{ mlag.ip }}"
           - "no autostate"
-        parents: "interface Vlan70"
+        parents: "interface Vlan80"
 
 ### SVI Configuration ###
     - name: "Configure the Shared MAC Address"
@@ -185,7 +200,7 @@
         lines:
           - "ip ospf area 0"
         parents: "interface vlan{{ item.vlan }}"
-      loop: "{{ ospf_svi_vlans }}"
+      loop: "{{ trunk_vlans }}"
 
 ### MLAG Peer Domain Configuration ###
     - name: "Configure MLAG Process"
@@ -194,8 +209,17 @@
           - "domain-id NORTH_STAR"
           - "local-interface Vlan70"
           - "peer-address {{ mlag.peer_ip }}"
-          - "peer-link Port-Channel 70"
+          - "peer-link Port-Channel 80"
         parents: "mlag configuration"
+
+    - name: Apply OSPF Cost to SVIs
+      arista.eos.eos_config:
+        lines:
+          - ip ospf cost {{ path_costs.preferred if item.primary == inventory_hostname else path_costs.backup }}
+        parents: "interface Vlan{{ item.id }}"
+      loop: "{{ vlan_traffic_engineering }}"
+      loop_control:
+        label: "VLAN {{ item.id }} on {{ inventory_hostname }}"
 
 ### Save Configuration ###
     - name: "Save Configuration"
