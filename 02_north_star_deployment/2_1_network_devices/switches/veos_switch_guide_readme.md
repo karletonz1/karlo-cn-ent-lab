@@ -56,7 +56,7 @@ For the full bootstrap configuration required, see the [arista_switches](../boot
 
 ## Security & Compliance Hardening
 
-For the security considerations that guide the North Star lab and applied to the switches, see the [system design document](../../../01_design_documentation/1_2_detailed_design/detailed_design_document.md) page.
+For the security considerations that guide the North Star lab and applied to the switches, see the [system design document](../../../01_design_documentation/1_1_system_design/system_design_document.md) page.
 
 ## Verification
 
