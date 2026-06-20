@@ -60,10 +60,10 @@ For the security considerations that guide the North Star lab and applied to the
 
 ## Verification
 
-### Ansible 'Deploy North Star' Playbook for Phase 2  
+### Ansible 'Deploy North Star' Playbook for Phase 1a  
 
-To view the screenshots that show successful deployment of Phase 2 Ansible playbook, see the [phase_2_verification](../../../01_design_documentation/phase_verification/phase_2_verification) page.  
+To view the screenshots that show successful deployment of Phase 1a Ansible playbook, see the [phase_1a_verification](../../../01_design_documentation/phase_verification/phase_1a_verification) page.  
 
-### Ansible 'Deploy North Star' Playbook for Phase 3
+### Ansible 'Deploy North Star' Playbook for Phase 1b
 
-To view the screenshots that show successful deployment of Phase 3 Ansible playbook, see the [phase_3_verification](../../../01_design_documentation/phase_verification/phase_3_verification) page.
+To view the screenshots that show successful deployment of Phase 1b Ansible playbook, see the [phase_1b_verification](../../../01_design_documentation/phase_verification/phase_1b_verification) page.
