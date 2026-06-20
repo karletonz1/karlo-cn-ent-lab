@@ -32,13 +32,7 @@
 - 5.2 Infrastructure Automation  
 - 5.3 The Three Domains of North Star monitoring  
 
-6.0 [Disaster Recovery and Business Continuity](#70-disaster-recovery-and-business-continuity)  
-
-- 6.1 Backup Strategy  
-- 6.2 Infrastructure as a Code Restoration  
-- 6.3 Site Survivability and lab scenario planning  
-
-7.0 [Security in Depth](#80-security-in-depth)
+6.0 [Security in Depth](#80-security-in-depth)
 
 ## 1.0 Executive Summary
 
@@ -228,7 +222,7 @@ To ensure network connectivity during a data-plane failure, North Star replicate
 - **Management Isolation:**  
 All Arista switches, OPNsense firewalls, and VyOS routers are connected to a dedicated Layer 2 management network represented by a single L2 GNS3 Ethernet switch.  
 
->![NOTE]
+>[!NOTE]
 > The management links to the VyOS routers are a local GNS3 lab construct to be able to configure them within the network. Since they represent external MPLS routers, they would not normally be part of an organization's internal management network.
 
 - **VRF Segmentation:**  
@@ -270,7 +264,7 @@ Wazuh agents are deployed to collect and correlate logs from servers, firewalls,
 
 Nessus Essentials performs automated, credentialed scans across the segmented VLANs to identify unpatched software and misconfigurations. A dedicated Kali Linux node is deployed in North Star to perform security penetration testing.
 
->![NOTE]
+>[!NOTE]
 > Due to the limitations of scannable IPs using Nessus Essentials, only five IP addresses can be targeted within North Star. These five will be distributed across 1x Windows client, 1x Linux client, and 3x Proxmox VMs.
 
 **Domain 3: Infrastructure Domain**  
@@ -281,15 +275,7 @@ This domain monitors the system health and performance of devices within North S
 - **Chosen Solution:** Prometheus and Grafana  
 Prometheus is an open-source systems monitoring and alerting toolkit that collects and stores metrics such as CPU, RAM, and disk utilization. Grafana queries the Prometheus database and utilizes site-based tagging to visualize the health of both locations on a single Grafana dashboard.
 
-## 6.0 Disaster Recovery and Business Continuity
-
-### 6.1 Backup Strategy
-
-### 6.2 Infrastructure as a Code Restoration
-
-### 6.3 Site Survivability and lab scenario planning  
-
-## 7.0 Security in Depth
+## 6.0 Security in Depth
 
 The first design philosophy was to protect everything, but there are tradeoffs between using one method over another and no single solution is enough to protect an organization from today's threats. This view closely aligned with the new standard of Zero Trust which is the philosophy of 'Never Trust, Always Verify'.
 
