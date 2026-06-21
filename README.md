@@ -45,7 +45,7 @@ Key objectives:
 
 WAN
 
-- GNS3 Cloud Node
+- 2x GNS3 Cloud Node
 - 3x VyOS Routers (MPLS)
 
 Network & Edge (Both sites combined)
@@ -119,14 +119,6 @@ Automation
 - [01_design_documentation](01_design_documentation) | High level network design documentation, IP addressing, and topologies.
 - [02_north_star_deployment](02_north_star_deployment) | Ansible and device configuration files for deploying North Star.
 - [03_scenario_testing](03_scenario_testing) | Lab scenario documentation
-
-
-
-## Contact
-
-- GitHub: <https://github.com/karletonz1>
-- LinkedIn: <https://www.linkedin.com/in/karloc>
-
 
 ## Project Evolution | A Journey of Discovery
 
@@ -221,10 +213,7 @@ Challenges and Wins:
 
    Herein lay the ultimate Catch-22, the network design did intend to configure the firewalls as a synchronized High Availability cluster but because the ECMP routing was dropping my initial provisioning traffic, I couldn't reliably access the GUI to actually build the HA cluster in the first place.
 
-
-### Phase 5: Back to the future
-
-## Contact
+## Contact  
 
 - GitHub: <https://github.com/karletonz1>
 - LinkedIn: <https://www.linkedin.com/in/karloc>
