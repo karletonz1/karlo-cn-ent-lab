@@ -132,7 +132,7 @@ This section defines the site profiles of the two primary locations. It outlines
 
 Vulcan serves as the central hub of the enterprise, designed with redundancy at all levels to support critical corporate operations and centralized data storage where possible.
 
-Refer to the [Vulcan physical topology](appendices/appendix_a_physical_topology.md) page.
+Refer to the [Physical topology](appendices/appendix_a_physical_topology.md) and [logical topology](appendices/appendix_b_logical_topology.md) pages.
 
 - **Topology & Fabric**  
 Vulcan utilizes a fully redundant Arista Leaf-Spine architecture. The topology includes dual connections from each leaf to the dual spines.
@@ -150,7 +150,7 @@ Vulcan is the primary corporate network for the organization. It hosts critical 
 
 Santino represents the standard template for North Star’s remote branch offices. It is engineered to balance cost savings with secure and reliable access to corporate resources.
 
-Refer to the [Vulcan physical topology](appendices/appendix_a_physical_topology.md) page.
+Refer to the [Physical topology](appendices/appendix_a_physical_topology.md) and [logical topology](appendices/appendix_b_logical_topology.md) pages.
 
 - **Topology & Fabric**  
 To minimize hardware costs, Santino utilizes a router-on-a-stick topology. Inter-VLAN routing and security policies are handled by a single physical interface that utilizes logical sub-interfaces (802.1Q tagging) to separate traffic.
