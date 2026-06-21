@@ -83,11 +83,11 @@ This document defines the logical architecture and IP addressing scheme.
 | Hostname | GNS3 Port | Network Address | IP Address | Broadcast Address | MTU | Role | Link type |
 | -------- | --------- | --------------- | ---------- | ----------------- | --- | ---- | --------- |
 | karlo-vulcan-fw01 | vtnet0 | 10.0.72.24/29 | 10.0.72.25/29 | 10.0.72.31/29 | 1500 | Firewall01 WAN Link | PTP |
-| karlo-vulcan-fw01 | vtnet1 | 10.0.72.16/30 | 10.0.72.17/30 | 10.0.72.19/30 | 1500 | PTP Sync link between Firewall01 and Firewall02 | PTP |
+| karlo-vulcan-fw01 | sync | 10.0.72.16/30 | 10.0.72.17/30 | 10.0.72.19/30 | 1500 | PTP Sync link between Firewall01 and Firewall02 | PTP |
 | karlo-vulcan-fw01 | vtnet2 | 10.0.72.0/30 | 10.0.72.1/30 | 10.0.72.3/30 | 1500 | PTP link between Firewall01 and Spine01 | PTP |
 | karlo-vulcan-fw01 | vtnet3 | 10.0.72.4/30 | 10.0.72.5/30 | 10.0.72.7/30 | 1500 | PTP link between Firewall01 and Spine02 | PTP |
-| karlo-vulcan-fw02 | vtnet0 | 10.0.72.24/29 | 10.0.72.26/29 | 10.0.72.31/29 | 1500 | Firewall02 WAN Link | PTP |
-| karlo-vulcan-fw02 | vtnet1 | 10.0.72.16/30 | 10.0.72.18/30 | 10.0.72.19/30 | 1500 | PTP Sync link between Firewall02 and Firewall01 | PTP |
+| karlo-vulcan-fw02 | vtnet0 | 10.1.72.24/29 | 10.1.72.25/29 | 10.1.72.31/29 | 1500 | Firewall02 WAN Link | PTP |
+| karlo-vulcan-fw02 | sync | 10.0.72.16/30 | 10.0.72.18/30 | 10.0.72.19/30 | 1500 | PTP Sync link between Firewall02 and Firewall01 | PTP |
 | karlo-vulcan-fw02 | vtnet2 | 10.0.72.8/30 | 10.0.72.9/30 | 10.0.72.11/30 | 1500 | PTP link between Firewall02 and Spine01 | PTP |
 | karlo-vulcan-fw02 | vtnet3 | 10.0.72.12/30 | 10.0.72.13/30 | 10.0.72.15/30 | 1500 | PTP link between Firewall02 and Spine02 | PTP |
 
@@ -138,10 +138,10 @@ This document defines the logical architecture and IP addressing scheme.
 
 | Hostname | GNS3 Port | IP Address | Vlan ID | Subnet | Gateway | MTU | Role | Link type |
 | -------- | --------- | ---------- | ------- | ------ | ------- | --- | ---- | -------- |
-| karlo-vulcan-security | NIC1 | 10.0.50.100 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-vulcan-al01 | Trunk |
-| karlo-vulcan-dc1 | NIC1 | 10.0.50.200 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-vulcan-al02 | Trunk |
-| karlo-vulcan-dc2 | NIC1 | 10.0.50.200 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-vulcan-al03 | Trunk |
-| karlo-vulcan-web | NIC1 | 10.0.50.200 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-vulcan-al04 | Trunk |
+| karlo-vulcan-security | NIC1 | 10.0.50.100 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-vulcan-al01 | Access |
+| karlo-vulcan-dc1 | NIC1 | 10.0.50.201 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-vulcan-al02 | Access |
+| karlo-vulcan-dc2 | NIC1 | 10.0.50.202 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-vulcan-al03 | Access |
+| karlo-vulcan-web | NIC1 | 10.0.50.205 | 50 | 10.0.50.0/24 | 10.0.50.254 | 1500 | Uplink to karlo-vulcan-al04 | Access |
 
 ### Client IP Address
 
@@ -149,7 +149,7 @@ This document defines the logical architecture and IP addressing scheme.
 | -------- | --------- | ---------- | ------- | ------ | ------- | --- | ---- | -------- |
 | karlo-vulcan-ansible | eth0 | 10.0.10.253 | 10 | 10.0.10.0/24 | 10.0.10.254 | 1500 | Uplink to karlo-vulcan-al01 | Access |
 | karlo-vulcan-win | e0 | 10.0.20.100 | 20 | 10.0.20.0/24 | 10.0.20.254 | 1500 | Uplink to karlo-vulcan-al01 | Access |
-| karlo-vulcan-rocky | e0 | 10.0.20.100 | 20 | 10.0.20.0/24 | 10.0.20.254 | 1500 | Uplink to karlo-vulcan-al04 | Access |
+| karlo-vulcan-rocky | e0 | 10.0.20.150 | 20 | 10.0.20.0/24 | 10.0.20.254 | 1500 | Uplink to karlo-vulcan-al04 | Access |
 
 ## Management IP Allocations
 
